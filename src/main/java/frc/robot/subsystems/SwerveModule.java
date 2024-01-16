@@ -1,12 +1,16 @@
 package frc.robot.subsystems;
 
 
-import com.ctre.phoenix.sensors.AbsoluteSensorRange;
-import com.ctre.phoenix.sensors.CANCoder;
+import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
+
+
+import com.ctre.phoenix6.*;
+import com.ctre.phoenix6.hardware.CANcoder;
+
+
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -26,7 +30,7 @@ public class SwerveModule {
 
     private final PIDController turningPidController;
 
-    public final CANCoder absoluteEncoder;
+    public final CANcoder absoluteEncoder;
     private final boolean absoluteEncoderReversed;
     private final double absoluteEncoderOffsetRad; 
 
@@ -41,7 +45,10 @@ public class SwerveModule {
                 
         this.absoluteEncoderOffsetRad = absoluteEncoderOffset;
         this.absoluteEncoderReversed = absoluteEncoderReversed;
-        absoluteEncoder = new CANCoder(absoluteEncoderId);
+        absoluteEncoder = new CANcoder(absoluteEncoderId);
+
+        absoluteEncoder.getPosition().setUpdateFrequency(100);
+        absoluteEncoder.getVelocity().setUpdateFrequency(100);
 
         driveMotor = new CANSparkMax(driveMotorId, MotorType.kBrushless);
         turningMotor = new CANSparkMax(turningMotorId, MotorType.kBrushless);
@@ -76,7 +83,7 @@ public class SwerveModule {
         turningPidController = new PIDController(ModuleConstants.kPTurning, 1, 0.001);
         turningPidController.enableContinuousInput(-Math.PI, Math.PI);
 
-        absoluteEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Signed_PlusMinus180);
+        // absoluteEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Signed_PlusMinus180);
 
         resetEncoders();
     }
@@ -101,7 +108,7 @@ public class SwerveModule {
     
 
     public double getAbsoluteEncoderRad() {
-        double angle = absoluteEncoder.getAbsolutePosition();
+        double angle = absoluteEncoder.getAbsolutePosition().getValue();
         angle *= Math.PI/180.0;
         angle -= absoluteEncoderOffsetRad;
         angle = (angle * (absoluteEncoderReversed ? -1.0 : 1.0)) % (2*Math.PI);
@@ -116,7 +123,7 @@ public class SwerveModule {
     }
 
     public double getRawEncoderValue() {
-        double angle = absoluteEncoder.getAbsolutePosition();
+        double angle = absoluteEncoder.getAbsolutePosition().getValue();
         angle *= Math.PI/180.0;
         return (angle * (absoluteEncoderReversed ? -1.0 : 1.0) % (2*Math.PI));
     }
