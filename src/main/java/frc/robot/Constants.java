@@ -60,10 +60,10 @@ public final class Constants {
 
         //A boolean to control the inversion of the direction of the motor gievn a positive value
         //Positive values must result in a forward movement
-        public static final boolean kFrontLeftDriveMotorReversed = true;
-        public static final boolean kFrontRightDriveMotorReversed = true;
-        public static final boolean kBackLeftDriveMotorReversed = true;
-        public static final boolean kBackRightDriveMotorReversed = true;
+        public static final boolean kFrontLeftDriveMotorReversed = false;
+        public static final boolean kFrontRightDriveMotorReversed = false;
+        public static final boolean kBackLeftDriveMotorReversed = false;
+        public static final boolean kBackRightDriveMotorReversed = false;
 
         //The CAN id's for the CANcoder's on the swerve modules
         public static final int kFrontLeftDriveAbsoluteEncoderPort = 12;
@@ -83,10 +83,10 @@ public final class Constants {
 
         //The offset of the CANcoder's position from the zero position (Straight forward)
         //Measure this by rotating all the modules to the forward position and reading the CANcoder's value
-        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = Units.degreesToRadians(118.31);
-        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = Units.degreesToRadians(-83.05);
-        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = Units.degreesToRadians(76.9);
-        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = Units.degreesToRadians(69.5);
+        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = Units.degreesToRadians(20.13);
+        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = Units.degreesToRadians(283);
+        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = Units.degreesToRadians(353);
+        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = Units.degreesToRadians(62);
 
         // in m/s, based on MK4 L2 speed of 14.5 ft/s
         public static final double kPhysicalMaxSpeedMetersPerSecond = Units.feetToMeters(14.5);  
