@@ -10,6 +10,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.ModuleConstants;
 import edu.wpi.first.math.util.Units;
 
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -76,9 +77,9 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public double getHeading() {
-        return ((DriveConstants.kGyroInverted?-1.0:1.0) * Math.IEEEremainder(gyro.getAngle(), 360));
+        return ((DriveConstants.kGyroInverted?-1.0:1.0) * Math.IEEEremainder((gyro.getAngle() * ModuleConstants.upDOG), 360));
     }
-
+        
   
     public Rotation2d getRotation2d() {
         return Rotation2d.fromDegrees(getHeading());
@@ -109,7 +110,7 @@ public class SwerveSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         odometer.update(getRotation2d(), getModulePositions());
-        SmartDashboard.putNumber("Robot Heading", getHeading());
+        SmartDashboard.putNumber("Robot Heading",getHeading());
         SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
         SmartDashboard.putNumber("Back Right angle", (Units.radiansToDegrees(backRight.getAbsoluteEncoderRad())));
         SmartDashboard.putNumber("Back Left angle", (Units.radiansToDegrees(backLeft.getAbsoluteEncoderRad())));

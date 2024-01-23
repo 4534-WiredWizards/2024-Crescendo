@@ -16,6 +16,7 @@ public final class Constants {
         public static final double kTurningMotorGearRatio = 1 / 12.80;
         public static final double kDriveEncoderRot2Meter = kDriveMotorGearRatio * Math.PI * kWheelDiameterMeters;
         public static final double kTurningEncoderRot2Rad = kTurningMotorGearRatio * 2 * Math.PI;
+        public static final double upDOG = 36.0/39.0;
         public static final double kDriveEncoderRPM2MeterPerSec = kDriveEncoderRot2Meter / 60;
         public static final double kTurningEncoderRPM2RadPerSec = kTurningEncoderRot2Rad / 60;
         //The P value for the turning PID loop
@@ -83,9 +84,9 @@ public final class Constants {
 
         //The offset of the CANcoder's position from the zero position (Straight forward)
         //Measure this by rotating all the modules to the forward position and reading the CANcoder's value
-        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = Units.degreesToRadians(20.13);
-        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = Units.degreesToRadians(283);
-        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = Units.degreesToRadians(353);
+        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = Units.degreesToRadians(20.4);
+        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = Units.degreesToRadians(283.1);
+        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = Units.degreesToRadians(351.73828125);
         public static final double kBackRightDriveAbsoluteEncoderOffsetRad = Units.degreesToRadians(62);
 
         // in m/s, based on MK4 L2 speed of 14.5 ft/s

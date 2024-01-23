@@ -19,16 +19,28 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.DriveAprilTag;
 import frc.robot.commands.SwerveJoystickCmd;
+import frc.robot.subsystems.Limelight;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import frc.robot.subsystems.SwerveSubsystem;
 
 public class RobotContainer {
 
     private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
-
+    private final Limelight limelight = new Limelight(swerveSubsystem);
     private final Joystick driverJoytick = new Joystick(OIConstants.kDriverControllerPort);
 
+
+    public final static TrajectoryConfig autoTrajectoryConfig = new TrajectoryConfig(
+        AutoConstants.kMaxSpeedMetersPerSecond,
+        AutoConstants.kMaxAccelerationMetersPerSecondSquared)
+        .setKinematics(DriveConstants.kDriveKinematics);
+
     public RobotContainer() {
+        // set pipeline
+        NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(2);
+        
         swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
                 swerveSubsystem,
                 () -> -driverJoytick.getRawAxis(OIConstants.kDriverYAxis),
@@ -44,6 +56,7 @@ public class RobotContainer {
     }
 
     private void configureButtonBindings() {
+        new JoystickButton(driverJoytick, 3).onTrue(new DriveAprilTag(swerveSubsystem, limelight));
         new JoystickButton(driverJoytick, OIConstants.kDriverResetGyroButtonIdx).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
     }
 
