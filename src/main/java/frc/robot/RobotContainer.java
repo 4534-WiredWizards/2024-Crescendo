@@ -56,7 +56,7 @@ public class RobotContainer {
     }
 
     private void configureButtonBindings() {
-        new JoystickButton(driverJoytick, 3).onTrue(new DriveAprilTag(swerveSubsystem, limelight));
+        new JoystickButton(driverJoytick, 3).whileTrue(new DriveAprilTag(swerveSubsystem, limelight, () -> driverJoytick.getRawButtonPressed(4)));
         new JoystickButton(driverJoytick, OIConstants.kDriverResetGyroButtonIdx).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
     }
 

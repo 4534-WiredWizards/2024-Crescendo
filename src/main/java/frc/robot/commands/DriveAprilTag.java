@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import java.util.List;
 import java.util.function.DoubleSupplier;
+import java.util.function.Supplier;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -14,8 +15,10 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.shuffleboard.SuppliedValueWidget;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.AutoConstants;
@@ -32,16 +35,21 @@ public class DriveAprilTag extends Command{
   double limelightX;
   double limelightTheta;
   boolean inMotion = false;
+  private final Supplier<Boolean> cancel;
+  Command swerveControllerCommand;
+ 
 
 
 
 
   public DriveAprilTag(
     SwerveSubsystem swerve, 
-    Limelight llSubsystem
+    Limelight llSubsystem,
+    Supplier<Boolean> cancel
     ) {
 
     this.swerve = swerve;
+    this.cancel = cancel;
     locLimelight = llSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(this.swerve, locLimelight);
@@ -98,7 +106,7 @@ PIDController yController = new PIDController(AutoConstants.kPYController, 0, 0)
 ProfiledPIDController thetaController = new ProfiledPIDController(
   AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
 thetaController.enableContinuousInput(-Math.PI, Math.PI);
-SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
+SwerveControllerCommand  swerveControllerCommand = new SwerveControllerCommand(
 trajectory,
 swerve::getPose,
 DriveConstants.kDriveKinematics,
@@ -107,16 +115,20 @@ yController,
 thetaController,
 swerve::setModuleStates,
 swerve);
-
+this.swerveControllerCommand = swerveControllerCommand;
 // Exectute the commands
 
 // 1. Reset the odometry to the starting pose of the trajectory.
 swerve.resetOdometry(trajectory.getInitialPose());
 // 2. Run the command!
-swerveControllerCommand.schedule();
+this.swerveControllerCommand.schedule();
+
+
+
 System.out.println("this runs");
 // 3. Wait for the command to finish then stop modules.
-//swerveControllerCommand.andThen(() -> {swerve.stopModules(); inMotion = false;});
+
+
     
   }
 
@@ -124,19 +136,20 @@ System.out.println("this runs");
   @Override
   public void execute() {
 
-  
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     swerve.stopModules();
-    System.out.println("DriveAprilTag.end()");
+    this.swerveControllerCommand.cancel();
+    System.out.println("Testdddddddd");
+    
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return !inMotion;
+    return false;
   }
 }
