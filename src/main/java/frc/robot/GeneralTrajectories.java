@@ -17,12 +17,12 @@ import frc.robot.subsystems.SwerveSubsystem;
 
 public class GeneralTrajectories {
     SwerveSubsystem swerveSubsystem;
-    public static Command Back(SwerveSubsystem swerveSubsystem){
+    public Command Back(SwerveSubsystem swerveSubsystem){
         Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
-                new Pose2d(0, 0, new Rotation2d(0)),
+                new Pose2d(-1, 0, new Rotation2d(0)),
                 List.of(),
                 new Pose2d(
-                    -1, 0
+                    -2.5, 0
                 , Rotation2d.fromDegrees(1)),
                 RobotContainer.autoTrajectoryConfig);      
 
