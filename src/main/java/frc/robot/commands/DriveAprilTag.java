@@ -121,11 +121,11 @@ this.swerveControllerCommand = swerveControllerCommand;
 // 1. Reset the odometry to the starting pose of the trajectory.
 swerve.resetOdometry(trajectory.getInitialPose());
 // 2. Run the command!
-this.swerveControllerCommand.schedule();
+this.swerveControllerCommand.until(() -> cancel.get()).schedule();
 
 
 
-System.out.println("this runs");
+
 // 3. Wait for the command to finish then stop modules.
 
 
@@ -141,9 +141,7 @@ System.out.println("this runs");
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    swerve.stopModules();
-    this.swerveControllerCommand.cancel();
-    System.out.println("Testdddddddd");
+
     
   }
 

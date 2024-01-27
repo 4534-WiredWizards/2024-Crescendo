@@ -56,8 +56,15 @@ public class RobotContainer {
     }
 
     private void configureButtonBindings() {
-        new JoystickButton(driverJoytick, 3).whileTrue(new DriveAprilTag(swerveSubsystem, limelight, () -> driverJoytick.getRawButtonPressed(4)));
+        new JoystickButton(driverJoytick, 3).onTrue(new DriveAprilTag(swerveSubsystem, limelight, () -> driverJoytick.getRawButtonPressed(4)));
         new JoystickButton(driverJoytick, OIConstants.kDriverResetGyroButtonIdx).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
+        //Sequential Command
+        new JoystickButton(driverJoytick, 8).onTrue(new SequentialCommandGroup(
+        new InstantCommand(() -> swerveSubsystem.resetOdometry(swerveSubsystem.getPose())),
+        GeneralTrajectories.Back(swerveSubsystem),
+        new DriveAprilTag(swerveSubsystem, limelight, () -> driverJoytick.getRawButtonPressed(4))
+       ).until(() -> driverJoytick.getRawButtonPressed(4))
+       );
     }
 
     public Command getAutonomousCommand() {
