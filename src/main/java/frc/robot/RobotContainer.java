@@ -19,7 +19,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.DriveAprilTag;
 import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.subsystems.Limelight;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -56,13 +55,12 @@ public class RobotContainer {
     }
 
     private void configureButtonBindings() {
-        new JoystickButton(driverJoytick, 3).onTrue(new DriveAprilTag(swerveSubsystem, limelight, () -> driverJoytick.getRawButtonPressed(4)));
         new JoystickButton(driverJoytick, OIConstants.kDriverResetGyroButtonIdx).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
-        //Sequential Command
-       new JoystickButton(driverJoytick, 5).onTrue(new SequentialCommandGroup(
-       new InstantCommand(() -> limelight.resetLimelightPose()),
-       (new TrajectoryTest()).getTrajectory(swerveSubsystem, limelight),
-       (new GeneralTrajectories()).Back(swerveSubsystem)
+        //Sequential Command(s)
+        new JoystickButton(driverJoytick, 5).onTrue(new SequentialCommandGroup(
+        new InstantCommand(() -> limelight.resetLimelightPose()),
+        (new GeneralTrajectories()).toTag(swerveSubsystem),
+        (new GeneralTrajectories()).Back(swerveSubsystem)
 
        ).until(() -> driverJoytick.getRawButtonPressed(4)));
     }
