@@ -89,6 +89,7 @@ public class Limelight extends SubsystemBase {
   }
 
   public void resetLimelightPose(){
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(2);
     System.out.println(targetpose.getFrontBackDistance());
     System.out.println(targetpose.getLeftRightDistance());
     System.out.println(targetpose.getThetaDegrees());

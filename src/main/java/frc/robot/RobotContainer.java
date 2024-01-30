@@ -20,7 +20,9 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.SwerveJoystickCmd;
+import frc.robot.subsystems.IntakeMotor;
 import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.SimpleMotor;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -29,6 +31,12 @@ public class RobotContainer {
     private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
     private final Limelight limelight = new Limelight(swerveSubsystem);
     private final Joystick driverJoytick = new Joystick(OIConstants.kDriverControllerPort);
+
+    private final SimpleMotor m_simpleMotor = new SimpleMotor(15,"drive",true);
+    private final SimpleMotor m_simpleMotor2 = new SimpleMotor(13,"turn",true);
+    private final SimpleMotor m_simpleMotor3 = new SimpleMotor(11,"turn",true);
+
+    private final IntakeMotor m_intakeMotor = new IntakeMotor(11, "turn", true, true);
 
 
     public final static TrajectoryConfig autoTrajectoryConfig = new TrajectoryConfig(
@@ -56,13 +64,15 @@ public class RobotContainer {
 
     private void configureButtonBindings() {
         new JoystickButton(driverJoytick, OIConstants.kDriverResetGyroButtonIdx).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
+
         //Sequential Command(s)
         new JoystickButton(driverJoytick, 5).onTrue(new SequentialCommandGroup(
         new InstantCommand(() -> limelight.resetLimelightPose()),
         (new GeneralTrajectories()).toTag(swerveSubsystem),
         (new GeneralTrajectories()).Back(swerveSubsystem)
-
        ).until(() -> driverJoytick.getRawButtonPressed(4)));
+
+        
     }
 
     public Command getAutonomousCommand() {
