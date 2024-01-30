@@ -19,84 +19,83 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /** Add your docs here. */
-public class SimpleMotor  extends SubsystemBase {
-    /** Creates a new SimpleMotor. */
-  private CANSparkMax motor1;
+public class Intake extends SubsystemBase {
+
+      /** Creates a new IntakeMotor. */
+  private CANSparkMax m_intake;
  
   private SparkLimitSwitch m_forwardLimit;
   private SparkLimitSwitch m_reverseLimit;
   
   public RelativeEncoder m_encoder;
 
-  private double calculatedDistance;
   private int CANSparkMaxID;
   private String MotorMoveType;
 
-
-  public SimpleMotor(
+  boolean shooterRunning;
+    
+  public Intake(
     int motorid,
     String motorkind,
-    boolean isBrushless
-    // Anybody that sees this needs to use these ->
-    // boolean hasLimitSwitch
-    // boolean isNormallyOpen
-  ) {
+    boolean isBrushless,
+    boolean LimitSwitchUsed
+    ) {
     CANSparkMaxID=motorid;
     MotorMoveType=motorkind;
+    
     if (isBrushless) {
-      motor1 = new CANSparkMax(CANSparkMaxID, CANSparkLowLevel.MotorType.kBrushless);
+      m_intake = new CANSparkMax(CANSparkMaxID, CANSparkLowLevel.MotorType.kBrushless);
     }
     else {
-      motor1 = new CANSparkMax(CANSparkMaxID, CANSparkLowLevel.MotorType.kBrushed);
+      m_intake = new CANSparkMax(CANSparkMaxID, CANSparkLowLevel.MotorType.kBrushed);
     }
 
   //we are inverting direction to match the motor movement
-    motor1.setInverted(true);
-    // m_forwardLimit = motor1.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyClosed);
-    // m_reverseLimit = motor1.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyClosed);
+    m_intake.setInverted(true);
+    m_forwardLimit.enableLimitSwitch(false);
+    m_forwardLimit = m_intake.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
+    // m_reverseLimit = m_intake.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyClosed);
     // m_forwardLimit.enableLimitSwitch(true);
     // m_reverseLimit.enableLimitSwitch(true);
-    m_encoder = motor1.getEncoder();
+    m_encoder = m_intake.getEncoder();
     m_encoder.setPositionConversionFactor(28.125);
   
-
-
 
   }
 
   @Override
   public void periodic() {
-    // SmartDashboard.putBoolean("Forward Limit Switch", m_forwardLimit.isPressed());
-    // SmartDashboard.putBoolean("Reverse Limit Switch", m_reverseLimit.isPressed());
+    SmartDashboard.putBoolean("Intake Forward Limit Switch", m_forwardLimit.isPressed());
+    // SmartDashboard.putBoolean("Intake Reverse Limit Switch", m_reverseLimit.isPressed());
     // SmartDashboard.putNumber("Encoder Velocity", m_encoder.getVelocity());
     // SmartDashboard.putNumber("Encoder Position", m_encoder.getPosition());
     // SmartDashboard.putNumber("Camera Distance", getDistance());
     // SmartDashboard.putNumber("Calcualted Tag Distance", calculatedDistance());
   
-    //motor1.set(0.2);
     // This method will be called once per scheduler run
+
   }
   public void move(double speed) {
     // System.out.println(speed);
-    motor1.set(speed);
+    m_intake.set(speed);
   }
 
   
-  // public boolean getForwardLimitSwitch(){
-  //   return m_forwardLimit.isPressed();
-  // }
+  public boolean getForwardLimitSwitch(){
+    return m_forwardLimit.isPressed();
+  }
 
   // public boolean getReverseLimitSwitch(){
   //   return m_reverseLimit.isPressed();
   // }
 
   public void setBrakeMode(){
-    motor1.setIdleMode(IdleMode.kBrake);
+    m_intake.setIdleMode(IdleMode.kBrake);
   }
 
   public void setCoastMode(){
-    motor1.setIdleMode(IdleMode.kCoast);
-  }
+    m_intake.setIdleMode(IdleMode.kCoast);
+  };
 
   //Make function to reset encoder value
   public void resetMotorEncoder(){
@@ -109,5 +108,13 @@ public class SimpleMotor  extends SubsystemBase {
 
   public double getSpeed(){
     return m_encoder.getVelocity();
+  }
+
+  public void isShooting(boolean value) {
+    shooterRunning = value;
+  }
+
+  public boolean getIsShooter() {
+    return shooterRunning;
   }
 }

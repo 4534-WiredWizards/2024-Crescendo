@@ -20,9 +20,9 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.SwerveJoystickCmd;
-import frc.robot.subsystems.IntakeMotor;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Limelight;
-import frc.robot.subsystems.SimpleMotor;
+import frc.robot.subsystems.Shooter;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -32,11 +32,9 @@ public class RobotContainer {
     private final Limelight limelight = new Limelight(swerveSubsystem);
     private final Joystick driverJoytick = new Joystick(OIConstants.kDriverControllerPort);
 
-    private final SimpleMotor m_simpleMotor = new SimpleMotor(15,"drive",true);
-    private final SimpleMotor m_simpleMotor2 = new SimpleMotor(13,"turn",true);
-    private final SimpleMotor m_simpleMotor3 = new SimpleMotor(11,"turn",true);
-
-    private final IntakeMotor m_intakeMotor = new IntakeMotor(11, "turn", true, true);
+    private final Shooter m_shooterMotor = new Shooter(15,"drive",true);
+    private final Intake m_intakeMotor = new Intake(11, "turn", true, true);
+    
 
 
     public final static TrajectoryConfig autoTrajectoryConfig = new TrajectoryConfig(
@@ -72,7 +70,7 @@ public class RobotContainer {
         (new GeneralTrajectories()).Back(swerveSubsystem)
        ).until(() -> driverJoytick.getRawButtonPressed(4)));
 
-        
+
     }
 
     public Command getAutonomousCommand() {
