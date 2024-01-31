@@ -5,16 +5,11 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Shooter;
 
-public class runShooter extends Command {
-  Shooter shooter;
-  Double speed;
-  /** Creates a new runShooter. */
-  public runShooter(Shooter shooter, Double speed) {
-    this.shooter = shooter;
-    this.speed = speed;
-    // Use addRequirements() here to declare subsystem dependencies.
+public class runClimb extends Command {
+  /** Creates a new runClimb. */
+  public runClimb() {
+    
   }
 
   // Called when the command is initially scheduled.
@@ -24,14 +19,15 @@ public class runShooter extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooter.move(speed);
+    //Parameter of integer between 1 and 3
+    //1 = Stored while traversing
+    //2 = prep for climb
+    //3 = fully closed in climb
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    shooter.move(0);
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override

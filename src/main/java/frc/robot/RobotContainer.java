@@ -32,9 +32,8 @@ public class RobotContainer {
     private final Limelight limelight = new Limelight(swerveSubsystem);
     private final Joystick driverJoytick = new Joystick(OIConstants.kDriverControllerPort);
 
-    private final Shooter m_shooterMotor = new Shooter(15,"drive",true);
-    private final Intake m_intakeMotor = new Intake(11, "turn", true, true);
-    
+    private final Intake m_intakeMotor = new Intake();
+
 
 
     public final static TrajectoryConfig autoTrajectoryConfig = new TrajectoryConfig(

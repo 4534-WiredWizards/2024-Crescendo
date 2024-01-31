@@ -5,6 +5,8 @@
 package frc.robot.commands;
 
 import java.util.function.DoubleSupplier;
+import java.util.function.Supplier;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Intake;
@@ -12,22 +14,23 @@ import frc.robot.subsystems.Intake;
 
 public class RunIntake extends Command {
   /** Creates a new IntakeMotor. */
-  private final Intake motors;
+
   private final DoubleSupplier mspeed;
 
   boolean m_fwdDir;
   double speedScale = 0.6;
   boolean init_state = true;
+  Intake intake;
 
   public RunIntake(
-    Intake subsystem,
+    Intake intake,
     boolean forwardDirection, 
     DoubleSupplier speed
     ) {
     // Use addRequirements() here to declare subsystem dependencies.
-    motors = subsystem;
+    this.intake = intake;
     m_fwdDir = forwardDirection;
-    addRequirements(motors);
+    addRequirements(intake);
     mspeed = speed;
 
   }
@@ -35,27 +38,25 @@ public class RunIntake extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    motors.setBrakeMode();
-    init_state = motors.getForwardLimitSwitch();
+    init_state = intake.getForwardLimitSwitch();
 
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // SmartDashboard.putBoolean("Front Limit:", motors.getForwardLimitSwitch());
-    // SmartDashboard.putBoolean("Back Limit:", motors.getReverseLimitSwitch());
-    if (init_state || !motors.getForwardLimitSwitch() || motors.getIsShooter()){
+
+    if (init_state || !intake.getForwardLimitSwitch()){
       if(m_fwdDir) {
           if(Math.abs(mspeed.getAsDouble()) < .1){
-          motors.move(0);
+          intake.move(0);
           }
           else{
-            motors.move(Math.pow(mspeed.getAsDouble(), 3));
+            intake.move(Math.pow(mspeed.getAsDouble(), 3));
           }
       } 
       else {
-          motors.move(Math.pow(-1*mspeed.getAsDouble(), 3));
+          intake.move(Math.pow(-1*mspeed.getAsDouble(), 3));
       }
     }
   }                                                                                                                                                                                                                                                                                                   
@@ -63,7 +64,7 @@ public class RunIntake extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    motors.move(0);
+    intake.move(0);
   }
 
   // Returns true when the command should end.

@@ -99,8 +99,25 @@ public final class Constants {
         public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond / 4;  // Slowed down for testing
         public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3;
         public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3;
+
+
+
+
+
+    
+
+
+
     }
 
+    public static final class SubsystemConstants {
+        //Arm Subsystem
+        public static final int ArmLeftCANid = 53;
+        public static final int ArmRIghtCANid = 54;
+
+
+    }
+    
     public static final class AutoConstants {
         // If you want to slow down the robot during Autonomous, adjust these values
         public static final double kMaxSpeedMetersPerSecond = DriveConstants.kPhysicalMaxSpeedMetersPerSecond /2; 

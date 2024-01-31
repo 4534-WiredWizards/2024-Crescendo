@@ -3,18 +3,16 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
-
+import frc.robot.subsystems.Arm;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Shooter;
 
-public class runShooter extends Command {
-  Shooter shooter;
+
+public class MoveArm extends Command {
+  /** Creates a new ControlShooterArm. */
+  Arm Arm;
   Double speed;
-  /** Creates a new runShooter. */
-  public runShooter(Shooter shooter, Double speed) {
-    this.shooter = shooter;
-    this.speed = speed;
-    // Use addRequirements() here to declare subsystem dependencies.
+  public MoveArm(Arm Arm) {
+    this.Arm = Arm;
   }
 
   // Called when the command is initially scheduled.
@@ -24,13 +22,30 @@ public class runShooter extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooter.move(speed);
+    Arm.move(speed);
+    // Test Low and high limits then implement limit switch logic
+    //
+    // if(speed < 0){
+    //   if (Arm.getAbsolutePosition() > [low]) {
+    //     shooterArm.move(speed);
+    //   else{
+    //     shooterArm.move(0)
+    //   }
+    //   }
+    // }
+    // else if(speed > 0){
+    //   if (Arm.getAbsolutePosition() < [high]) {
+    //     shooterArm.move(speed);
+    //   else{
+    //     shooterArm.move(0)
+    //   }
+    //   }
+    // }
   }
-
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooter.move(0);
+    Arm.move(0);
   }
 
   // Returns true when the command should end.
