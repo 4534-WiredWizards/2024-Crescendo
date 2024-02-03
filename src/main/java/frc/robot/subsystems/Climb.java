@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkLimitSwitch;
 import com.revrobotics.CANSparkBase.IdleMode;
 
@@ -17,6 +18,7 @@ public class Climb extends SubsystemBase {
   private final CANSparkMax leftClimbMotor = new CANSparkMax(Constants.SubsystemConstants.ClimbLeftCANid,CANSparkLowLevel.MotorType.kBrushless);
   private final CANSparkMax rightClimbMotor = new CANSparkMax(Constants.SubsystemConstants.ClimbRightCANid,CANSparkLowLevel.MotorType.kBrushless);
   private final SparkLimitSwitch forwardLimitSwitch;
+  private final RelativeEncoder climbEncoder;
 
   /** Creates a new Climb. */
   public Climb() {
@@ -26,6 +28,7 @@ public class Climb extends SubsystemBase {
     rightClimbMotor.follow(leftClimbMotor);
     forwardLimitSwitch = leftClimbMotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
     forwardLimitSwitch.enableLimitSwitch(true);
+    climbEncoder = leftClimbMotor.getEncoder();
   }
 
   @Override
@@ -34,10 +37,16 @@ public class Climb extends SubsystemBase {
   }
 
   public void move(double speed){
+    // Positive is winding?
     leftClimbMotor.set(speed);
   }
 
   public boolean getForwardLimitSwitch(){
     return forwardLimitSwitch.isPressed();
+  }
+
+  public double getPosition() {
+    // return encoder value (in rotations)
+    return climbEncoder.getPosition();
   }
 }

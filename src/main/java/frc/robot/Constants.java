@@ -117,17 +117,26 @@ public final class Constants {
 
         //Intake subsystem
         public static final int IntakeCANid = 50;
-
+        
         //Shooter Subsystem
         public static final int ShooterTopCANid = 51;
         public static final int ShooterBottomCANid = 52;
-
         //Climb Subsystem
         public static final int ClimbLeftCANid = 55;
         public static final int ClimbRightCANid = 56;
+    }
+
+    public static final class CommandConstants {
+        //Climb Subsystem
+        public static final int lowestClimbCmd = 1;
+        public static final int middleClimbCmd = 2;
+        public static final int highestClimbCmd = 3;
+
+        public static final double climbHighPos = 100.0;
+        public static final double climbMidPos = 50.0;
+        public static final double climbWindSpeed = 1.0;
+        public static final double climbUnwindSpeed = -climbWindSpeed;
     
-
-
     }
     
     public static final class AutoConstants {
