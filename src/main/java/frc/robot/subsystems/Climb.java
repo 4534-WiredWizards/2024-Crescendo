@@ -11,10 +11,11 @@ import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.wpilibj.CAN;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class Climb extends SubsystemBase {
-  private final CANSparkMax leftClimbMotor = new CANSparkMax(55,CANSparkLowLevel.MotorType.kBrushless);
-  private final CANSparkMax rightClimbMotor = new CANSparkMax(55,CANSparkLowLevel.MotorType.kBrushless);
+  private final CANSparkMax leftClimbMotor = new CANSparkMax(Constants.SubsystemConstants.ClimbLeftCANid,CANSparkLowLevel.MotorType.kBrushless);
+  private final CANSparkMax rightClimbMotor = new CANSparkMax(Constants.SubsystemConstants.ClimbRightCANid,CANSparkLowLevel.MotorType.kBrushless);
   private final SparkLimitSwitch forwardLimitSwitch;
 
   /** Creates a new Climb. */

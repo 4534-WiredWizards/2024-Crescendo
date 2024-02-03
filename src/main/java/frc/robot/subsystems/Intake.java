@@ -10,15 +10,16 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANDigitalInput;
 import com.revrobotics.CANSparkLowLevel;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class Intake extends SubsystemBase {
-  private final SparkLimitSwitch forwardLimitSwitch;
-  private final CANSparkMax intakeMotor = new CANSparkMax(50, CANSparkLowLevel.MotorType.kBrushless);
+  private final SparkLimitSwitch IntakeLimitSwitch;
+  private final CANSparkMax intakeMotor = new CANSparkMax(Constants.SubsystemConstants.IntakeCANid, CANSparkLowLevel.MotorType.kBrushless);
   /** Creates a new Intake. */
   public Intake() {
     intakeMotor.setIdleMode(IdleMode.kBrake);
-    forwardLimitSwitch = intakeMotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
-    forwardLimitSwitch.enableLimitSwitch(true);
+    IntakeLimitSwitch = intakeMotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
+    IntakeLimitSwitch.enableLimitSwitch(true);
   }
 
   @Override
@@ -29,7 +30,7 @@ public class Intake extends SubsystemBase {
   public void move(double speed){
     intakeMotor.set(speed);
   }
-  public boolean getForwardLimitSwitch(){
-   return forwardLimitSwitch.isPressed();
+  public boolean getIntakeStatus(){
+   return IntakeLimitSwitch.isPressed();
   }
 }

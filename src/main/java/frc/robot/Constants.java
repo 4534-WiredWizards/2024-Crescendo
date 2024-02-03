@@ -115,6 +115,18 @@ public final class Constants {
         public static final int ArmLeftCANid = 53;
         public static final int ArmRIghtCANid = 54;
 
+        //Intake subsystem
+        public static final int IntakeCANid = 50;
+
+        //Shooter Subsystem
+        public static final int ShooterTopCANid = 51;
+        public static final int ShooterBottomCANid = 52;
+
+        //Climb Subsystem
+        public static final int ClimbLeftCANid = 55;
+        public static final int ClimbRightCANid = 56;
+    
+
 
     }
     

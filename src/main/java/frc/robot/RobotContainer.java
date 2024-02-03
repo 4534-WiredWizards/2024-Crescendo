@@ -16,23 +16,34 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.RunIntake;
+import frc.robot.commands.RunShooter;
+import frc.robot.commands.PIDMoveArm;
 import frc.robot.commands.SwerveJoystickCmd;
+import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import frc.robot.subsystems.SwerveSubsystem;
 
-public class RobotContainer {
 
+public class RobotContainer {
+    private final Joystick driverJoytick = new Joystick(OIConstants.kDriverControllerPort);
+    private final Joystick operatorJoystick = new Joystick(1);
+        
     private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
     private final Limelight limelight = new Limelight(swerveSubsystem);
-    private final Joystick driverJoytick = new Joystick(OIConstants.kDriverControllerPort);
+    private final Intake intake = new Intake();
+    private final Shooter shooter = new Shooter();
+    private final Climb climb = new Climb();
+    private final Arm Arm = new Arm();
 
-    private final Intake m_intakeMotor = new Intake();
 
 
 
@@ -62,12 +73,24 @@ public class RobotContainer {
     private void configureButtonBindings() {
         new JoystickButton(driverJoytick, OIConstants.kDriverResetGyroButtonIdx).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
 
+
         //Sequential Command(s)
-        new JoystickButton(driverJoytick, 5).onTrue(new SequentialCommandGroup(
-        new InstantCommand(() -> limelight.resetLimelightPose()),
-        (new GeneralTrajectories()).toTag(swerveSubsystem),
-        (new GeneralTrajectories()).Back(swerveSubsystem)
-       ).until(() -> driverJoytick.getRawButtonPressed(4)));
+
+        //Lower arm and run intake
+        new POVButton(operatorJoystick, 180).onTrue(new SequentialCommandGroup(
+                new PIDMoveArm(Arm, 0.0),// test and change setpoint, remove this when done
+                new RunIntake(intake, true,() ->.5, true),
+                new PIDMoveArm(Arm, 0.0)// test and change setpoint, remove this when done
+        ).until(() -> (operatorJoystick.getRawButtonPressed(5) || operatorJoystick.getRawButtonPressed(6))));
+
+
+        //Shoot at amp(Center on april tag, move arm, shoot)
+        new POVButton(operatorJoystick, 90).onTrue(new SequentialCommandGroup(
+                new InstantCommand(() -> limelight.resetLimelightPose()),
+                new GeneralTrajectories().toTag(swerveSubsystem),
+                new PIDMoveArm(Arm, 0.0),// test and change setpoint, remove this when done
+                new RunShooter(shooter, intake, .9, true)
+       ).until(() -> operatorJoystick.getRawButtonPressed(7)));
 
 
     }

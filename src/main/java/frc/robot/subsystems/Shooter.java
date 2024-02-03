@@ -9,10 +9,11 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class Shooter extends SubsystemBase {
-  private final CANSparkMax topMotor = new CANSparkMax(51,CANSparkLowLevel.MotorType.kBrushless);
-  private final CANSparkMax bottomMotor = new CANSparkMax(52,CANSparkLowLevel.MotorType.kBrushless);
+  private final CANSparkMax topMotor = new CANSparkMax(Constants.SubsystemConstants.ShooterTopCANid,CANSparkLowLevel.MotorType.kBrushless);
+  private final CANSparkMax bottomMotor = new CANSparkMax(Constants.SubsystemConstants.ShooterBottomCANid,CANSparkLowLevel.MotorType.kBrushless);
   /** Creates a new Shooter. */
   public Shooter() {
     topMotor.setIdleMode(IdleMode.kBrake);
