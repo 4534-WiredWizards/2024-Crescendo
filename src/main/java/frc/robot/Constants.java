@@ -121,9 +121,13 @@ public final class Constants {
         //Shooter Subsystem
         public static final int ShooterTopCANid = 51;
         public static final int ShooterBottomCANid = 52;
+
         //Climb Subsystem
         public static final int ClimbLeftCANid = 55;
         public static final int ClimbRightCANid = 56;
+
+        //LED Subsystem
+        public static final int CANdleID = 0;
     }
 
     public static final class CommandConstants {
