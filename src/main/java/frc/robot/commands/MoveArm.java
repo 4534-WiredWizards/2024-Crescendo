@@ -11,9 +11,13 @@ public class MoveArm extends Command {
   /** Creates a new ControlShooterArm. */
   Arm Arm;
   Double speed;
-  public MoveArm(Arm Arm) {
+  public MoveArm(Arm Arm, Double speed) {
     this.Arm = Arm;
+    this.speed = speed;
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(this.Arm);
   }
+  
 
   // Called when the command is initially scheduled.
   @Override

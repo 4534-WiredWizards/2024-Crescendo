@@ -4,24 +4,27 @@
 
 package frc.robot.commands;
 
+import java.util.function.Supplier;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Intake;
 
 public class RunShooter extends Command {
   Shooter shooter;
-  Double speed;
+  Supplier<Double> speed;
   Intake Intake;
   boolean isPressed;
   int presses;
   boolean autostop;
   /** Creates a new runShooter. */
-  public  RunShooter(Shooter shooter, Intake Intake, Double speed, boolean autoStop) {
+  public  RunShooter(Shooter shooter, Intake Intake, Supplier<Double> speed, boolean autoStop) {
     this.shooter = shooter;
     this.speed = speed;
     this.Intake = Intake;
     this.autostop = autoStop;
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(this.shooter);
   }
 
   // Called when the command is initially scheduled.
@@ -33,8 +36,8 @@ public class RunShooter extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooter.move(speed);
-    Intake.move(speed);
+    shooter.move(speed.get());
+    Intake.move(speed.get());
 
     //logic is for isFinished condition, Will check for limit switch being pressed in, then out, twice before stopping.
     if(Intake.getIntakeStatus() && !isPressed){

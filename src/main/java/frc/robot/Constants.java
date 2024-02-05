@@ -23,6 +23,26 @@ public final class Constants {
         public static final double kPTurning = 0.2;
     }
 
+    public static final class InputDevices {
+
+        public static final int leftJoystickPort = 0;
+        public static final int rightJoystickPort = 1;
+
+        public static final int gamepadPort = 2;
+
+        public static final int btn_a = 1;
+        public static final int btn_b = 2;
+        public static final int btn_x = 3;
+        public static final int btn_y = 4;
+        public static final int btn_leftBumper = 5;
+        public static final int btn_rightBumper = 6;
+        public static final int btn_select = 7;
+        public static final int btn_start = 8;
+
+        // Axises
+        public static final int rightTriggerAxis = 3;
+    }
+
     public static final class DriveConstants {
 
         // Distance between right and left wheels
@@ -110,6 +130,8 @@ public final class Constants {
 
     }
 
+    
+
     public static final class SubsystemConstants {
         //Arm Subsystem
         public static final int ArmLeftCANid = 53;
@@ -127,7 +149,7 @@ public final class Constants {
     }
 
     public static final class CommandConstants {
-        //Climb Subsystem
+        //Climb Commands
         public static final int lowestClimbCmd = 1;
         public static final int middleClimbCmd = 2;
         public static final int highestClimbCmd = 3;
@@ -136,9 +158,13 @@ public final class Constants {
         public static final double climbMidPos = 50.0;
         public static final double climbWindSpeed = 1.0;
         public static final double climbUnwindSpeed = -climbWindSpeed;
-    
+        //Arm Commands
+        public static final double ampheight = 0.0;
+        public static final double intakeheight = 0.0;
+        public static final double traversalheight = 0.0;
+        
     }
-    
+    ;;;;
     public static final class AutoConstants {
         // If you want to slow down the robot during Autonomous, adjust these values
         public static final double kMaxSpeedMetersPerSecond = DriveConstants.kPhysicalMaxSpeedMetersPerSecond /2; 

@@ -17,6 +17,8 @@ public class PIDMoveArm extends Command {
     // Use addRequirements() here to declare subsystem dependencies.
     this.arm = arm;
     this.setpoint = setpoint;
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(this.arm);
   }
 
   // Called when the command is initially scheduled.

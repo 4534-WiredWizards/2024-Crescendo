@@ -17,27 +17,25 @@ import frc.robot.subsystems.Intake;
 public class RunIntake extends Command {
   /** Creates a new IntakeMotor. */
 
-  private final DoubleSupplier mspeed;
-
   boolean m_fwdDir;
   double speedScale = 0.6;
   boolean init_state = true;
   Intake intake;
   boolean autostop;
+  double mspeed;
 
   public RunIntake(
     Intake intake,
     boolean forwardDirection, 
-    DoubleSupplier speed,
+    Double speed,
     boolean autostop
     ) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.intake = intake;
     m_fwdDir = forwardDirection;
-    addRequirements(intake);
     mspeed = speed;
     this.autostop = autostop;
-
+    addRequirements(this.intake);
   }
 
   // Called when the command is initially scheduled.
@@ -52,15 +50,15 @@ public class RunIntake extends Command {
   public void execute() {
 
       if(m_fwdDir) {
-          if(Math.abs(mspeed.getAsDouble()) < .1){
+          if(Math.abs(mspeed) < .1){
           intake.move(0);
           }
           else{
-            intake.move(Math.pow(mspeed.getAsDouble(), 3));
+            intake.move(Math.pow(mspeed, 3));
           }
       } 
       else {
-          intake.move(Math.pow(-1*mspeed.getAsDouble(), 3));
+          intake.move(Math.pow(-1*mspeed, 3));
       }
   }                                                                                                                                                                                                                                                                                                   
 

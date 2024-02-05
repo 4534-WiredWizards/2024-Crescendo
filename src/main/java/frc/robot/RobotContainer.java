@@ -13,15 +13,19 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Constants.AutoConstants;
+import frc.robot.Constants.CommandConstants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.InputDevices;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.RunIntake;
 import frc.robot.commands.RunShooter;
+import frc.robot.commands.MoveArm;
 import frc.robot.commands.PIDMoveArm;
 import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.subsystems.Arm;
@@ -34,7 +38,7 @@ import frc.robot.subsystems.SwerveSubsystem;
 
 
 public class RobotContainer {
-    private final Joystick driverJoytick = new Joystick(OIConstants.kDriverControllerPort);
+    private final Joystick driverJoystick = new Joystick(OIConstants.kDriverControllerPort);
     private final Joystick operatorJoystick = new Joystick(1);
         
     private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
@@ -56,14 +60,15 @@ public class RobotContainer {
         // set pipeline
         NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(2);
         
+        shooter.setDefaultCommand(new RunShooter(shooter, intake,() -> operatorJoystick.getRawAxis(3), false));
         swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
                 swerveSubsystem,
-                () -> -driverJoytick.getRawAxis(OIConstants.kDriverYAxis),
-                () -> -driverJoytick.getRawAxis(OIConstants.kDriverXAxis),
-                () -> -driverJoytick.getRawAxis(OIConstants.kDriverRotAxis),
-                () -> !driverJoytick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx),
-                () -> driverJoytick.getRawAxis(OIConstants.kDriverThrottleAxis),
-                () -> driverJoytick.getRawButton(OIConstants.kDriverSlowTurnButtonIdx)
+                () -> -driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
+                () -> -driverJoystick.getRawAxis(OIConstants.kDriverXAxis),
+                () -> -driverJoystick.getRawAxis(OIConstants.kDriverRotAxis),
+                () -> !driverJoystick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx),
+                () -> driverJoystick.getRawAxis(OIConstants.kDriverThrottleAxis),
+                () -> driverJoystick.getRawButton(OIConstants.kDriverSlowTurnButtonIdx)
                 ));
 
 
@@ -71,25 +76,38 @@ public class RobotContainer {
     }
 
     private void configureButtonBindings() {
-        new JoystickButton(driverJoytick, OIConstants.kDriverResetGyroButtonIdx).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
+        new JoystickButton(driverJoystick, OIConstants.kDriverResetGyroButtonIdx).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
 
 
-        //Sequential Command(s)
 
-        //Lower arm and run intake
+
+        // ----------------------- ARM COMMANDS ---------------------------------
+
+        // Basic Operator Shooter Control
+        // Right Trigger - Run Shooter (Speed changes based on how far the trigger is pressed)
+  
+        // Basic Operator Intake Control
+        // Y - Run Intake
+        new JoystickButton(operatorJoystick, InputDevices.btn_y).whileTrue(new RunIntake(intake, true, 7.5, true));
+
+        // Basic Operator Arm Control
+        // Bumper Left & Right (Left- Move arm twoards the intake, Right- Move arm away from intake)
+        new JoystickButton(operatorJoystick ,InputDevices.btn_leftBumper).whileTrue(new MoveArm(Arm, .2));
+        new JoystickButton(operatorJoystick, InputDevices.btn_rightBumper ).whileTrue(new MoveArm(Arm, -.2));
+
+        //Lower arm position, run intake, move arm up if piece collected
         new POVButton(operatorJoystick, 180).onTrue(new SequentialCommandGroup(
-                new PIDMoveArm(Arm, 0.0),// test and change setpoint, remove this when done
-                new RunIntake(intake, true,() ->.5, true),
-                new PIDMoveArm(Arm, 0.0)// test and change setpoint, remove this when done
+                new PIDMoveArm(Arm, CommandConstants.intakeheight), //Lower arm
+                new RunIntake(intake, true,.5, true), //Turn On Intake
+                new PIDMoveArm(Arm, CommandConstants.traversalheight) //After run intake finishes (A piece is collected) move arm up
         ).until(() -> (operatorJoystick.getRawButtonPressed(5) || operatorJoystick.getRawButtonPressed(6))));
 
-
-        //Shoot at amp(Center on april tag, move arm, shoot)
+        //Move arm to amp height, spin up shooter, (Wont run intake tell button press)
         new POVButton(operatorJoystick, 90).onTrue(new SequentialCommandGroup(
                 new InstantCommand(() -> limelight.resetLimelightPose()),
                 new GeneralTrajectories().toTag(swerveSubsystem),
-                new PIDMoveArm(Arm, 0.0),// test and change setpoint, remove this when done
-                new RunShooter(shooter, intake, .9, true)
+                new PIDMoveArm(Arm, CommandConstants.ampheight),
+                new RunShooter(shooter, intake, () -> .9, true)
        ).until(() -> operatorJoystick.getRawButtonPressed(7)));
 
 
