@@ -18,7 +18,7 @@ public class Climb extends SubsystemBase {
   private final CANSparkMax leftClimbMotor = new CANSparkMax(Constants.SubsystemConstants.ClimbLeftCANid,CANSparkLowLevel.MotorType.kBrushless);
   private final CANSparkMax rightClimbMotor = new CANSparkMax(Constants.SubsystemConstants.ClimbRightCANid,CANSparkLowLevel.MotorType.kBrushless);
   private final SparkLimitSwitch forwardLimitSwitch;
-  private final RelativeEncoder climbEncoder;
+  public final RelativeEncoder climbEncoder;
 
   /** Creates a new Climb. */
   public Climb() {
@@ -41,12 +41,18 @@ public class Climb extends SubsystemBase {
     leftClimbMotor.set(speed);
   }
 
-  public boolean getForwardLimitSwitch(){
-    return forwardLimitSwitch.isPressed();
-  }
-
   public double getPosition() {
     // return encoder value (in rotations)
     return climbEncoder.getPosition();
+  }
+
+  public void EncoderReset() {
+    // return encoder value (in rotations)
+    climbEncoder.setPosition(0);
+  }
+
+
+  public boolean getClimbStatus(){
+    return forwardLimitSwitch.isPressed();
   }
 }

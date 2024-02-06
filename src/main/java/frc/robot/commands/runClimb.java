@@ -10,19 +10,22 @@ import frc.robot.subsystems.Climb;
 
 public class runClimb extends Command {
   /** Creates a new runClimb. */
-  int climbCmd;
+  double TargetPos;
   Climb climb;
-  boolean isWinding = false;
+  double distanceFromTargetPos;
+  double lastDistance;
 
   public runClimb(int climbPosition, Climb climb) {
-    this.climbCmd = climbPosition;
+    this.TargetPos = climbPosition;
     this.climb = climb;
     addRequirements(this.climb);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    distanceFromTargetPos = Math.abs(climb.getPosition() - Constants.CommandConstants.climbMidPos);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -32,25 +35,25 @@ public class runClimb extends Command {
     //2 = prep for climb
     //3 = fully closed in climb
 
-    if (climbCmd == Constants.CommandConstants.lowestClimbCmd) {
+    if (TargetPos == 0) {
       climb.move(Constants.CommandConstants.climbWindSpeed);
     }
-    else if (climbCmd == Constants.CommandConstants.middleClimbCmd) {
-      if (climb.getPosition() > Constants.CommandConstants.climbMidPos) {
+    else if (TargetPos < 0) {
+      if (climb.getPosition() > TargetPos) {
         climb.move(Constants.CommandConstants.climbWindSpeed);
-        isWinding = true;
+        distanceFromTargetPos -= lastDistance - climb.getPosition();
       }
       else {
         climb.move(Constants.CommandConstants.climbUnwindSpeed);
-        isWinding = false;
+        distanceFromTargetPos -= climb.getPosition() - lastDistance;
       }
-    }
-    else if (climbCmd == Constants.CommandConstants.highestClimbCmd) {
-      climb.move(Constants.CommandConstants.climbUnwindSpeed);
+
+      lastDistance = climb.getPosition();
     }
     else {
       climb.move(0);
-      System.out.println("Invalid climb command " + climbCmd);
+      distanceFromTargetPos = 0;
+      System.out.println("Invalid climb command " + TargetPos);
     }
   }
 
@@ -63,32 +66,17 @@ public class runClimb extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (climb.getForwardLimitSwitch() && climbCmd == Constants.CommandConstants.lowestClimbCmd) {
+    if (climb.getClimbStatus() && TargetPos == 0) {
+      climb.EncoderReset();
       return true;
-    }
-    else if (climb.getPosition() >= Constants.CommandConstants.climbHighPos) {
-      return true;
-    }
-    else if (climbCmd == Constants.CommandConstants.middleClimbCmd) {
-      if (isWinding) {
-        if (climb.getPosition() <= Constants.CommandConstants.climbMidPos) {
-          return true;
-        }
-        else {
-          return false;
-        }
-      }
-      else {
-        if (climb.getPosition() >= Constants.CommandConstants.climbMidPos) {
-          return true;
-        }
-        else {
-          return false;
-        }
-      }
     }
     else {
-      return false;
+      if (distanceFromTargetPos <= 0) {
+        return true;
+      }
+      else {
+        return false;
+      }
     }
   }
 }

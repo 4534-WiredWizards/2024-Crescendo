@@ -8,6 +8,10 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import com.revrobotics.SparkLimitSwitch;
+import frc.robot.RobotContainer;;
+
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to
@@ -33,7 +37,7 @@ public class Robot extends TimedRobot {
         // and put our
         // autonomous chooser on the dashboard.
         m_robotContainer = new RobotContainer();
-    }
+        }
 
     /**
      * This function is called every robot packet, no matter the mode. Use this for
@@ -57,6 +61,11 @@ public class Robot extends TimedRobot {
         // robot's periodic
         // block in order for anything in the Command-based framework to work.
         CommandScheduler.getInstance().run();
+        // Limit switch on shuffle board
+        SmartDashboard.putBoolean("Intake LM", m_robotContainer.intake.getIntakeStatus());
+        SmartDashboard.putBoolean("Arm LM", m_robotContainer.arm.getArmStatusFw());
+        SmartDashboard.putBoolean("Arm LM", m_robotContainer.arm.getArmStatusRv());
+        SmartDashboard.putBoolean("Climb LM", m_robotContainer.climb.getClimbStatus());
     }
 
     /** This function is called once each time the robot enters Disabled mode. */

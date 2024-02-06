@@ -52,12 +52,12 @@ public class Arm extends SubsystemBase {
     return throttleEnc.getAbsolutePosition();
   }
 
-  public boolean getForwardLimitSwitch(){
+  public boolean getArmStatusFw(){
     return forwardLimitSwitch.isPressed();
-  }
+   }
 
-  public boolean getReverseLimitSwitch(){
+  public boolean getArmStatusRv(){
     return reverseLimitSwitch.isPressed();
-  }
+    }
 }
 
