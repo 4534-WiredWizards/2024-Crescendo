@@ -25,6 +25,8 @@ public class GeneralTrajectories {
             // Start and end are both waypoints, and the robot will go from the starting pose to both of them
             //Values are relative to where we reset odometry to, mostly the april tag will be 0,0
             //For some reason, when the degrees dont change the robot just stutter steps so add at least a 1 degree change
+
+            //This one moves back 1.5 meters from a point 1 meter away from the tag(Meant to be used with toTag)
                 new Pose2d(-1, 0, new Rotation2d(0)),
                 List.of(),
                 new Pose2d(
@@ -52,6 +54,7 @@ public class GeneralTrajectories {
     }
 
     public Command toTag(SwerveSubsystem swerve){
+        //Moves to 1 meter in front of the tag
         Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
       new Pose2d(
         -1,
@@ -84,4 +87,78 @@ public class GeneralTrajectories {
     swerve);
     return swerveControllerCommand;
     }
+
+    public Command toStraightBackNote(SwerveSubsystem swerve){
+        //Moves back from the april tag to the note(Meant to be used with toTag)
+        Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
+            new Pose2d(
+              -1,
+              0, 
+                Rotation2d.fromDegrees(0)),
+            List.of(),
+            new Pose2d(
+                -6,
+                0,
+                Rotation2d.fromDegrees(1)
+            ),
+            RobotContainer.autoTrajectoryConfig
+          ); 
+            
+            
+      
+          PIDController xController = new PIDController(AutoConstants.kPXController, 0, 0);
+          PIDController yController = new PIDController(AutoConstants.kPYController, 0, 0);
+          ProfiledPIDController thetaController = new ProfiledPIDController(
+          AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
+          thetaController.enableContinuousInput(-Math.PI, Math.PI);
+          SwerveControllerCommand  swerveControllerCommand = new SwerveControllerCommand(
+          trajectory,
+          swerve::getPose,
+          DriveConstants.kDriveKinematics,
+          xController,
+          yController,
+          thetaController,
+          swerve::setModuleStates,
+          swerve);
+          return swerveControllerCommand;
+    }
+
+    public Command toLeftBackNote(SwerveSubsystem swerve){
+        //Moves back and right from the april tag to the note(Meant to be used with toTag)
+        Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
+            new Pose2d(
+              -1,
+              0, 
+                Rotation2d.fromDegrees(0)),
+            List.of(
+                new Translation2d(-1, 1),
+                new Translation2d(-6, 1)
+            ),
+            new Pose2d(
+                -6,
+                1,
+                Rotation2d.fromDegrees(1)
+            ),
+            RobotContainer.autoTrajectoryConfig
+          ); 
+            
+            
+      
+          PIDController xController = new PIDController(AutoConstants.kPXController, 0, 0);
+          PIDController yController = new PIDController(AutoConstants.kPYController, 0, 0);
+          ProfiledPIDController thetaController = new ProfiledPIDController(
+          AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
+          thetaController.enableContinuousInput(-Math.PI, Math.PI);
+          SwerveControllerCommand  swerveControllerCommand = new SwerveControllerCommand(
+          trajectory,
+          swerve::getPose,
+          DriveConstants.kDriveKinematics,
+          xController,
+          yController,
+          thetaController,
+          swerve::setModuleStates,
+          swerve);
+          return swerveControllerCommand;
+    }
+
 }
