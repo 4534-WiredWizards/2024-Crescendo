@@ -6,6 +6,9 @@ package frc.robot.commands;
 
 import java.util.function.Supplier;
 
+import com.revrobotics.SparkPIDController;
+
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Intake;
@@ -13,10 +16,12 @@ import frc.robot.subsystems.Intake;
 public class RunShooter extends Command {
   Shooter shooter;
   Supplier<Double> speed;
+  double targetShooterVelocity;
   Intake Intake;
   boolean isPressed;
   int presses;
   boolean autostop;
+
   /** Creates a new runShooter. */
   public  RunShooter(Shooter shooter, Intake Intake, Supplier<Double> speed, boolean autoStop) {
     this.shooter = shooter;
@@ -36,7 +41,7 @@ public class RunShooter extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooter.move(speed.get());
+    shooter.velocityPID(speed.get() * 5000);
     if(shooter.getSpeed() >  3000){
     Intake.move(speed.get());
     }
