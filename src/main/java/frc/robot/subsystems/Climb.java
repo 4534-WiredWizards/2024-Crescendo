@@ -33,7 +33,7 @@ public class Climb extends SubsystemBase {
     rightClimbMotor.follow(leftClimbMotor, true);
     
     
-    reverseLimitSwitch = leftClimbMotor.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
+    reverseLimitSwitch = leftClimbMotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
     reverseLimitSwitch.enableLimitSwitch(true);
     climbEncoder = leftClimbMotor.getEncoder();
 

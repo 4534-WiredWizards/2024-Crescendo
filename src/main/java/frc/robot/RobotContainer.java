@@ -36,20 +36,20 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.networktables.NetworkTableInstance;
-// import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.SwerveSubsystem;
 
 
 public class RobotContainer {
     private final Joystick driverJoystick = new Joystick(OIConstants.kDriverControllerPort);
     private final Joystick operatorJoystick = new Joystick(1);
         
-    // private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
-    // private final Limelight limelight = new Limelight(swerveSubsystem);
     public final Intake intake = new Intake();
     private final Shooter shooter = new Shooter();
     public final Climb climb = new Climb();
     public final Arm arm = new Arm();
-    // public final AutoChooser autoChooser = new AutoChooser(swerveSubsystem, shooter, arm, limelight, intake);
+    public final SwerveSubsystem swerve = new SwerveSubsystem();
+    private final Limelight limelight = new Limelight(swerve);
+    public final AutoChooser autoChooser = new AutoChooser(swerve, shooter, arm, limelight, intake);
 
 
 
@@ -65,22 +65,22 @@ public class RobotContainer {
         
         shooter.setDefaultCommand(new RunShooter(shooter, intake,() -> operatorJoystick.getRawAxis(3), false));
         
-        // swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
-        //         swerveSubsystem,
-        //         () -> -driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
-        //         () -> -driverJoystick.getRawAxis(OIConstants.kDriverXAxis),
-        //         () -> -driverJoystick.getRawAxis(OIConstants.kDriverRotAxis),
-        //         () -> !driverJoystick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx),
-        //         () -> driverJoystick.getRawAxis(OIConstants.kDriverThrottleAxis),
-        //         () -> driverJoystick.getRawButton(OIConstants.kDriverSlowTurnButtonIdx)
-        //         ));
+        swerve.setDefaultCommand(new SwerveJoystickCmd(
+            swerve,
+                () -> -driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
+                () -> -driverJoystick.getRawAxis(OIConstants.kDriverXAxis),
+                () -> -driverJoystick.getRawAxis(OIConstants.kDriverRotAxis),
+                () -> !driverJoystick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx),
+                () -> driverJoystick.getRawAxis(OIConstants.kDriverThrottleAxis),
+                () -> driverJoystick.getRawButton(OIConstants.kDriverSlowTurnButtonIdx)
+                ));
 
 
         configureButtonBindings();
     }
 
     private void configureButtonBindings() {
-        // new JoystickButton(driverJoystick, OIConstants.kDriverResetGyroButtonIdx).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
+        new JoystickButton(driverJoystick, OIConstants.kDriverResetGyroButtonIdx).onTrue(new InstantCommand(() -> swerve.zeroHeading()));
 
 
 
@@ -113,8 +113,8 @@ public class RobotContainer {
 
         //Move arm to amp height, spin up shooter, (Wont run intake tell button press)
         new POVButton(operatorJoystick, 90).onTrue(new SequentialCommandGroup(
-                // new InstantCommand(() -> limelight.resetLimelightPose()),
-                // new GeneralTrajectories().toTag(swerveSubsystem),
+                new InstantCommand(() -> limelight.resetLimelightPose()),
+                new GeneralTrajectories().toTag(swerve),
                 new PIDMoveArm(arm, CommandConstants.ampheight),
                 new RunShooter(shooter, intake, () -> .9, true)
        ).until(() -> operatorJoystick.getRawButtonPressed(7)));
@@ -122,8 +122,7 @@ public class RobotContainer {
 
     }
 
-    // public Command getAutonomousCommand() {
-    //     // return autoChooser.getAuto();
-    //     return
-    // }
+    public Command getAutonomousCommand() {
+        return autoChooser.getAuto();
+    }
 }

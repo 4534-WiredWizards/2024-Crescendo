@@ -68,6 +68,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putBoolean("Climb LM", m_robotContainer.climb.getClimbStatus());
         SmartDashboard.putNumber("Climb Encoder", m_robotContainer.climb.getPosition());
         SmartDashboard.putNumber("Arm Abs Encoder", m_robotContainer.arm.getAbsolutePosition());
+        SmartDashboard.putNumber("NavX", m_robotContainer.swerve.getHeading());
     }
 
     /** This function is called once each time the robot enters Disabled mode. */
@@ -85,7 +86,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousInit() {
-        // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+        m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
         // schedule the autonomous command (example)
         if (m_autonomousCommand != null) {

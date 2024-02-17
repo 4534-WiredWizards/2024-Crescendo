@@ -5,13 +5,16 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Arm;
 
 public class PIDMoveArm extends Command {
   Arm arm;
-  PIDController armpid;
+  ProfiledPIDController armpid;
   Double setpoint;
+  private final TrapezoidProfile.Constraints armConstraints = new TrapezoidProfile.Constraints(.2,.1);
   /** Creates a new StateArm. */
   public PIDMoveArm(Arm arm, Double setpoint) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -24,7 +27,7 @@ public class PIDMoveArm extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    armpid = new PIDController(.05,.01,.01);
+    armpid = new ProfiledPIDController(.05,.01,.01, armConstraints);
     armpid.setTolerance(1);
 
   }
