@@ -71,7 +71,7 @@ public class AutoChooser extends SubsystemBase {
         new ParallelCommandGroup(
           new GeneralTrajectories().toStraightBackNote(swerveSubsystem),
           new PIDMoveArm(arm, 0.0),
-          new RunIntake(intake, true, 1.0, true)
+          new RunIntake(intake, 1.0, true)
         ),
         new GeneralTrajectories().toTag(swerveSubsystem),
         new GeneralTrajectories().toTag(swerveSubsystem),
@@ -80,7 +80,7 @@ public class AutoChooser extends SubsystemBase {
         new ParallelCommandGroup(
           new GeneralTrajectories().toLeftBackNote(swerveSubsystem),
           new PIDMoveArm(arm, 0.0),
-          new RunIntake(intake, true, 1.0, true)
+          new RunIntake(intake, 1.0, true)
         ),
         new GeneralTrajectories().toTag(swerveSubsystem),
         new GeneralTrajectories().toTag(swerveSubsystem),

@@ -25,14 +25,11 @@ public class RunIntake extends Command {
   double mspeed;
 
   public RunIntake(
-    Intake intake,
-    boolean forwardDirection, 
+    Intake intake, 
     Double speed,
     boolean autostop
     ) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.intake = intake;
-    m_fwdDir = forwardDirection;
     mspeed = speed;
     this.autostop = autostop;
     addRequirements(this.intake);
@@ -48,18 +45,12 @@ public class RunIntake extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-      if(m_fwdDir) {
-          if(Math.abs(mspeed) < .1){
-          intake.move(0);
-          }
-          else{
-            intake.move(Math.pow(mspeed, 3));
-          }
-      } 
-      else {
-          intake.move(Math.pow(-1*mspeed, 3));
-      }
+    if(Math.abs(mspeed) < .1){
+      intake.move(0);
+    }
+    else{
+      intake.move(Math.pow(mspeed, 3));
+    }
   }                                                                                                                                                                                                                                                                                                   
 
   // Called once the command ends or is interrupted.
