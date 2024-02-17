@@ -42,7 +42,6 @@ public class RunShooter extends Command {
   @Override
   public void execute() {
     shooter.velocityPID(speed.get() * 5000);
-    System.out.println(speed.get() * 5000);
     if(shooter.getSpeed() >  3000){
     Intake.move(speed.get());
     }

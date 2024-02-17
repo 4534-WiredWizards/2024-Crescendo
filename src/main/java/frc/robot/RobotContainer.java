@@ -94,8 +94,8 @@ public class RobotContainer {
   
         // Basic Operator Intake Control
         // Y - Run Intake
-        new JoystickButton(operatorJoystick, InputDevices.btn_y).whileTrue(new RunIntake(intake, .7, true));
-        new JoystickButton(operatorJoystick, InputDevices.btn_a).whileTrue(new RunIntake(intake, -.7, true));
+        new JoystickButton(operatorJoystick, InputDevices.btn_y).whileTrue(new RunIntake(intake, true, .7, true));
+        new JoystickButton(operatorJoystick, InputDevices.btn_a).whileTrue(new RunIntake(intake, true, -.7, true));
         new JoystickButton(operatorJoystick, InputDevices.btn_x).whileTrue(new runClimb(0, climb));
         new JoystickButton(operatorJoystick, InputDevices.btn_b).whileTrue(new runClimb(90, climb));
         // new JoystickButton(operatorJoystick, InputDevices.btn_x).whileTrue(new RunShooter(shooter,.7, true));
@@ -108,7 +108,7 @@ public class RobotContainer {
         //Lower arm position, run intake, move arm up if piece collected
         new POVButton(operatorJoystick, 180).onTrue(new SequentialCommandGroup(
                 new PIDMoveArm(arm, CommandConstants.intakeheight), //Lower arm
-                new RunIntake(intake, .5, true), 
+                new RunIntake(intake, true,.5, true), 
                 //Turn On Intake
                 new PIDMoveArm(arm, CommandConstants.traversalheight) //After run intake finishes (A piece is collected) move arm up
         ).until(() -> (operatorJoystick.getRawButtonPressed(5) || operatorJoystick.getRawButtonPressed(6))));
