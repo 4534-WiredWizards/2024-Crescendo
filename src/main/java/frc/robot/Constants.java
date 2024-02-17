@@ -134,8 +134,8 @@ public final class Constants {
 
     public static final class SubsystemConstants {
         //Arm Subsystem
-        public static final int ArmLeftCANid = 53;
-        public static final int ArmRIghtCANid = 54;
+        public static final int ArmLeftCANid = 55;
+        public static final int ArmRIghtCANid = 56;
 
         //Intake subsystem
         public static final int IntakeCANid = 50;
@@ -145,8 +145,8 @@ public final class Constants {
         public static final int ShooterBottomCANid = 52;
 
         //Climb Subsystem
-        public static final int ClimbLeftCANid = 55;
-        public static final int ClimbRightCANid = 56;
+        public static final int ClimbLeftCANid = 53;
+        public static final int ClimbRightCANid = 54;
 
         //LED Subsystem
         public static final int CANdleID = 0;
@@ -160,7 +160,7 @@ public final class Constants {
 
         public static final double climbHighPos = 100.0;
         public static final double climbMidPos = 50.0;
-        public static final double climbWindSpeed = 1.0;
+        public static final double climbWindSpeed = .2;
         public static final double climbUnwindSpeed = -climbWindSpeed;
         //Arm Commands
         public static final double ampheight = 0.0;

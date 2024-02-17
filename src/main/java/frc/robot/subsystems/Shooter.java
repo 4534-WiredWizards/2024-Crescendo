@@ -18,8 +18,8 @@ public class Shooter extends SubsystemBase {
   private final RelativeEncoder topEncoder = topMotor.getEncoder();
   /** Creates a new Shooter. */
   public Shooter() {
-    topMotor.setIdleMode(IdleMode.kBrake);
-    bottomMotor.setIdleMode(IdleMode.kBrake);
+    topMotor.setIdleMode(IdleMode.kCoast);
+    bottomMotor.setIdleMode(IdleMode.kCoast);
     bottomMotor.follow(topMotor);
   }
 

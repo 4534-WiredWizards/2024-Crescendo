@@ -11,7 +11,8 @@ public class MoveArm extends Command {
   /** Creates a new ControlShooterArm. */
   Arm Arm;
   Double speed;
-  public MoveArm(Arm Arm, Double speed) {
+  public 
+  MoveArm(Arm Arm, Double speed) {
     this.Arm = Arm;
     this.speed = speed;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -21,12 +22,17 @@ public class MoveArm extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    System.out.println("Move Arm Called");
+
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     Arm.move(speed);
+    // System.out.println("Moving Arm Spd:"+speed);
+
     // Test Low and high limits then implement limit switch logic
     //
     // if(speed < 0){

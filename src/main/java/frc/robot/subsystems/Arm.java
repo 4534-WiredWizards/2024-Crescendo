@@ -17,26 +17,33 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Arm extends SubsystemBase {
   private CANSparkMax rightmotor;
   private CANSparkMax leftmotor;
-  private DutyCycleEncoder throttleEnc;
-  private SparkLimitSwitch forwardLimitSwitch;
-  private SparkLimitSwitch reverseLimitSwitch;
+  private DutyCycleEncoder absEncoder;
+  private SparkLimitSwitch leftForwardLimitSwitch;
+  private SparkLimitSwitch leftReverseLimitSwitch;
 
   /** Creates a new ShooterArm. */
   public Arm() {
-    DutyCycleEncoder throttleEnc =  new DutyCycleEncoder(1);
+    absEncoder =  new DutyCycleEncoder(1);
     
     rightmotor = new CANSparkMax(Constants.SubsystemConstants.ArmRIghtCANid, CANSparkLowLevel.MotorType.kBrushless);
     leftmotor = new CANSparkMax(Constants.SubsystemConstants.ArmLeftCANid, CANSparkLowLevel.MotorType.kBrushless);
 
+    rightmotor.restoreFactoryDefaults();
+    leftmotor.restoreFactoryDefaults();
+
     rightmotor.setIdleMode(IdleMode.kBrake);
     leftmotor.setIdleMode(IdleMode.kBrake);
-    rightmotor.setInverted(true);
-    rightmotor.follow(leftmotor);
+
+
+
+    rightmotor.follow(leftmotor, true);
     
-    forwardLimitSwitch = leftmotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
-    reverseLimitSwitch = leftmotor.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
-    forwardLimitSwitch.enableLimitSwitch(true);
-    reverseLimitSwitch.enableLimitSwitch(true);
+    leftForwardLimitSwitch = leftmotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
+    leftReverseLimitSwitch = leftmotor.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
+    
+
+    leftForwardLimitSwitch.enableLimitSwitch(true);
+    leftReverseLimitSwitch.enableLimitSwitch(true);
   }
 
   @Override
@@ -45,19 +52,23 @@ public class Arm extends SubsystemBase {
   }
 
   public void move(double speed){
-    rightmotor.set(speed);
+    System.out.println("Left Invt:"+leftmotor.getInverted());
+    System.out.println("Right Invt:"+rightmotor.getInverted());
+
+
+    leftmotor.set(speed);
   }
 
   public double getAbsolutePosition() {
-    return throttleEnc.getAbsolutePosition();
+    return absEncoder.getAbsolutePosition();
   }
 
   public boolean getArmStatusFw(){
-    return forwardLimitSwitch.isPressed();
+    return leftForwardLimitSwitch.isPressed();
    }
 
   public boolean getArmStatusRv(){
-    return reverseLimitSwitch.isPressed();
+    return leftForwardLimitSwitch.isPressed();
     }
 }
 

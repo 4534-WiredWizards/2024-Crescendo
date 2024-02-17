@@ -17,18 +17,28 @@ import frc.robot.Constants;
 public class Climb extends SubsystemBase {
   private final CANSparkMax leftClimbMotor = new CANSparkMax(Constants.SubsystemConstants.ClimbLeftCANid,CANSparkLowLevel.MotorType.kBrushless);
   private final CANSparkMax rightClimbMotor = new CANSparkMax(Constants.SubsystemConstants.ClimbRightCANid,CANSparkLowLevel.MotorType.kBrushless);
-  private final SparkLimitSwitch forwardLimitSwitch;
+  private final SparkLimitSwitch reverseLimitSwitch;
   public final RelativeEncoder climbEncoder;
 
   /** Creates a new Climb. */
   public Climb() {
+
+    leftClimbMotor.restoreFactoryDefaults();
+    rightClimbMotor.restoreFactoryDefaults();
+
     leftClimbMotor.setIdleMode(IdleMode.kBrake);
     rightClimbMotor.setIdleMode(IdleMode.kBrake);
-    rightClimbMotor.setInverted(true);
-    rightClimbMotor.follow(leftClimbMotor);
-    forwardLimitSwitch = leftClimbMotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
-    forwardLimitSwitch.enableLimitSwitch(true);
+
+    
+    rightClimbMotor.follow(leftClimbMotor, true);
+    
+    
+    reverseLimitSwitch = leftClimbMotor.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
+    reverseLimitSwitch.enableLimitSwitch(true);
     climbEncoder = leftClimbMotor.getEncoder();
+
+
+
   }
 
   @Override
@@ -38,7 +48,7 @@ public class Climb extends SubsystemBase {
 
   public void move(double speed){
     // Positive is winding?
-    leftClimbMotor.set(speed);
+    leftClimbMotor.set(-1*speed);
   }
 
   public double getPosition() {
@@ -53,6 +63,6 @@ public class Climb extends SubsystemBase {
 
 
   public boolean getClimbStatus(){
-    return forwardLimitSwitch.isPressed();
+    return reverseLimitSwitch.isPressed();
   }
 }

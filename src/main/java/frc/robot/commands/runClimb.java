@@ -36,9 +36,14 @@ public class runClimb extends Command {
     //3 = fully closed in climb
 
     if (TargetPos == 0) {
-      climb.move(Constants.CommandConstants.climbWindSpeed);
+      if  (!climb.getClimbStatus()) {
+        climb.move(Constants.CommandConstants.climbWindSpeed);
+      }
+      else{
+        climb.EncoderReset();
+      }
     }
-    else if (TargetPos < 0) {
+    else if (TargetPos > 0) {
       if (climb.getPosition() > TargetPos) {
         climb.move(Constants.CommandConstants.climbWindSpeed);
         distanceFromTargetPos -= lastDistance - climb.getPosition();

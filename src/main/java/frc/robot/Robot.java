@@ -63,9 +63,11 @@ public class Robot extends TimedRobot {
         CommandScheduler.getInstance().run();
         // Limit switch on shuffle board
         SmartDashboard.putBoolean("Intake LM", m_robotContainer.intake.getIntakeStatus());
-        SmartDashboard.putBoolean("Arm LM", m_robotContainer.arm.getArmStatusFw());
-        SmartDashboard.putBoolean("Arm LM", m_robotContainer.arm.getArmStatusRv());
+        SmartDashboard.putBoolean("Arm LM FW", m_robotContainer.arm.getArmStatusFw());
+        SmartDashboard.putBoolean("Arm LM RV", m_robotContainer.arm.getArmStatusRv());
         SmartDashboard.putBoolean("Climb LM", m_robotContainer.climb.getClimbStatus());
+        SmartDashboard.putNumber("Climb Encoder", m_robotContainer.climb.getPosition());
+        SmartDashboard.putNumber("Arm Abs Encoder", m_robotContainer.arm.getAbsolutePosition());
     }
 
     /** This function is called once each time the robot enters Disabled mode. */
@@ -83,7 +85,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousInit() {
-        m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+        // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
         // schedule the autonomous command (example)
         if (m_autonomousCommand != null) {
