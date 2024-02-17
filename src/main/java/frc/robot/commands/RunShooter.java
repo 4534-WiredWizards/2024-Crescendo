@@ -21,12 +21,14 @@ public class RunShooter extends Command {
   boolean isPressed;
   int presses;
   boolean autostop;
+  private boolean PIDControl;
 
   /** Creates a new runShooter. */
-  public  RunShooter(Shooter shooter, Intake Intake, Supplier<Double> speed, boolean autoStop) {
+  public  RunShooter(Shooter shooter, Intake Intake, Supplier<Double> speed, boolean PIDControl, boolean autoStop) {
     this.shooter = shooter;
     this.speed = speed;
     this.Intake = Intake;
+    this.PIDControl = PIDControl;
     this.autostop = autoStop;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(this.shooter);
@@ -41,7 +43,9 @@ public class RunShooter extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooter.velocityPID(speed.get() * 5000);
+    if (PIDControl) {shooter.velocityPID(speed.get() * 5000);} 
+    else {shooter.move(speed.get());}
+      
     System.out.println(speed.get() * 5000);
     if(shooter.getSpeed() >  3000){
     Intake.move(speed.get());
