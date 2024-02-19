@@ -60,7 +60,7 @@ public class Arm extends SubsystemBase {
   }
 
   public double getAbsolutePosition() {
-    return absEncoder.getAbsolutePosition();
+    return ((-1*absEncoder.getAbsolutePosition())+Constants.CommandConstants.armAbsEncoderOffset)*360;
   }
 
   public boolean getArmStatusFw(){
