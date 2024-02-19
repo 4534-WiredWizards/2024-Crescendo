@@ -14,6 +14,7 @@ public class runClimb extends Command {
   Climb climb;
   double distanceFromTargetPos;
   double lastDistance;
+  boolean windClimb;
 
   public runClimb(int climbPosition, Climb climb) {
     this.TargetPos = climbPosition;
@@ -24,38 +25,36 @@ public class runClimb extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    distanceFromTargetPos = Math.abs(climb.getPosition() - Constants.CommandConstants.climbMidPos);
+    // distanceFromTargetPos = Math.abs(climb.getPosition() - Constants.CommandConstants.climbMidPos);
+    if (climb.getPosition() > TargetPos){
+      this.windClimb=true;
+    } else {
+      this.windClimb=false;
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //Parameter of integer between 1 and 3
-    //1 = Stored while traversing
-    //2 = prep for climb
-    //3 = fully closed in climb
 
+    System.out.println("Climb Status->"+climb.getClimbStatus());
     if (TargetPos == 0) {
-      if  (!climb.getClimbStatus()) {
+      // if  (!climb.getClimbStatus()) {
         climb.move(Constants.CommandConstants.climbWindSpeed);
-      }
-      else{
-        climb.EncoderReset();
-      }
-    }
-    else if (TargetPos > 0) {
-      if (climb.getPosition() > TargetPos) {
+      // }
+      // else{
+      //   climb.EncoderReset();
+      // }
+    } else if (TargetPos > 0) {
+      
+      if (windClimb) {
         climb.move(Constants.CommandConstants.climbWindSpeed);
-        distanceFromTargetPos -= lastDistance - climb.getPosition();
-      }
-      else {
+        // distanceFromTargetPos = TargetPos-climb.getPosition();
+      } else {
         climb.move(Constants.CommandConstants.climbUnwindSpeed);
-        distanceFromTargetPos -= climb.getPosition() - lastDistance;
+        // distanceFromTargetPos = TargetPos-climb.getPosition();
       }
-
-      lastDistance = climb.getPosition();
-    }
-    else {
+    } else {
       climb.move(0);
       distanceFromTargetPos = 0;
       System.out.println("Invalid climb command " + TargetPos);
@@ -74,14 +73,15 @@ public class runClimb extends Command {
     if (climb.getClimbStatus() && TargetPos == 0) {
       climb.EncoderReset();
       return true;
-    }
-    else {
-      if (distanceFromTargetPos <= 0) {
+    } else {
+      if(windClimb && climb.getPosition()<TargetPos){
         return true;
-      }
-      else {
+      } else if (!windClimb && climb.getPosition()>TargetPos){
+        return true;
+      } else {
         return false;
       }
     }
+    // return false;
   }
 }

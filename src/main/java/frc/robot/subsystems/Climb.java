@@ -53,7 +53,7 @@ public class Climb extends SubsystemBase {
 
   public double getPosition() {
     // return encoder value (in rotations)
-    return climbEncoder.getPosition();
+    return climbEncoder.getPosition()*-1;
   }
 
   public void EncoderReset() {
