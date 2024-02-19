@@ -41,7 +41,7 @@ import frc.robot.subsystems.SwerveSubsystem;
 
 public class RobotContainer {
     private final Joystick driverJoystick = new Joystick(OIConstants.kDriverControllerPort);
-    private final Joystick operatorJoystick = new Joystick(1);
+    public final Joystick operatorJoystick = new Joystick(1);
         
     public final Intake intake = new Intake();
     private final Shooter shooter = new Shooter();
@@ -63,9 +63,7 @@ public class RobotContainer {
         // set pipeline
         NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(2);
         
-        shooter.setDefaultCommand(new RunShooter(shooter, intake,() -> operatorJoystick.getRawAxis(3)*-1
-        
-        , false));
+        shooter.setDefaultCommand(new RunShooter(shooter, intake,operatorJoystick,() -> operatorJoystick.getRawAxis(3), false));
         
         swerve.setDefaultCommand(new SwerveJoystickCmd(
             swerve,
@@ -97,7 +95,7 @@ public class RobotContainer {
         new JoystickButton(operatorJoystick, InputDevices.btn_y).whileTrue(new RunIntake(intake, true, .7, true));
         new JoystickButton(operatorJoystick, InputDevices.btn_a).whileTrue(new RunIntake(intake, true, -.7, true));
         new JoystickButton(operatorJoystick, InputDevices.btn_x).whileTrue(new runClimb(0, climb));
-        new JoystickButton(operatorJoystick, InputDevices.btn_b).whileTrue(new runClimb(90, climb));
+        new JoystickButton(operatorJoystick, InputDevices.btn_b).whileTrue(new runClimb(510, climb));
         // new JoystickButton(operatorJoystick, InputDevices.btn_x).whileTrue(new RunShooter(shooter,.7, true));
 
         // Basic Operator Arm Control
@@ -106,20 +104,28 @@ public class RobotContainer {
         new JoystickButton(operatorJoystick, InputDevices.btn_rightBumper).whileTrue(new MoveArm(arm, -.20));
 
         //Lower arm position, run intake, move arm up if piece collected
-        new POVButton(operatorJoystick, 180).onTrue(new SequentialCommandGroup(
-                new PIDMoveArm(arm, CommandConstants.intakeheight), //Lower arm
-                new RunIntake(intake, true,.5, true), 
-                //Turn On Intake
-                new PIDMoveArm(arm, CommandConstants.traversalheight) //After run intake finishes (A piece is collected) move arm up
-        ).until(() -> (operatorJoystick.getRawButtonPressed(5) || operatorJoystick.getRawButtonPressed(6))));
+        new POVButton(operatorJoystick, 0).onTrue(new PIDMoveArm(arm, 3.0));
+        new POVButton(operatorJoystick, 90).onTrue(new PIDMoveArm(arm, 20.0));
+        new POVButton(operatorJoystick, 180).onTrue(new PIDMoveArm(arm, 100.0));
 
-        //Move arm to amp height, spin up shooter, (Wont run intake tell button press)
-        new POVButton(operatorJoystick, 90).onTrue(new SequentialCommandGroup(
-                new InstantCommand(() -> limelight.resetLimelightPose()),
-                new GeneralTrajectories().toTag(swerve),
-                new PIDMoveArm(arm, CommandConstants.ampheight),
-                new RunShooter(shooter, intake, () -> .9, true)
-       ).until(() -> operatorJoystick.getRawButtonPressed(7)));
+
+    //     new POVButton(operatorJoystick, 180).onTrue(new SequentialCommandGroup(
+    //             new PIDMoveArm(arm, CommandConstants.intakeheight) //Lower arm
+    //             // new RunIntake(intake, true,.5, true), 
+    //             //Turn On Intake
+    //             // new PIDMoveArm(arm, CommandConstants.traversalheight) //After run intake finishes (A piece is collected) move arm up
+    //     ));
+    //     // .until(() -> (operatorJoystick.getRawButtonPressed(5) || operatorJoystick.getRawButtonPressed(6))));
+
+
+
+    //     //Move arm to amp height, spin up shooter, (Wont run intake tell button press)
+    //     new POVButton(operatorJoystick, 90).onTrue(new SequentialCommandGroup(
+    //             // new InstantCommand(() -> limelight.resetLimelightPose()),
+    //             // new GeneralTrajectories().toTag(swerve),
+    //             new PIDMoveArm(arm, CommandConstants.ampheight)
+    //             // new RunShooter(shooter, intake, () -> .9, true)
+    //    ).until(() -> operatorJoystick.getRawButtonPressed(7)));
 
 
     }
