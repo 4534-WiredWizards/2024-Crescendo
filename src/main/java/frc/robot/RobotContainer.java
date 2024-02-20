@@ -63,7 +63,7 @@ public class RobotContainer {
         // set pipeline
         NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(2);
         
-        shooter.setDefaultCommand(new RunShooter(shooter, intake,operatorJoystick,() -> operatorJoystick.getRawAxis(3), false));
+        shooter.setDefaultCommand(new RunShooter(shooter, intake,() -> operatorJoystick.getRawAxis(3), false,false));
         
         swerve.setDefaultCommand(new SwerveJoystickCmd(
             swerve,
@@ -92,8 +92,8 @@ public class RobotContainer {
   
         // Basic Operator Intake Control
         // Y - Run Intake
-        new JoystickButton(operatorJoystick, InputDevices.btn_y).whileTrue(new RunIntake(intake, true, .7, true));
-        new JoystickButton(operatorJoystick, InputDevices.btn_a).whileTrue(new RunIntake(intake, true, -.7, true));
+        new JoystickButton(operatorJoystick, InputDevices.btn_y).whileTrue(new RunIntake(intake, true, .9, true));
+        new JoystickButton(operatorJoystick, InputDevices.btn_a).whileTrue(new RunIntake(intake, true, -.9, true));
         new JoystickButton(operatorJoystick, InputDevices.btn_x).whileTrue(new runClimb(0, climb));
         new JoystickButton(operatorJoystick, InputDevices.btn_b).whileTrue(new runClimb(510, climb));
         // new JoystickButton(operatorJoystick, InputDevices.btn_x).whileTrue(new RunShooter(shooter,.7, true));
