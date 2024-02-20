@@ -67,7 +67,7 @@ public class AutoChooser extends SubsystemBase {
         new GeneralTrajectories().toTag(swerveSubsystem),
         new GeneralTrajectories().toTag(swerveSubsystem),
         new PIDMoveArm(arm, 0.0),
-        new RunShooter(shooter, intake, () -> 1.0, true),
+        new RunShooter(shooter, intake, () -> 1.0, false,true),
         new ParallelCommandGroup(
           new GeneralTrajectories().toStraightBackNote(swerveSubsystem),
           new PIDMoveArm(arm, 0.0),
@@ -76,7 +76,7 @@ public class AutoChooser extends SubsystemBase {
         new GeneralTrajectories().toTag(swerveSubsystem),
         new GeneralTrajectories().toTag(swerveSubsystem),
         new PIDMoveArm(arm, 0.0),
-        new RunShooter(shooter, intake, () -> 1.0, true),
+        new RunShooter(shooter, intake, () -> 1.0, false,true),
         new ParallelCommandGroup(
           new GeneralTrajectories().toLeftBackNote(swerveSubsystem),
           new PIDMoveArm(arm, 0.0),
@@ -85,7 +85,7 @@ public class AutoChooser extends SubsystemBase {
         new GeneralTrajectories().toTag(swerveSubsystem),
         new GeneralTrajectories().toTag(swerveSubsystem),
         new PIDMoveArm(arm, 0.0),
-        new RunShooter(shooter, intake, () -> 1.0, true)
+        new RunShooter(shooter, intake, () -> 1.0, false,true)
       );
       break;
 
@@ -96,7 +96,7 @@ public class AutoChooser extends SubsystemBase {
         new GeneralTrajectories().toTag(swerveSubsystem),
         new GeneralTrajectories().toTag(swerveSubsystem),
         new PIDMoveArm(arm, 0.0),
-        new RunShooter(shooter, intake, () -> 1.0, true)
+        new RunShooter(shooter, intake, () -> 1.0, false,true)
       );
       break;
 
