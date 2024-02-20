@@ -143,6 +143,7 @@ public final class Constants {
         //Shooter Subsystem
         public static final int ShooterTopCANid = 51;
         public static final int ShooterBottomCANid = 52;
+        public static final int ShooterMAXSpeedRMPs = 5000;
 
         //Climb Subsystem
         public static final int ClimbLeftCANid = 53;
