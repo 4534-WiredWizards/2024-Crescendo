@@ -16,7 +16,7 @@ public final class Constants {
         public static final double kTurningMotorGearRatio = 1 / 12.80;
         public static final double kDriveEncoderRot2Meter = kDriveMotorGearRatio * Math.PI * kWheelDiameterMeters;
         public static final double kTurningEncoderRot2Rad = kTurningMotorGearRatio * 2 * Math.PI;
-        public static final double upDOG = 36.0/39.0;
+        public static final double upDOG = 36.0/36;
         public static final double kDriveEncoderRPM2MeterPerSec = kDriveEncoderRot2Meter / 60;
         public static final double kTurningEncoderRPM2RadPerSec = kTurningEncoderRot2Rad / 60;
         //The P value for the turning PID loop
@@ -100,7 +100,7 @@ public final class Constants {
         public static final boolean kBackRightDriveAbsoluteEncoderReversed = false;
 
         //Position must be counter-clockwise from the positive YAw
-        public static final boolean kGyroInverted = true;
+        public static final boolean kGyroInverted = false;
 
         //The offset of the CANcoder's position from the zero position (Straight forward)
         //Measure this by rotating all the modules to the forward position and reading the CANcoder's value
@@ -154,19 +154,33 @@ public final class Constants {
 
     public static final class CommandConstants {
         //Climb Commands
-        public static final int lowestClimbCmd = 1;
-        public static final int middleClimbCmd = 2;
-        public static final int highestClimbCmd = 3;
+        // public static final int lowestClimbCmd = 1;
+        // public static final int middleClimbCmd = 2;
+        // public static final int highestClimbCmd = 3;
 
-        public static final double climbHighPos = 100.0;
-        public static final double climbMidPos = 50.0;
-        public static final double climbWindSpeed = .2;
-        public static final double climbUnwindSpeed = -climbWindSpeed;
+        public static final class Climb {
+            public static final double highPos = 100.0;
+            public static final double midPos = 50.0;
+            public static final double windSpeed = -1;
+            public static final double unwindSpeed = -windSpeed;
+        }
         //Arm Commands
-        public static final double ampheight = 0.0;
-        public static final double intakeheight = 0.0;
-        public static final double traversalheight = 0.0;
-        
+        public static final class Arm {
+            public static final double AbsEncoderOffset=.77;
+            public static final double ampheight = 100;
+            public static final double intakeheight = 20;
+            public static final double traversalheight = 10;
+            // Arm Feedforward Constants
+            public static final double kP = 1;
+            // Values Obtained from Characterization via reca.lc/arm
+            public static final double kSVolts = 1;
+            public static final double kGVolts = .65;
+            public static final double kVVoltSecondPerRad = 2.49;
+            public static final double kAVoltSecondSquaredPerRad = 0.03;
+            // OTHER CONSTANTS - Unkown Values
+            public static final double kMaxVelocityRadPerSecond = 3;
+            public static final double kMaxAccelerationRadPerSecSquared = 10;
+        }
     }
     ;;;;
     public static final class AutoConstants {
