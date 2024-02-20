@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.util.PixelFormat;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -77,7 +78,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putBoolean("Arm LM RV", m_robotContainer.arm.getArmStatusRv());
         SmartDashboard.putBoolean("Climb LM", m_robotContainer.climb.getClimbStatus());
         SmartDashboard.putNumber("Climb Encoder", m_robotContainer.climb.getPosition());
-        SmartDashboard.putNumber("Arm Abs Encoder", m_robotContainer.arm.getAbsolutePosition());
+        SmartDashboard.putNumber("Arm Abs Encoder", Units.radiansToDegrees((m_robotContainer.arm.getAbsolutePosition())));
         SmartDashboard.putNumber("NavX", m_robotContainer.swerve.getHeading());
     }
 

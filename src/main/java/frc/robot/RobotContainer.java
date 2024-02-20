@@ -30,6 +30,7 @@ import frc.robot.commands.PIDMoveArm;
 import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.commands.runClimb;
 import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.ArmProfiledPID;
 import frc.robot.subsystems.AutoChooser;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Intake;
@@ -47,6 +48,7 @@ public class RobotContainer {
     private final Shooter shooter = new Shooter();
     public final Climb climb = new Climb();
     public final Arm arm = new Arm();
+    public final ArmProfiledPID ArmProfiledPID = new ArmProfiledPID(arm);
     public final SwerveSubsystem swerve = new SwerveSubsystem();
     private final Limelight limelight = new Limelight(swerve);
     public final AutoChooser autoChooser = new AutoChooser(swerve, shooter, arm, limelight, intake);
@@ -63,7 +65,7 @@ public class RobotContainer {
         // set pipeline
         NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(2);
         
-        shooter.setDefaultCommand(new RunShooter(shooter, intake,operatorJoystick,() -> operatorJoystick.getRawAxis(3), false));
+        // shooter.setDefaultCommand(new RunShooter(shooter, intake,operatorJoystick,() -> operatorJoystick.getRawAxis(3), false));
         
         swerve.setDefaultCommand(new SwerveJoystickCmd(
             swerve,
@@ -104,9 +106,9 @@ public class RobotContainer {
         new JoystickButton(operatorJoystick, InputDevices.btn_rightBumper).whileTrue(new MoveArm(arm, -.20));
 
         //Lower arm position, run intake, move arm up if piece collected
-        new POVButton(operatorJoystick, 0).onTrue(new PIDMoveArm(arm, 3.0));
-        new POVButton(operatorJoystick, 90).onTrue(new PIDMoveArm(arm, 20.0));
-        new POVButton(operatorJoystick, 180).onTrue(new PIDMoveArm(arm, 100.0));
+        new POVButton(operatorJoystick, 0).onTrue(new PIDMoveArm(arm, ArmProfiledPID, Units.degreesToRadians(3.0)));
+        new POVButton(operatorJoystick, 90).onTrue(new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(20.0)));
+        new POVButton(operatorJoystick, 180).onTrue(new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(30.0)));
 
 
     //     new POVButton(operatorJoystick, 180).onTrue(new SequentialCommandGroup(

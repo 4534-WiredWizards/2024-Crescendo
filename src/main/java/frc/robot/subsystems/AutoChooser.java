@@ -63,40 +63,40 @@ public class AutoChooser extends SubsystemBase {
       case MultiSpeaker:
       //Specific setpoints not finished, remove this line when tested and finished
       autoRoutine = new SequentialCommandGroup(
-        new InstantCommand(() -> limelight.resetLimelightPose()),
+        // new InstantCommand(() -> limelight.resetLimelightPose()),
         new GeneralTrajectories().toTag(swerveSubsystem),
         new GeneralTrajectories().toTag(swerveSubsystem),
-        new PIDMoveArm(arm, 0.0),
-        new RunShooter(shooter, intake, () -> 1.0, true),
+        // new PIDMoveArm(arm, 0.0),
+        // new RunShooter(shooter, intake, () -> 1.0, true),
         new ParallelCommandGroup(
           new GeneralTrajectories().toStraightBackNote(swerveSubsystem),
-          new PIDMoveArm(arm, 0.0),
+          // new PIDMoveArm(arm, 0.0),
           new RunIntake(intake, true, 1.0, true)
         ),
         new GeneralTrajectories().toTag(swerveSubsystem),
         new GeneralTrajectories().toTag(swerveSubsystem),
-        new PIDMoveArm(arm, 0.0),
-        new RunShooter(shooter, intake, () -> 1.0, true),
+        // new PIDMoveArm(arm, 0.0),
+        // new RunShooter(shooter, intake, () -> 1.0, true),
         new ParallelCommandGroup(
           new GeneralTrajectories().toLeftBackNote(swerveSubsystem),
-          new PIDMoveArm(arm, 0.0),
+          // new PIDMoveArm(arm, 0.0),
           new RunIntake(intake, true, 1.0, true)
         ),
         new GeneralTrajectories().toTag(swerveSubsystem),
-        new GeneralTrajectories().toTag(swerveSubsystem),
-        new PIDMoveArm(arm, 0.0),
-        new RunShooter(shooter, intake, () -> 1.0, true)
+        new GeneralTrajectories().toTag(swerveSubsystem)
+        // new PIDMoveArm(arm, 0.0),
+        // new RunShooter(shooter, intake, () -> 1.0, true)
       );
       break;
 
       case AmpScore:
        //Specific setpoints not finished, remove this line when tested and finished
       autoRoutine = new SequentialCommandGroup(
-        new InstantCommand(() -> limelight.resetLimelightPose()),
+        // new InstantCommand(() -> limelight.resetLimelightPose()),
         new GeneralTrajectories().toTag(swerveSubsystem),
-        new GeneralTrajectories().toTag(swerveSubsystem),
-        new PIDMoveArm(arm, 0.0),
-        new RunShooter(shooter, intake, () -> 1.0, true)
+        new GeneralTrajectories().toTag(swerveSubsystem)
+        // new PIDMoveArm(arm, 0.0)
+        // new RunShooter(shooter, intake, () -> 1.0, true)
       );
       break;
 
