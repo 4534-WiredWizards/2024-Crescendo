@@ -40,7 +40,7 @@ public class runClimb extends Command {
     System.out.println("Climb Status->"+climb.getClimbStatus());
     if (TargetPos == 0) {
       // if  (!climb.getClimbStatus()) {
-        climb.move(Constants.CommandConstants.climbWindSpeed);
+        climb.move(Constants.CommandConstants.Climb.windSpeed);
       // }
       // else{
       //   climb.EncoderReset();
@@ -48,10 +48,10 @@ public class runClimb extends Command {
     } else if (TargetPos > 0) {
       
       if (windClimb) {
-        climb.move(Constants.CommandConstants.climbWindSpeed);
+        climb.move(Constants.CommandConstants.Climb.windSpeed);
         // distanceFromTargetPos = TargetPos-climb.getPosition();
       } else {
-        climb.move(Constants.CommandConstants.climbUnwindSpeed);
+        climb.move(Constants.CommandConstants.Climb.unwindSpeed);
         // distanceFromTargetPos = TargetPos-climb.getPosition();
       }
     } else {
