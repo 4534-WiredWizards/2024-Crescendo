@@ -30,7 +30,9 @@ public class Shooter extends SubsystemBase {
     // Testing for climb
     // topMotor.setIdleMode(IdleMode.kBrake);
     // bottomMotor.setIdleMode(IdleMode.kBrake);
-    // bottomMotor.follow(topMotor,true);
+
+
+    bottomMotor.follow(topMotor,false);
 
     // New PID Controller
     shooterController = topMotor.getPIDController();
