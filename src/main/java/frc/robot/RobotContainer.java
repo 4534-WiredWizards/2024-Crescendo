@@ -96,8 +96,8 @@ public class RobotContainer {
         // Y - Run Intake
         new JoystickButton(operatorJoystick, InputDevices.btn_y).whileTrue(new RunIntake(intake, true, .7, true));
         new JoystickButton(operatorJoystick, InputDevices.btn_a).whileTrue(new RunIntake(intake, true, -.7, true));
-        new JoystickButton(operatorJoystick, InputDevices.btn_x).whileTrue(new runClimb(0, climb));
-        new JoystickButton(operatorJoystick, InputDevices.btn_b).whileTrue(new runClimb(510, climb));
+        // new JoystickButton(operatorJoystick, InputDevices.btn_x).whileTrue(new runClimb(0, climb));
+        // new JoystickButton(operatorJoystick, InputDevices.btn_b).whileTrue(new runClimb(510, climb));
         // new JoystickButton(operatorJoystick, InputDevices.btn_x).whileTrue(new RunShooter(shooter,.7, true));
 
         // Basic Operator Arm Control
@@ -106,9 +106,11 @@ public class RobotContainer {
         new JoystickButton(operatorJoystick, InputDevices.btn_rightBumper).whileTrue(new MoveArm(arm, -.20));
 
         //Lower arm position, run intake, move arm up if piece collected
-        new POVButton(operatorJoystick, 0).onTrue(new PIDMoveArm(arm, ArmProfiledPID, Units.degreesToRadians(3.0)));
-        new POVButton(operatorJoystick, 90).onTrue(new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(20.0)));
-        new POVButton(operatorJoystick, 180).onTrue(new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(30.0)));
+        // new JoystickButton(operatorJoystick, InputDevices.btn_x).onTrue(new PIDMoveArm(arm, ArmProfiledPID, Units.degreesToRadians(30.0)));
+
+        new POVButton(operatorJoystick, 180).onTrue(new PIDMoveArm(arm, ArmProfiledPID, Units.degreesToRadians(-3.0)).until(() -> operatorJoystick.getRawButtonPressed(7)));
+        new POVButton(operatorJoystick, 90).onTrue(new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(20.0)).until(() -> operatorJoystick.getRawButtonPressed(7)));
+        new POVButton(operatorJoystick, 0).onTrue(new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(100.0)).until(() -> operatorJoystick.getRawButtonPressed(7)));
 
 
     //     new POVButton(operatorJoystick, 180).onTrue(new SequentialCommandGroup(

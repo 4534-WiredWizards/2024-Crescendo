@@ -52,9 +52,6 @@ public class Arm extends SubsystemBase {
   }
 
   public void move(double speed){
-    System.out.println("Left Invt:"+leftmotor.getInverted());
-    System.out.println("Right Invt:"+rightmotor.getInverted());
-
 
     leftmotor.set(speed);
   }

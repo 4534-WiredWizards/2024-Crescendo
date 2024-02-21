@@ -31,10 +31,10 @@ public class ArmProfiledPID extends ProfiledPIDSubsystem{
             0,
             0,
             new TrapezoidProfile.Constraints(
-                3, 10)),0
+                5, 1)),0
         );
         this.arm = arm;
-        arm.getAbsolutePosition();
+        // arm.getAbsolutePosition();
         // Input goal, rather self explanatory: Constants.kArmOffsetRads
         setGoal(0);
     }
@@ -50,6 +50,7 @@ public class ArmProfiledPID extends ProfiledPIDSubsystem{
   @Override
     public double getMeasurement() {
         // abs_Encoder.getDistance() + ArmConstants.kArmOffsetRads
-        return  arm.getAbsolutePosition();
+        System.out.println("getMeasurement:"+arm.getAbsolutePosition());
+        return arm.getAbsolutePosition();
     }
 }
