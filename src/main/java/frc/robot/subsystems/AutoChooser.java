@@ -29,6 +29,7 @@ public class AutoChooser extends SubsystemBase {
   private final SwerveSubsystem swerveSubsystem;
   private final Shooter shooter;
   private final Arm arm;
+  private final ArmProfiledPID ArmProfiledPID;
   private final Intake intake;
   private final Limelight limelight;
   private SendableChooser<AutoMode> autoChooser;
@@ -38,12 +39,14 @@ public class AutoChooser extends SubsystemBase {
     SwerveSubsystem SwerveSubsystem,
     Shooter Shooter,
     Arm Arm,
+    ArmProfiledPID ArmProfiledPID,
     Limelight Limelight,
     Intake intake
   ) {
     this.swerveSubsystem = SwerveSubsystem;
     this.shooter = Shooter;
     this.arm = Arm;
+    this.ArmProfiledPID = ArmProfiledPID;
     this.intake = intake;
     this.limelight = Limelight;
     autoChooser = new SendableChooser<AutoMode>();
@@ -63,28 +66,28 @@ public class AutoChooser extends SubsystemBase {
       case MultiSpeaker:
       //Specific setpoints not finished, remove this line when tested and finished
       autoRoutine = new SequentialCommandGroup(
-        new InstantCommand(() -> limelight.resetLimelightPose()),
+        // new InstantCommand(() -> limelight.resetLimelightPose()),
         new GeneralTrajectories().toTag(swerveSubsystem),
         new GeneralTrajectories().toTag(swerveSubsystem),
-        new PIDMoveArm(arm, 0.0),
+        new PIDMoveArm(arm,ArmProfiledPID, 0.0),
         new RunShooter(shooter, intake, () -> 1.0, false,true),
         new ParallelCommandGroup(
           new GeneralTrajectories().toStraightBackNote(swerveSubsystem),
-          new PIDMoveArm(arm, 0.0),
+          // new PIDMoveArm(arm, 0.0),
           new RunIntake(intake, true, 1.0, true)
         ),
         new GeneralTrajectories().toTag(swerveSubsystem),
         new GeneralTrajectories().toTag(swerveSubsystem),
-        new PIDMoveArm(arm, 0.0),
+        new PIDMoveArm(arm,ArmProfiledPID, 0.0),
         new RunShooter(shooter, intake, () -> 1.0, false,true),
         new ParallelCommandGroup(
           new GeneralTrajectories().toLeftBackNote(swerveSubsystem),
-          new PIDMoveArm(arm, 0.0),
+          // new PIDMoveArm(arm, 0.0),
           new RunIntake(intake, true, 1.0, true)
         ),
         new GeneralTrajectories().toTag(swerveSubsystem),
         new GeneralTrajectories().toTag(swerveSubsystem),
-        new PIDMoveArm(arm, 0.0),
+        new PIDMoveArm(arm,ArmProfiledPID, 0.0),
         new RunShooter(shooter, intake, () -> 1.0, false,true)
       );
       break;
@@ -92,10 +95,10 @@ public class AutoChooser extends SubsystemBase {
       case AmpScore:
        //Specific setpoints not finished, remove this line when tested and finished
       autoRoutine = new SequentialCommandGroup(
-        new InstantCommand(() -> limelight.resetLimelightPose()),
+        // new InstantCommand(() -> limelight.resetLimelightPose()),
         new GeneralTrajectories().toTag(swerveSubsystem),
         new GeneralTrajectories().toTag(swerveSubsystem),
-        new PIDMoveArm(arm, 0.0),
+        new PIDMoveArm(arm, ArmProfiledPID, 0.0),
         new RunShooter(shooter, intake, () -> 1.0, false,true)
       );
       break;

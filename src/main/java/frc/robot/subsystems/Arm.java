@@ -59,8 +59,12 @@ public class Arm extends SubsystemBase {
     leftmotor.set(speed);
   }
 
+  public void setVoltage(double voltage){
+    leftmotor.setVoltage(voltage);
+  }
+
   public double getAbsolutePosition() {
-    return ((-1*absEncoder.getAbsolutePosition())+Constants.CommandConstants.Arm.AbsEncoderOffset)*360;
+    return ((-1*absEncoder.getAbsolutePosition())+Constants.CommandConstants.Arm.AbsEncoderOffset)*2*Math.PI;
   }
 
   public boolean getArmStatusFw(){
