@@ -51,7 +51,7 @@ public class RobotContainer {
     public final ArmProfiledPID ArmProfiledPID = new ArmProfiledPID(arm);
     public final SwerveSubsystem swerve = new SwerveSubsystem();
     private final Limelight limelight = new Limelight(swerve);
-    public final AutoChooser autoChooser = new AutoChooser(swerve, shooter, arm, limelight, intake);
+    public final AutoChooser autoChooser = new AutoChooser(swerve, shooter, arm, ArmProfiledPID, limelight, intake);
 
 
 
@@ -65,7 +65,7 @@ public class RobotContainer {
         // set pipeline
         NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(2);
         
-        // shooter.setDefaultCommand(new RunShooter(shooter, intake,operatorJoystick,() -> operatorJoystick.getRawAxis(3), false));
+        shooter.setDefaultCommand(new RunShooter(shooter, intake,() -> operatorJoystick.getRawAxis(3), false,false));
         
         swerve.setDefaultCommand(new SwerveJoystickCmd(
             swerve,

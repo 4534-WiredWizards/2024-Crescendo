@@ -47,9 +47,9 @@ public class RunShooter extends Command {
     else {shooter.move(speed.get());}
       
     System.out.println(speed.get() * 5000);
-    if(shooter.getSpeed() >  3000){
-    Intake.move(speed.get());
-    }
+    // if(shooter.getSpeed() >  3000){
+    //   Intake.move(speed.get());
+    // }
     //logic is for isFinished condition, Will check for limit switch being pressed in, then out, twice before stopping.
     if(Intake.getIntakeStatus() && !isPressed){
       presses += 1;

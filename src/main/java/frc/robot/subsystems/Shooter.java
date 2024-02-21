@@ -24,13 +24,15 @@ public class Shooter extends SubsystemBase {
   
   /** Creates a new Shooter. */
   public Shooter() {
-    // topMotor.setIdleMode(IdleMode.kCoast);
-    // bottomMotor.setIdleMode(IdleMode.kCoast);
+    topMotor.setIdleMode(IdleMode.kCoast);
+    bottomMotor.setIdleMode(IdleMode.kCoast);
 
     // Testing for climb
-    topMotor.setIdleMode(IdleMode.kBrake);
-    bottomMotor.setIdleMode(IdleMode.kBrake);
-    bottomMotor.follow(topMotor,true);
+    // topMotor.setIdleMode(IdleMode.kBrake);
+    // bottomMotor.setIdleMode(IdleMode.kBrake);
+
+
+    bottomMotor.follow(topMotor,false);
 
     // New PID Controller
     shooterController = topMotor.getPIDController();
