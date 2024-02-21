@@ -4,6 +4,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import frc.robot.subsystems.ArmProfiledPID;
 
 public final class Constants {
     
@@ -168,7 +169,7 @@ public final class Constants {
         //Arm Commands
         public static final class Arm {
             public static final double AbsEncoderOffset=.77;
-            public static final double ampheight = 100;
+            public static final double ampheight = 100.0;
             public static final double intakeheight = 20;
             public static final double traversalheight = 10;
             // Arm Feedforward Constants
@@ -182,6 +183,9 @@ public final class Constants {
             public static final double kMaxVelocityRadPerSecond = 3;
             public static final double kMaxAccelerationRadPerSecSquared = 10;
         }
+        public static final Double intakeheight = -3.0;
+        public static final Double traversalheight = 10.0;
+        
     }
     ;;;;
     public static final class AutoConstants {

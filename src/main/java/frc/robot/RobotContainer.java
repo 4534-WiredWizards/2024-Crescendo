@@ -108,28 +108,26 @@ public class RobotContainer {
         //Lower arm position, run intake, move arm up if piece collected
         // new JoystickButton(operatorJoystick, InputDevices.btn_x).onTrue(new PIDMoveArm(arm, ArmProfiledPID, Units.degreesToRadians(30.0)));
 
-        new POVButton(operatorJoystick, 180).onTrue(new PIDMoveArm(arm, ArmProfiledPID, Units.degreesToRadians(-3.0)).until(() -> operatorJoystick.getRawButtonPressed(7)));
-        new POVButton(operatorJoystick, 90).onTrue(new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(20.0)).until(() -> operatorJoystick.getRawButtonPressed(7)));
+        //new POVButton(operatorJoystick, 180).onTrue(new PIDMoveArm(arm, ArmProfiledPID, Units.degreesToRadians(-3.0)).until(() -> operatorJoystick.getRawButtonPressed(7)));
+        //new POVButton(operatorJoystick, 90).onTrue(new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(20.0)).until(() -> operatorJoystick.getRawButtonPressed(7)));
         new POVButton(operatorJoystick, 0).onTrue(new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(100.0)).until(() -> operatorJoystick.getRawButtonPressed(7)));
 
-
-    //     new POVButton(operatorJoystick, 180).onTrue(new SequentialCommandGroup(
-    //             new PIDMoveArm(arm, CommandConstants.intakeheight) //Lower arm
-    //             // new RunIntake(intake, true,.5, true), 
-    //             //Turn On Intake
-    //             // new PIDMoveArm(arm, CommandConstants.traversalheight) //After run intake finishes (A piece is collected) move arm up
-    //     ));
-    //     // .until(() -> (operatorJoystick.getRawButtonPressed(5) || operatorJoystick.getRawButtonPressed(6))));
+        //Move arm down to intake, then up
+        new POVButton(operatorJoystick, 180).onTrue(new SequentialCommandGroup(
+                new PIDMoveArm(arm, ArmProfiledPID, CommandConstants.intakeheight), 
+                new RunIntake(intake, true,.5, true), 
+                new PIDMoveArm(arm, ArmProfiledPID, CommandConstants.traversalheight)
+        ).until(() -> (operatorJoystick.getRawButtonPressed(5) || operatorJoystick.getRawButtonPressed(6))));
 
 
 
-    //     //Move arm to amp height, spin up shooter, (Wont run intake tell button press)
-    //     new POVButton(operatorJoystick, 90).onTrue(new SequentialCommandGroup(
-    //             // new InstantCommand(() -> limelight.resetLimelightPose()),
-    //             // new GeneralTrajectories().toTag(swerve),
-    //             new PIDMoveArm(arm, CommandConstants.ampheight)
-    //             // new RunShooter(shooter, intake, () -> .9, true)
-    //    ).until(() -> operatorJoystick.getRawButtonPressed(7)));
+        //Move arm to amp height, spin up shooter, (Wont run intake tell button press)
+        new POVButton(operatorJoystick, 90).onTrue(new SequentialCommandGroup(
+                new InstantCommand(() -> limelight.resetLimelightPose()),
+                new GeneralTrajectories().toTag(swerve),
+                new PIDMoveArm(arm, ArmProfiledPID, CommandConstants.Arm.ampheight),
+                new RunShooter(shooter, intake, () -> .9, false, true)
+       ).until(() -> operatorJoystick.getRawButtonPressed(7)));
 
 
     }
