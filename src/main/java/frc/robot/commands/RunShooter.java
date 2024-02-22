@@ -38,6 +38,7 @@ public class RunShooter extends Command {
   @Override
   public void initialize() {
   isPressed = false;
+  presses = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -74,7 +75,7 @@ public class RunShooter extends Command {
   @Override
   public boolean isFinished() {
     if(autostop){
-      return(presses > 1 & !isPressed);
+      return(presses == 1 & !isPressed);
     }
     else{
       return false;
