@@ -1,6 +1,7 @@
 package frc.robot;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -14,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.AprilTagPositions;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -144,6 +146,44 @@ public class GeneralTrajectories {
             
             
       
+          PIDController xController = new PIDController(AutoConstants.kPXController, 0, 0);
+          PIDController yController = new PIDController(AutoConstants.kPYController, 0, 0);
+          ProfiledPIDController thetaController = new ProfiledPIDController(
+          AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
+          thetaController.enableContinuousInput(-Math.PI, Math.PI);
+          SwerveControllerCommand  swerveControllerCommand = new SwerveControllerCommand(
+          trajectory,
+          swerve::getPose,
+          DriveConstants.kDriveKinematics,
+          xController,
+          yController,
+          thetaController,
+          swerve::setModuleStates,
+          swerve);
+          return swerveControllerCommand;
+    }
+
+    public Command PointToSpeaker(SwerveSubsystem swerve, Supplier<Pose2d> position) {
+        Pose2d tempPose = position.get();
+        double botX = tempPose.getX();
+        double botY = tempPose.getY();
+        Rotation2d botRot = tempPose.getRotation();
+        double angle = Math.atan(AprilTagPositions.Tag4_x - botX / AprilTagPositions.Tag4_y - botY);
+
+        Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
+            new Pose2d(
+              botX,
+              botY, 
+                Rotation2d.fromDegrees(botRot.getDegrees())),
+            List.of(),
+            new Pose2d(
+                botX,
+                botY,
+                Rotation2d.fromDegrees(angle)
+            ),
+            RobotContainer.autoTrajectoryConfig
+          );
+
           PIDController xController = new PIDController(AutoConstants.kPXController, 0, 0);
           PIDController yController = new PIDController(AutoConstants.kPYController, 0, 0);
           ProfiledPIDController thetaController = new ProfiledPIDController(

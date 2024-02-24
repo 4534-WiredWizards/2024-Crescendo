@@ -185,7 +185,12 @@ public final class Constants {
         }
         
     }
-    
+
+    public static final class AprilTagPositions {
+        public static final double Tag4_x = 8.308;
+        public static final double Tag4_y = -2.722;
+    }
+
     public static final class AutoConstants {
         // If you want to slow down the robot during Autonomous, adjust these values
         public static final double kMaxSpeedMetersPerSecond = DriveConstants.kPhysicalMaxSpeedMetersPerSecond /2; 
@@ -223,4 +228,5 @@ public final class Constants {
 
 
     }
+
 }

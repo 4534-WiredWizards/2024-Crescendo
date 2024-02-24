@@ -130,12 +130,12 @@ public class RobotContainer {
 
 
         //Move arm to amp height, spin up shooter, (Wont run intake tell button press)
-    //     new POVButton(operatorJoystick, 90).onTrue(new SequentialCommandGroup(
-    //             new InstantCommand(() -> limelight.resetLimelightPose()),
-    //             new GeneralTrajectories().toTag(swerve),
-    //             new PIDMoveArm(arm, ArmProfiledPID, CommandConstants.Arm.ampheight),
-    //             new RunShooter(shooter, intake, () -> .9, false, true)
-    //    ).until(() -> operatorJoystick.getRawButtonPressed(7)));
+        new POVButton(operatorJoystick, 90).onTrue(new SequentialCommandGroup(
+                new InstantCommand(() -> limelight.resetLimelightTargetPose()),
+                new GeneralTrajectories().toTag(swerve),
+                new PIDMoveArm(arm, ArmProfiledPID, CommandConstants.Arm.ampheight),
+                new RunShooter(shooter, intake, () -> .9, false, true)
+       ).until(() -> operatorJoystick.getRawButtonPressed(7)));
 
 
     }
