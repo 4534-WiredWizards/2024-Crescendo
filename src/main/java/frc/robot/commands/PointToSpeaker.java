@@ -25,8 +25,7 @@ public class PointToSpeaker extends Command {
   SwerveSubsystem swerveSubsystem;
   Limelight limelight;
   PIDController thetaController;
-  Supplier<Pose2d> position;
-  Pose2d tempPose;
+  Pose2d position;
   double desiredTheta;
   Rotation2d botRot;
   double SpeedRadiansPerSecond;
@@ -34,12 +33,11 @@ public class PointToSpeaker extends Command {
   /** Creates a new PointToSpeaker. */
   public PointToSpeaker(
     SwerveSubsystem swerveSubsystem,
-    Limelight limelight,
-    Supplier<Pose2d> position
+    Limelight limelight
     ) {
     this.swerveSubsystem = swerveSubsystem;
     this.limelight = limelight;
-    this.position = position;
+    this.position = swerveSubsystem.getPose();
     
     thetaController = new PIDController(1, 0, 0);
 
@@ -50,10 +48,9 @@ public class PointToSpeaker extends Command {
   @Override
   public void initialize() {
     limelight.resetLimelightBotPose();
-    tempPose = position.get();
-    double botX = tempPose.getX();
-    double botY = tempPose.getY();
-    botRot = tempPose.getRotation();
+    double botX = position.getX();
+    double botY = position.getY();
+    botRot = position.getRotation();
     thetaController.setTolerance(Units.degreesToRadians(2));
 
     if (AprilTagPositions.Tag4_x - botX == 0) {
@@ -70,8 +67,8 @@ public class PointToSpeaker extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    tempPose = position.get();
-    botRot = tempPose.getRotation();
+    position = swerveSubsystem.getPose();
+    botRot = position.getRotation();
     SpeedRadiansPerSecond = thetaController.calculate(botRot.getRadians(), desiredTheta);
 
     ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(

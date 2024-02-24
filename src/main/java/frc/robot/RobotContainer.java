@@ -27,6 +27,7 @@ import frc.robot.commands.RunIntake;
 import frc.robot.commands.RunShooter;
 import frc.robot.commands.MoveArm;
 import frc.robot.commands.PIDMoveArm;
+import frc.robot.commands.PointToSpeaker;
 import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.commands.runClimb;
 import frc.robot.subsystems.Arm;
@@ -96,6 +97,7 @@ public class RobotContainer {
         // Y - Run Intake
         new JoystickButton(operatorJoystick, InputDevices.btn_y).whileTrue(new RunIntake(intake, true, .7, true));
         new JoystickButton(operatorJoystick, InputDevices.btn_a).whileTrue(new RunIntake(intake, true, -.7, true));
+        new JoystickButton(operatorJoystick, InputDevices.btn_x).onTrue(new PointToSpeaker(swerve, limelight));
         // new JoystickButton(operatorJoystick, InputDevices.btn_x).whileTrue(new runClimb(0, climb));
         // new JoystickButton(operatorJoystick, InputDevices.btn_b).whileTrue(new runClimb(510, climb));
         // new JoystickButton(operatorJoystick, InputDevices.btn_x).whileTrue(new RunShooter(shooter,.7, true));

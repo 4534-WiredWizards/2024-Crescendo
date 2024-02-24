@@ -100,7 +100,7 @@ public class Limelight extends SubsystemBase {
   }
 
   public void resetLimelightBotPose(){
-    NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(2);
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(1);
     // System.out.println(botpose.getXDistance());
     // System.out.println(botpose.getYDistance());
     // System.out.println(botpose.getThetaDegreesFeild());
