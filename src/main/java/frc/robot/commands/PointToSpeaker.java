@@ -39,7 +39,7 @@ public class PointToSpeaker extends Command {
     this.limelight = limelight;
     this.position = swerveSubsystem.getPose();
     
-    thetaController = new PIDController(1, 0, 0);
+    thetaController = new PIDController(5, 1, 0);
 
     addRequirements(swerveSubsystem);
   }
@@ -69,7 +69,7 @@ public class PointToSpeaker extends Command {
   public void execute() {
     position = swerveSubsystem.getPose();
     botRot = position.getRotation();
-    SpeedRadiansPerSecond = thetaController.calculate(botRot.getRadians(), desiredTheta);
+    SpeedRadiansPerSecond = thetaController.calculate(botRot.getRadians(), desiredTheta) * -1;
 
     ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
     0, 0, SpeedRadiansPerSecond, swerveSubsystem.getRotation2d());
