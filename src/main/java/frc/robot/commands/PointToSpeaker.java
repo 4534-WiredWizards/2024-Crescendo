@@ -53,7 +53,7 @@ public class PointToSpeaker extends Command {
     botRot = position.getRotation();
     thetaController.setTolerance(Units.degreesToRadians(2));
 
-    if (AprilTagPositions.Tag4_y - botX == 0) {
+    if (AprilTagPositions.Tag4_y - botY == 0) {
       desiredTheta = 0;
     }
     else if (AprilTagPositions.Tag4_x - botX == 0) {
