@@ -88,14 +88,23 @@ public class Limelight extends SubsystemBase {
     }
   }
 
-  public void resetLimelightPose(){
+  public void resetLimelightTargetPose(){
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(2);
-    System.out.println(targetpose.getFrontBackDistance());
-    System.out.println(targetpose.getLeftRightDistance());
-    System.out.println(targetpose.getThetaDegrees());
+    // System.out.println(targetpose.getFrontBackDistance());
+    // System.out.println(targetpose.getLeftRightDistance());
+    // System.out.println(targetpose.getThetaDegrees());
     if (!(targetpose.getFrontBackDistance() == 0.0 && targetpose.getLeftRightDistance() == 0.0 && targetpose.getThetaDegrees() == 0.0)) {
       swerve.resetOdometry(new Pose2d(targetpose.getFrontBackDistance(), -targetpose.getLeftRightDistance(), Rotation2d.fromDegrees(-targetpose.getThetaDegrees())));
     }
+    
+  }
+
+  public void resetLimelightBotPose(){
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(2);
+    // System.out.println(botpose.getXDistance());
+    // System.out.println(botpose.getYDistance());
+    // System.out.println(botpose.getThetaDegreesFeild());
+    swerve.resetOdometry(new Pose2d(botpose.getXDistance(), -botpose.getYDistance(), Rotation2d.fromDegrees(-botpose.getThetaDegreesFeild())));
     
   }
 }
