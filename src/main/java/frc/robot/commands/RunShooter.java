@@ -47,7 +47,7 @@ public class RunShooter extends Command {
     if (PIDControl) {shooter.velocityPID(speed.get() * 5000);} 
     else {shooter.move(speed.get());}
       
-    System.out.println(speed.get() * 5000);
+    // System.out.println(speed.get() * 5000);
     // if(shooter.getSpeed() >  3000){
     //   Intake.move(speed.get());
     // }

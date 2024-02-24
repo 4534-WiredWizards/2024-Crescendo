@@ -109,25 +109,33 @@ public class RobotContainer {
         // new JoystickButton(operatorJoystick, InputDevices.btn_x).onTrue(new PIDMoveArm(arm, ArmProfiledPID, Units.degreesToRadians(30.0)));
 
         //new POVButton(operatorJoystick, 180).onTrue(new PIDMoveArm(arm, ArmProfiledPID, Units.degreesToRadians(-3.0)).until(() -> operatorJoystick.getRawButtonPressed(7)));
-        //new POVButton(operatorJoystick, 90).onTrue(new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(20.0)).until(() -> operatorJoystick.getRawButtonPressed(7)));
+        new POVButton(operatorJoystick, 90).onTrue(new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(20.0)).until(() -> operatorJoystick.getRawButtonPressed(7)));
         new POVButton(operatorJoystick, 0).onTrue(new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(100.0)).until(() -> operatorJoystick.getRawButtonPressed(7)));
+        new POVButton(operatorJoystick, 270).onTrue(new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(16)).until(() -> operatorJoystick.getRawButtonPressed(7)));
+
 
         //Move arm down to intake, then up
         new POVButton(operatorJoystick, 180).onTrue(new SequentialCommandGroup(
-                new PIDMoveArm(arm, ArmProfiledPID, CommandConstants.intakeheight), 
-                new RunIntake(intake, true,.5, true), 
-                new PIDMoveArm(arm, ArmProfiledPID, CommandConstants.traversalheight)
-        ).until(() -> (operatorJoystick.getRawButtonPressed(5) || operatorJoystick.getRawButtonPressed(6))));
+                // new InstantCommand(()->System.out.println("Step 1")),
+                new PIDMoveArm(arm, ArmProfiledPID,  Units.degreesToRadians(CommandConstants.Arm.intakeheight)), 
+                // new InstantCommand(()->System.out.println("Step 2")),
+                new RunIntake(intake, true,.7, true), 
+                // new InstantCommand(()->System.out.println("Step 4")),
+                new PIDMoveArm(arm, ArmProfiledPID,  Units.degreesToRadians(CommandConstants.Arm.traversalheight))
+                // new InstantCommand(()->System.out.println("Step 5"))
+        ));
+        
+        // .until(() -> (operatorJoystick.getRawButtonPressed(5) || operatorJoystick.getRawButtonPressed(6))));
 
 
 
         //Move arm to amp height, spin up shooter, (Wont run intake tell button press)
-        new POVButton(operatorJoystick, 90).onTrue(new SequentialCommandGroup(
-                new InstantCommand(() -> limelight.resetLimelightPose()),
-                new GeneralTrajectories().toTag(swerve),
-                new PIDMoveArm(arm, ArmProfiledPID, CommandConstants.Arm.ampheight),
-                new RunShooter(shooter, intake, () -> .9, false, true)
-       ).until(() -> operatorJoystick.getRawButtonPressed(7)));
+    //     new POVButton(operatorJoystick, 90).onTrue(new SequentialCommandGroup(
+    //             new InstantCommand(() -> limelight.resetLimelightPose()),
+    //             new GeneralTrajectories().toTag(swerve),
+    //             new PIDMoveArm(arm, ArmProfiledPID, CommandConstants.Arm.ampheight),
+    //             new RunShooter(shooter, intake, () -> .9, false, true)
+    //    ).until(() -> operatorJoystick.getRawButtonPressed(7)));
 
 
     }

@@ -48,7 +48,7 @@ public class RunIntake extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
+    
       if(m_fwdDir) {
           if(Math.abs(mspeed) < .1){
           intake.move(0);

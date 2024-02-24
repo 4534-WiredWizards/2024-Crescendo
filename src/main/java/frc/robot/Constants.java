@@ -170,8 +170,8 @@ public final class Constants {
         public static final class Arm {
             public static final double AbsEncoderOffset=.77;
             public static final double ampheight = 100.0;
-            public static final double intakeheight = 20;
-            public static final double traversalheight = 10;
+            public static final double intakeheight = -3.0;
+            public static final double traversalheight = 60;
             // Arm Feedforward Constants
             public static final double kP = 1;
             // Values Obtained from Characterization via reca.lc/arm
@@ -183,8 +183,6 @@ public final class Constants {
             public static final double kMaxVelocityRadPerSecond = 3;
             public static final double kMaxAccelerationRadPerSecSquared = 10;
         }
-        public static final Double intakeheight = -3.0;
-        public static final Double traversalheight = 10.0;
         
     }
     ;;;;

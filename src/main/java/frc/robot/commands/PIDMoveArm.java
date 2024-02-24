@@ -31,6 +31,7 @@ public class PIDMoveArm extends Command {
   public void initialize() {
     armProfiledPID.setGoal(setpoint);
     armProfiledPID.enable();
+
      System.out.println("Start");
   }
 
@@ -50,7 +51,13 @@ public class PIDMoveArm extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (Math.abs(arm.getAbsolutePosition() - setpoint) < Units.degreesToRadians(2)) {
+    // if (Math.abs(arm.getAbsolutePosition() - setpoint) < Units.degreesToRadians(1)) {
+    //   System.out.println("isFinished");
+    //   return true;
+    // } else {
+    //   return false;
+    // }
+    if (armProfiledPID.atPIDGoal()) {
       System.out.println("isFinished");
       return true;
     } else {

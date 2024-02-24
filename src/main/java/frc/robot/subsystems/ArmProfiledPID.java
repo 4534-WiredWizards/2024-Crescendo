@@ -9,6 +9,7 @@ import frc.robot.Constants;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Encoder;
 
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
@@ -18,7 +19,10 @@ import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 
 public class ArmProfiledPID extends ProfiledPIDSubsystem{
     private final Arm arm;
-    private final ArmFeedforward m_feedforward = new ArmFeedforward(1,0.90,2.49,0.07);
+    private final ArmFeedforward m_feedforward = new ArmFeedforward(1,0.45,2.49,0.03);
+    
+    // OLD WITH HEAVY ARM - NO SHOCKS
+    // private final ArmFeedforward m_feedforward = new ArmFeedforward(1,0.90,2.49,0.07);
 
     public ArmProfiledPID(
         Arm arm
@@ -27,12 +31,13 @@ public class ArmProfiledPID extends ProfiledPIDSubsystem{
         // Start arm at rest in neutral position.
         super(
             new ProfiledPIDController(
-            1,
-            0,
+            3.1,
+            3.4,
             0,
             new TrapezoidProfile.Constraints(
                 5, 1)),0
         );
+        this.getController().setTolerance(Units.degreesToRadians(1), 1);
         this.arm = arm;
         // arm.getAbsolutePosition();
         // Input goal, rather self explanatory: Constants.kArmOffsetRads
@@ -50,7 +55,14 @@ public class ArmProfiledPID extends ProfiledPIDSubsystem{
   @Override
     public double getMeasurement() {
         // abs_Encoder.getDistance() + ArmConstants.kArmOffsetRads
-        System.out.println("getMeasurement:"+arm.getAbsolutePosition());
+        // Debug
+        // System.out.println("getMeasurement:"+arm.getAbsolutePosition());
         return arm.getAbsolutePosition();
+    }
+
+
+    // At goal from ProfilePIDSubsystem
+    public boolean atPIDGoal(){
+        return this.getController().atGoal();
     }
 }
