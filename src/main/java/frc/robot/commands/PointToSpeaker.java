@@ -27,7 +27,7 @@ public class PointToSpeaker extends Command {
   PIDController thetaController;
   Pose2d position;
   double desiredTheta;
-  Rotation2d botRot;
+  double botRot;
   double SpeedRadiansPerSecond;
 
   /** Creates a new PointToSpeaker. */
@@ -39,7 +39,7 @@ public class PointToSpeaker extends Command {
     this.limelight = limelight;
     this.position = swerveSubsystem.getPose();
     
-    thetaController = new PIDController(5, 1, 0);
+    thetaController = new PIDController(2, 0.5, 0);
 
     addRequirements(swerveSubsystem);
   }
@@ -50,8 +50,9 @@ public class PointToSpeaker extends Command {
     limelight.resetLimelightBotPose();
     double botX = position.getX();
     double botY = position.getY();
-    botRot = position.getRotation();
-    thetaController.setTolerance(Units.degreesToRadians(2));
+    botRot = Units.degreesToRadians(swerveSubsystem.getHeading());
+    System.out.println("botRot " + botRot);
+    thetaController.setTolerance(Units.degreesToRadians(5));
 
     if (AprilTagPositions.Tag4_y - botY == 0) {
       desiredTheta = 0;
@@ -60,7 +61,9 @@ public class PointToSpeaker extends Command {
       desiredTheta = (3 * Math.PI) / 2;
     }
     else {
-    desiredTheta = Math.atan(AprilTagPositions.Tag4_y - botY / AprilTagPositions.Tag4_x - botX);
+      desiredTheta = Math.atan(botY - AprilTagPositions.Tag4_y / botX - AprilTagPositions.Tag4_x);
+    desiredTheta += Math.PI;
+    System.out.println("desiredTheta " + desiredTheta);
     }
   }
 
@@ -68,8 +71,8 @@ public class PointToSpeaker extends Command {
   @Override
   public void execute() {
     position = swerveSubsystem.getPose();
-    botRot = position.getRotation();
-    SpeedRadiansPerSecond = thetaController.calculate(botRot.getRadians(), desiredTheta) * -1;
+    botRot = Units.degreesToRadians(swerveSubsystem.getHeading());
+    SpeedRadiansPerSecond = thetaController.calculate(botRot, desiredTheta);
 
     ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
     0, 0, SpeedRadiansPerSecond, swerveSubsystem.getRotation2d());
