@@ -13,17 +13,17 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.GeneralTrajectories;
+import frc.robot.autonomous.AutoTrajectories;
 import frc.robot.commands.DoNothing;
 import frc.robot.commands.PIDMoveArm;
 import frc.robot.commands.RunIntake;
 import frc.robot.commands.RunShooter;
+import frc.robot.subsystems.drivetrain.FollowTrajectory;
 
 public class AutoChooser extends SubsystemBase {
 
   public enum AutoMode{
-    MultiSpeaker,
-    AmpScore,
-    Driveout,
+    RedMiddleNote,
     DoNothing
   }
   private final SwerveSubsystem swerveSubsystem;
@@ -50,6 +50,8 @@ public class AutoChooser extends SubsystemBase {
     this.intake = intake;
     this.limelight = Limelight;
     autoChooser = new SendableChooser<AutoMode>();
+    autoChooser.addOption("Red Middle Note", AutoMode.RedMiddleNote);
+    autoChooser.addOption("Do Nothing", AutoMode.DoNothing);
     SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
@@ -63,49 +65,36 @@ public class AutoChooser extends SubsystemBase {
     System.out.println("Running getAuto");
     switch (selectedAutoMode) {
       default:
-      case MultiSpeaker:
-      //Specific setpoints not finished, remove this line when tested and finished
-      autoRoutine = new SequentialCommandGroup(
-        // new InstantCommand(() -> limelight.resetLimelightPose()),
-        new GeneralTrajectories().toTag(swerveSubsystem),
-        new GeneralTrajectories().toTag(swerveSubsystem),
-        new PIDMoveArm(arm,ArmProfiledPID, 0.0),
-        new RunShooter(shooter, intake, () -> 1.0, false,true),
-        new ParallelCommandGroup(
-          new GeneralTrajectories().toStraightBackNote(swerveSubsystem),
-          // new PIDMoveArm(arm, 0.0),
-          new RunIntake(intake, true, 1.0, true)
-        ),
-        new GeneralTrajectories().toTag(swerveSubsystem),
-        new GeneralTrajectories().toTag(swerveSubsystem),
-        new PIDMoveArm(arm,ArmProfiledPID, 0.0),
-        new RunShooter(shooter, intake, () -> 1.0, false,true),
-        new ParallelCommandGroup(
-          new GeneralTrajectories().toLeftBackNote(swerveSubsystem),
-          // new PIDMoveArm(arm, 0.0),
-          new RunIntake(intake, true, 1.0, true)
-        ),
-        new GeneralTrajectories().toTag(swerveSubsystem),
-        new GeneralTrajectories().toTag(swerveSubsystem),
-        new PIDMoveArm(arm,ArmProfiledPID, 0.0),
-        new RunShooter(shooter, intake, () -> 1.0, false,true)
-      );
+      case RedMiddleNote:
+        System.out.println("Starting Middle Red Note"); 
+        limelight.resetLimelightTargetPose(); //Resets the swerve odometry pose based on whatever april tag is in view
+        System.out.println("After Odom Reset"); 
+        autoRoutine = new SequentialCommandGroup(
+            new FollowTrajectory(swerveSubsystem, AutoTrajectories.redMiddleNote, true)
+        );
       break;
 
-      case AmpScore:
-       //Specific setpoints not finished, remove this line when tested and finished
-      autoRoutine = new SequentialCommandGroup(
-        // new InstantCommand(() -> limelight.resetLimelightPose()),
-        new GeneralTrajectories().toTag(swerveSubsystem),
-        new GeneralTrajectories().toTag(swerveSubsystem),
-        new PIDMoveArm(arm, ArmProfiledPID, 0.0),
-        new RunShooter(shooter, intake, () -> 1.0, false,true)
-      );
-      break;
 
-      case Driveout:
-      autoRoutine = new GeneralTrajectories().Back(swerveSubsystem);
-      break;
+      // case MultiSpeaker:
+      // //Specific setpoints not finished, remove this line when tested and finished
+      // autoRoutine = new SequentialCommandGroup(
+        
+      // );
+      // break;
+
+      // case AmpScore:
+      //  //Specific setpoints not finished, remove this line when tested and finished
+      // autoRoutine = new SequentialCommandGroup(
+      //   // new InstantCommand(() -> limelight.resetLimelightPose()),
+      //   new GeneralTrajectories().toTag(swerveSubsystem),
+      //   new PIDMoveArm(arm, ArmProfiledPID, 0.0)
+      //   // new RunShooter(shooter, intake, () -> 1.0, false,true)
+      // );
+      // break;
+
+      // case Driveout:
+      // autoRoutine = new GeneralTrajectories().Back(swerveSubsystem);
+      // break;
 
       case DoNothing:
       autoRoutine = new DoNothing();

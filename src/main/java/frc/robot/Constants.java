@@ -196,6 +196,7 @@ public final class Constants {
         public static final double kMaxSpeedMetersPerSecond = DriveConstants.kPhysicalMaxSpeedMetersPerSecond /2; 
         public static final double kMaxAngularSpeedRadiansPerSecond = DriveConstants.kPhysicalMaxAngularSpeedRadiansPerSecond / 2;
         public static final double kMaxAccelerationMetersPerSecondSquared = 3;
+        public static final double kMaxVelocityMetersPerSecond = 3;
         public static final double kMaxAngularAccelerationRadiansPerSecondSquared = Math.PI / 2;
         // The P value of the PID controller used in auto for the X and Y directions
         public static final double kPXController = 1.5;
