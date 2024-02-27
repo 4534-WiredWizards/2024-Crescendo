@@ -51,6 +51,8 @@ public class PointToSpeaker extends Command {
     double botX = position.getX();
     double botY = position.getY();
     botRot = Units.degreesToRadians(swerveSubsystem.getHeading());
+    botRot += Math.PI * 2;
+    botRot %= Math.PI * 2;
     System.out.println("botRot " + botRot);
     thetaController.setTolerance(Units.degreesToRadians(5));
 
@@ -62,6 +64,8 @@ public class PointToSpeaker extends Command {
     }
     else {
       desiredTheta = Math.atan(botY - AprilTagPositions.Tag4_y / botX - AprilTagPositions.Tag4_x);
+    desiredTheta += Math.PI * 2;
+    desiredTheta %= Math.PI * 2;
     desiredTheta += Math.PI;
     System.out.println("desiredTheta " + desiredTheta);
     }
@@ -72,6 +76,8 @@ public class PointToSpeaker extends Command {
   public void execute() {
     position = swerveSubsystem.getPose();
     botRot = Units.degreesToRadians(swerveSubsystem.getHeading());
+    botRot += Math.PI * 2;
+    botRot %= Math.PI * 2;
     SpeedRadiansPerSecond = thetaController.calculate(botRot, desiredTheta);
 
     ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
