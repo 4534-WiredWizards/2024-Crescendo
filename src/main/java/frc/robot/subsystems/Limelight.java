@@ -94,7 +94,7 @@ public class Limelight extends SubsystemBase {
     // System.out.println(targetpose.getLeftRightDistance());
     // System.out.println(targetpose.getThetaDegrees());
     if (!(targetpose.getFrontBackDistance() == 0.0 && targetpose.getLeftRightDistance() == 0.0 && targetpose.getThetaDegrees() == 0.0)) {
-      swerve.resetOdometry(new Pose2d(targetpose.getFrontBackDistance(), -targetpose.getLeftRightDistance(), Rotation2d.fromDegrees(-targetpose.getThetaDegrees())));
+      swerve.resetOdometry(new Pose2d(targetpose.getFrontBackDistance(), targetpose.getLeftRightDistance(), Rotation2d.fromDegrees(-targetpose.getThetaDegrees())));
     }
     
   }
