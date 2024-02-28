@@ -28,6 +28,7 @@ import frc.robot.commands.RunShooter;
 import frc.robot.commands.MoveArm;
 import frc.robot.commands.PIDMoveArm;
 import frc.robot.commands.PointToSpeaker;
+import frc.robot.commands.PointToSpeaker2;
 import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.commands.runClimb;
 import frc.robot.subsystems.Arm;
@@ -97,9 +98,13 @@ public class RobotContainer {
         // Y - Run Intake
         new JoystickButton(operatorJoystick, InputDevices.btn_y).whileTrue(new RunIntake(intake, true, .7, true));
         new JoystickButton(operatorJoystick, InputDevices.btn_a).whileTrue(new RunIntake(intake, true, -.7, true));
-        new JoystickButton(operatorJoystick, InputDevices.btn_x).onTrue(new PointToSpeaker(swerve, limelight));
-        new JoystickButton(operatorJoystick, InputDevices.btn_b).whileTrue(new runClimb(0, climb));
-        // new JoystickButton(operatorJoystick, InputDevices.btn_b).whileTrue(new runClimb(510, climb));
+        // new JoystickButton(operatorJoystick, InputDevices.btn_x).onTrue(new PointToSpeaker(swerve, limelight));
+        new JoystickButton(operatorJoystick, InputDevices.btn_x).whileTrue(new runClimb(0, climb));
+        new JoystickButton(operatorJoystick, InputDevices.btn_b).whileTrue(new runClimb(510, climb));
+
+
+        // new JoystickButton(operatorJoystick, InputDevices.btn_b).onTrue(new PointToSpeaker2(limelight, swerve));
+
         // new JoystickButton(operatorJoystick, InputDevices.btn_x).whileTrue(new RunShooter(shooter,.7, true));
 
         // Basic Operator Arm Control
@@ -129,12 +134,12 @@ public class RobotContainer {
 
 
         //Move arm to amp height, spin up shooter, (Wont run intake tell button press)
-        new POVButton(operatorJoystick, 90).onTrue(new SequentialCommandGroup(
-                new InstantCommand(() -> limelight.resetLimelightTargetPose()),
-                new GeneralTrajectories().toTag(swerve),
-                new PIDMoveArm(arm, ArmProfiledPID, CommandConstants.Arm.ampheight),
-                new RunShooter(shooter, intake, () -> .9, false, true)
-       ).until(() -> operatorJoystick.getRawButtonPressed(7)));
+    //     new POVButton(operatorJoystick, 90).onTrue(new SequentialCommandGroup(
+    //             new InstantCommand(() -> limelight.resetLimelightTargetPose()),
+    //             new GeneralTrajectories().toTag(swerve),
+    //             new PIDMoveArm(arm, ArmProfiledPID, CommandConstants.Arm.ampheight),
+    //             new RunShooter(shooter, intake, () -> .9, false, true)
+    //    ).until(() -> operatorJoystick.getRawButtonPressed(7)));
 
 
     }
