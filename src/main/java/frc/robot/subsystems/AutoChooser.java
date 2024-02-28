@@ -84,8 +84,7 @@ public class AutoChooser extends SubsystemBase {
         autoRoutine = new SequentialCommandGroup(
             new ParallelCommandGroup(
               new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueMiddleNote, true),
-              new PIDMoveArm(arm, ArmProfiledPID,  Units.degreesToRadians(CommandConstants.Arm.intakeheight)), 
-              new RunIntake(intake, true,.7, true)
+              new PIDMoveArm(arm, ArmProfiledPID,  Units.degreesToRadians(CommandConstants.Arm.intakeheight))
             ),
             new PIDMoveArm(arm, ArmProfiledPID,  Units.degreesToRadians(CommandConstants.Arm.traversalheight))
 
