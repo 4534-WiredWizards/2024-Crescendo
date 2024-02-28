@@ -37,7 +37,7 @@ public class PointToSpeaker extends Command {
     ) {
     this.swerveSubsystem = swerveSubsystem;
     this.limelight = limelight;
-    this.position = swerveSubsystem.getPose();
+    
     
     thetaController = new PIDController(1, 0.5, 0);
 
@@ -48,6 +48,7 @@ public class PointToSpeaker extends Command {
   @Override
   public void initialize() {
     limelight.resetLimelightBotPose();
+    this.position = swerveSubsystem.getPose();
     double distanceX = position.getX() - AprilTagPositions.Tag4_x;
     double distanceY = position.getY() - AprilTagPositions.Tag4_y;
     if (distanceX == 0) {distanceX += 0.001;}
