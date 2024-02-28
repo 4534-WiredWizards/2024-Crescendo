@@ -77,17 +77,18 @@ public class AutoChooser extends SubsystemBase {
             new FollowTrajectory(swerveSubsystem, AutoTrajectories.redMiddleNote, true)
         );
       break;
+      
       case BlueMiddleNote:
         System.out.println("Starting Middle Blue Note"); 
         limelight.resetLimelightBotPose(); //Resets the swerve odometry pose based on whatever april tag is in view
         System.out.println("After Odom Reset"); 
         autoRoutine = new SequentialCommandGroup(
+            new RunIntake(intake, true,.7, true), 
             new ParallelCommandGroup(
               new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueMiddleNote, true),
               new PIDMoveArm(arm, ArmProfiledPID,  Units.degreesToRadians(CommandConstants.Arm.intakeheight))
             ),
             new PIDMoveArm(arm, ArmProfiledPID,  Units.degreesToRadians(CommandConstants.Arm.traversalheight))
-
         );
       break;
 
