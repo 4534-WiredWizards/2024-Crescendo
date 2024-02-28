@@ -170,15 +170,24 @@ public final class Constants {
         public static final class Arm {
             public static final double AbsEncoderOffset=.77;
             public static final double ampheight = 100.0;
-            public static final double intakeheight = -3.0;
+            public static final double  intakeheight = -6.0;
             public static final double traversalheight = 60;
             // Arm Feedforward Constants
             public static final double kP = 1;
             // Values Obtained from Characterization via reca.lc/arm
+
+            // 10lbs Config
+            // public static final double kSVolts = 1;
+            // public static final double kGVolts = .45;
+            // public static final double kVVoltSecondPerRad = 2.49;
+            // public static final double kAVoltSecondSquaredPerRad = 0.03;
+
+            // 20lbs Config
             public static final double kSVolts = 1;
-            public static final double kGVolts = .65;
+            public static final double kGVolts = 0.90;
             public static final double kVVoltSecondPerRad = 2.49;
             public static final double kAVoltSecondSquaredPerRad = 0.03;
+
             // OTHER CONSTANTS - Unkown Values
             public static final double kMaxVelocityRadPerSecond = 3;
             public static final double kMaxAccelerationRadPerSecSquared = 10;
