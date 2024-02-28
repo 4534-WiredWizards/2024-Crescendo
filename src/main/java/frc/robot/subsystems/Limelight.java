@@ -89,6 +89,7 @@ public class Limelight extends SubsystemBase {
   }
 
   public void resetLimelightTargetPose(){
+    // Do not use for 
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(1);
     // System.out.println(targetpose.getFrontBackDistance());
     // System.out.println(targetpose.getLeftRightDistance());
@@ -104,7 +105,15 @@ public class Limelight extends SubsystemBase {
     System.out.println("Bp X: "+botpose.getXDistance());
     System.out.println("Bp Y:"+botpose.getYDistance());
     System.out.println("Bp Theta:"+botpose.getThetaDegreesFeild());
-    swerve.resetOdometry(new Pose2d(botpose.getXDistance(), botpose.getYDistance(), Rotation2d.fromDegrees(-botpose.getThetaDegreesFeild())));
+    double rotation = botpose.getThetaDegreesFeild();
+    if (botpose.getXDistance() < 0) {
+      // On blue side of field, add 180 to theta
+      rotation -= 180;
+    }
+
+
     
+    swerve.resetOdometry(new Pose2d(botpose.getXDistance(), botpose.getYDistance(), Rotation2d.fromDegrees(rotation)));
+
   }
 }

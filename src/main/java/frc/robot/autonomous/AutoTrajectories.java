@@ -30,7 +30,7 @@ public class AutoTrajectories {
    
     public static Trajectory redMiddleNote =
     TrajectoryGenerator.generateTrajectory(
-        new Pose2d(6.616321, 1.5478, new Rotation2d(Math.toRadians(0))),
+        new Pose2d(6, 1.5478, new Rotation2d(Math.toRadians(0))),
         List.of(
             // new Translation2d(Units.inchesToMeters(40), Units.inchesToMeters(0))
         ),
@@ -38,6 +38,15 @@ public class AutoTrajectories {
         RobotContainer.autoTrajectoryConfig
     );
 
+    public static Trajectory blueMiddleNote = 
+        TrajectoryGenerator.generateTrajectory(
+            new Pose2d(-6, 1.4478, new Rotation2d(0)),
+            List.of(
+                // new Translation2d(1, 1)
+            ),
+            new Pose2d(-5.540121, 1.4478, new Rotation2d(0)),
+            RobotContainer.autoTrajectoryConfig
+        );
 
    
 

@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -12,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.CommandConstants;
 import frc.robot.GeneralTrajectories;
 import frc.robot.autonomous.AutoTrajectories;
 import frc.robot.commands.DoNothing;
@@ -24,6 +26,7 @@ public class AutoChooser extends SubsystemBase {
 
   public enum AutoMode{
     RedMiddleNote,
+    BlueMiddleNote,
     DoNothing
   }
   private final SwerveSubsystem swerveSubsystem;
@@ -51,6 +54,7 @@ public class AutoChooser extends SubsystemBase {
     this.limelight = Limelight;
     autoChooser = new SendableChooser<AutoMode>();
     autoChooser.addOption("Red Middle Note", AutoMode.RedMiddleNote);
+    autoChooser.addOption("Blue Middle Note", AutoMode.BlueMiddleNote);
     autoChooser.addOption("Do Nothing", AutoMode.DoNothing);
     SmartDashboard.putData("Auto Chooser", autoChooser);
   }
@@ -67,12 +71,27 @@ public class AutoChooser extends SubsystemBase {
       default:
       case RedMiddleNote:
         System.out.println("Starting Middle Red Note"); 
-        limelight.resetLimelightTargetPose(); //Resets the swerve odometry pose based on whatever april tag is in view
+        limelight.resetLimelightBotPose(); //Resets the swerve odometry pose based on whatever april tag is in view
         System.out.println("After Odom Reset"); 
         autoRoutine = new SequentialCommandGroup(
             new FollowTrajectory(swerveSubsystem, AutoTrajectories.redMiddleNote, true)
         );
       break;
+      case BlueMiddleNote:
+        System.out.println("Starting Middle Blue Note"); 
+        limelight.resetLimelightBotPose(); //Resets the swerve odometry pose based on whatever april tag is in view
+        System.out.println("After Odom Reset"); 
+        autoRoutine = new SequentialCommandGroup(
+            new ParallelCommandGroup(
+              new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueMiddleNote, true),
+              new PIDMoveArm(arm, ArmProfiledPID,  Units.degreesToRadians(CommandConstants.Arm.intakeheight)), 
+              new RunIntake(intake, true,.7, true)
+            ),
+            new PIDMoveArm(arm, ArmProfiledPID,  Units.degreesToRadians(CommandConstants.Arm.traversalheight))
+
+        );
+      break;
+
 
 
       // case MultiSpeaker:

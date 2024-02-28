@@ -118,11 +118,8 @@ public class RobotContainer {
 
         //Move arm down to intake, then up
         new POVButton(operatorJoystick, 180).onTrue(new SequentialCommandGroup(
-                // new InstantCommand(()->System.out.println("Step 1")),
                 new PIDMoveArm(arm, ArmProfiledPID,  Units.degreesToRadians(CommandConstants.Arm.intakeheight)), 
-                // new InstantCommand(()->System.out.println("Step 2")),
                 new RunIntake(intake, true,.7, true), 
-                // new InstantCommand(()->System.out.println("Step 4")),
                 new PIDMoveArm(arm, ArmProfiledPID,  Units.degreesToRadians(CommandConstants.Arm.traversalheight))
                 // new InstantCommand(()->System.out.println("Step 5"))
         ));
