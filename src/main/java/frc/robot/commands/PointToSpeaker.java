@@ -37,9 +37,9 @@ public class PointToSpeaker extends Command {
     ) {
     this.swerveSubsystem = swerveSubsystem;
     this.limelight = limelight;
-    this.position = swerveSubsystem.getPose();
     
-    thetaController = new PIDController(2, 0.5, 0);
+    
+    thetaController = new PIDController(1, 0.5, 0);
 
     addRequirements(swerveSubsystem);
   }
@@ -48,27 +48,23 @@ public class PointToSpeaker extends Command {
   @Override
   public void initialize() {
     limelight.resetLimelightBotPose();
-    double botX = position.getX();
-    double botY = position.getY();
+    this.position = swerveSubsystem.getPose();
+    double distanceX = position.getX() - AprilTagPositions.Tag4_x;
+    double distanceY = position.getY() - AprilTagPositions.Tag4_y;
+    if (distanceX == 0) {distanceX += 0.001;}
+    if (distanceY == 0) {distanceY += 0.001;}
+    double ratio = (distanceY / distanceX);
     botRot = Units.degreesToRadians(swerveSubsystem.getHeading());
-    botRot += Math.PI * 2;
-    botRot %= Math.PI * 2;
+    botRot = (botRot + Math.PI * 2) % Math.PI * 2;
     System.out.println("botRot " + botRot);
     thetaController.setTolerance(Units.degreesToRadians(5));
-
-    if (AprilTagPositions.Tag4_y - botY == 0) {
-      desiredTheta = 0;
-    }
-    else if (AprilTagPositions.Tag4_x - botX == 0) {
-      desiredTheta = (3 * Math.PI) / 2;
-    }
-    else {
-      desiredTheta = Math.atan(botY - AprilTagPositions.Tag4_y / botX - AprilTagPositions.Tag4_x);
-    desiredTheta += Math.PI * 2;
-    desiredTheta %= Math.PI * 2;
-    desiredTheta += Math.PI;
-    System.out.println("desiredTheta " + desiredTheta);
-    }
+    desiredTheta = Math.atan(ratio);
+    desiredTheta = (desiredTheta + Math.PI * 2) % Math.PI * 2;
+    System.out.println("desiredTheta 1 " + desiredTheta);
+    if (distanceX > 0) {
+      desiredTheta += Math.PI;
+      desiredTheta = (desiredTheta + Math.PI * 2) % Math.PI * 2;}
+    System.out.println("desiredTheta 2 " + desiredTheta);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -76,8 +72,7 @@ public class PointToSpeaker extends Command {
   public void execute() {
     position = swerveSubsystem.getPose();
     botRot = Units.degreesToRadians(swerveSubsystem.getHeading());
-    botRot += Math.PI * 2;
-    botRot %= Math.PI * 2;
+    botRot = (botRot + Math.PI * 2) % Math.PI * 2;
     SpeedRadiansPerSecond = thetaController.calculate(botRot, desiredTheta);
 
     ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(

@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -15,6 +16,7 @@ import frc.robot.RobotContainer;
 
 public class Limelight extends SubsystemBase {
   /** Creates a new Limelight. */
+  NetworkTable table;
   double cameraPose[];
   public SwerveSubsystem swerve;
   public Limelight(SwerveSubsystem givenSwerve) {
@@ -95,7 +97,7 @@ public class Limelight extends SubsystemBase {
     // System.out.println(targetpose.getLeftRightDistance());
     // System.out.println(targetpose.getThetaDegrees());
     if (!(targetpose.getFrontBackDistance() == 0.0 && targetpose.getLeftRightDistance() == 0.0 && targetpose.getThetaDegrees() == 0.0)) {
-      swerve.resetOdometry(new Pose2d(targetpose.getFrontBackDistance(), -targetpose.getLeftRightDistance(), Rotation2d.fromDegrees(-targetpose.getThetaDegrees())));
+      swerve.resetOdometry(new Pose2d(targetpose.getFrontBackDistance(), targetpose.getLeftRightDistance(), Rotation2d.fromDegrees(-targetpose.getThetaDegrees())));
     }
     
   }
@@ -115,5 +117,10 @@ public class Limelight extends SubsystemBase {
     
     swerve.resetOdometry(new Pose2d(botpose.getXDistance(), botpose.getYDistance(), Rotation2d.fromDegrees(rotation)));
 
+  }
+
+  public double gettx(){
+    table = NetworkTableInstance.getDefault().getTable("limelight");
+    return table.getEntry("tx").getDouble(0.0);
   }
 }
