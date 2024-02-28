@@ -23,7 +23,7 @@ public class PointToSpeaker2 extends Command {
     this.limelight = limelight;
     this.swerve = swerve;
     PIDController = new PIDController(1, 0.5, 0);
-
+    PIDController.setTolerance(2);
     addRequirements(swerve);
   }
 
@@ -51,6 +51,14 @@ public class PointToSpeaker2 extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return PIDController.atSetpoint();
+    if(PIDController.atSetpoint()){
+      for(int i=0; i<5; i++){
+        if(!PIDController.atSetpoint()){
+          return false;
+        }
+      }
+      return true;
+    };
+    return false;
   }
 }
