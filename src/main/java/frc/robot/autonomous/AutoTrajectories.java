@@ -40,11 +40,11 @@ public class AutoTrajectories {
 
     public static Trajectory blueMiddleNote = 
         TrajectoryGenerator.generateTrajectory(
-            new Pose2d(-6, 1.4478, new Rotation2d(0)),
+            new Pose2d(-6, 1.4478, new Rotation2d(0)), //Move to center point before note
             List.of(
                 // new Translation2d(1, 1)
             ),
-            new Pose2d(-5.540121, 1.4478, new Rotation2d(0)),
+            new Pose2d(-5.540121, 1.4478, new Rotation2d(0)), //Mode to blue middle note
             RobotContainer.autoTrajectoryConfig
         );
 

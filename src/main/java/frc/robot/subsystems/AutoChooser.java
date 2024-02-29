@@ -77,7 +77,6 @@ public class AutoChooser extends SubsystemBase {
             new FollowTrajectory(swerveSubsystem, AutoTrajectories.redMiddleNote, true)
         );
       break;
-
       case BlueMiddleNote:
         System.out.println("Starting Middle Blue Note"); 
         limelight.resetLimelightBotPose(); //Resets the swerve odometry pose based on whatever april tag is in view
