@@ -46,14 +46,14 @@ public class RobotContainer {
     private final Joystick driverJoystick = new Joystick(OIConstants.kDriverControllerPort);
     public final Joystick operatorJoystick = new Joystick(1);
         
-    public final Intake intake = new Intake();
-    private final Shooter shooter = new Shooter();
-    public final Climb climb = new Climb();
-    public final Arm arm = new Arm();
-    public final ArmProfiledPID ArmProfiledPID = new ArmProfiledPID(arm);
+    // public final Intake intake = new Intake();
+    // private final Shooter shooter = new Shooter();
+    // public final Climb climb = new Climb();
+   //  public final Arm arm = new Arm();
+   // public final ArmProfiledPID ArmProfiledPID = new ArmProfiledPID(arm);
     public final SwerveSubsystem swerve = new SwerveSubsystem();
     private final Limelight limelight = new Limelight(swerve);
-    public final AutoChooser autoChooser = new AutoChooser(swerve, shooter, arm, ArmProfiledPID, limelight, intake);
+   // public final AutoChooser autoChooser = new AutoChooser(swerve, shooter, arm, ArmProfiledPID, limelight, intake);
 
 
 
@@ -67,7 +67,7 @@ public class RobotContainer {
         // set pipeline
         NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(1);
         
-        shooter.setDefaultCommand(new RunShooter(shooter, intake,() -> operatorJoystick.getRawAxis(3), false,false));
+        // shooter.setDefaultCommand(new RunShooter(shooter, intake,() -> operatorJoystick.getRawAxis(3), false,false));
         
         swerve.setDefaultCommand(new SwerveJoystickCmd(
             swerve,
@@ -96,10 +96,10 @@ public class RobotContainer {
   
         // Basic Operator Intake Control
         // Y - Run Intake
-        new JoystickButton(operatorJoystick, InputDevices.btn_y).whileTrue(new RunIntake(intake, true, .7, true));
-        new JoystickButton(operatorJoystick, InputDevices.btn_a).whileTrue(new RunIntake(intake, true, -.7, true));
+        // new JoystickButton(operatorJoystick, InputDevices.btn_y).whileTrue(new RunIntake(intake, true, .7, true));
+        // new JoystickButton(operatorJoystick, InputDevices.btn_a).whileTrue(new RunIntake(intake, true, -.7, true));
         // new JoystickButton(operatorJoystick, InputDevices.btn_x).onTrue(new PointToSpeaker(swerve, limelight));
-        new JoystickButton(operatorJoystick, InputDevices.btn_x).whileTrue(new runClimb(0, climb));
+        // new JoystickButton(operatorJoystick, InputDevices.btn_x).whileTrue(new runClimb(0, climb));
         // new JoystickButton(operatorJoystick, InputDevices.btn_b).whileTrue(new runClimb(510, climb));
 
 
@@ -110,25 +110,25 @@ public class RobotContainer {
 
         // Basic Operator Arm Control
         // Bumper Left & Right (Left- Move arm twoards the intake, Right- Move arm away from intake)
-        new JoystickButton(operatorJoystick ,InputDevices.btn_leftBumper).whileTrue(new MoveArm(arm, .3));
-        new JoystickButton(operatorJoystick, InputDevices.btn_rightBumper).whileTrue(new MoveArm(arm, -.20));
+        // new JoystickButton(operatorJoystick ,InputDevices.btn_leftBumper).whileTrue(new MoveArm(arm, .3));
+        // new JoystickButton(operatorJoystick, InputDevices.btn_rightBumper).whileTrue(new MoveArm(arm, -.20));
 
         //Lower arm position, run intake, move arm up if piece collected
         // new JoystickButton(operatorJoystick, InputDevices.btn_x).onTrue(new PIDMoveArm(arm, ArmProfiledPID, Units.degreesToRadians(30.0)));
 
         //new POVButton(operatorJoystick, 180).onTrue(new PIDMoveArm(arm, ArmProfiledPID, Units.degreesToRadians(-3.0)).until(() -> operatorJoystick.getRawButtonPressed(7)));
-        new POVButton(operatorJoystick, 90).onTrue(new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.traversal)).until(() -> operatorJoystick.getRawButtonPressed(7)));
-        new POVButton(operatorJoystick, 0).onTrue(new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.amp)).until(() -> operatorJoystick.getRawButtonPressed(7)));
-        new POVButton(operatorJoystick, 270).onTrue(new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.closeSpeaker)).until(() -> operatorJoystick.getRawButtonPressed(7)));
+        // new POVButton(operatorJoystick, 90).onTrue(new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.traversal)).until(() -> operatorJoystick.getRawButtonPressed(7)));
+        // new POVButton(operatorJoystick, 0).onTrue(new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.amp)).until(() -> operatorJoystick.getRawButtonPressed(7)));
+        // new POVButton(operatorJoystick, 270).onTrue(new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.closeSpeaker)).until(() -> operatorJoystick.getRawButtonPressed(7)));
 
 
         //Move arm down to intake, then up
-        new POVButton(operatorJoystick, 180).onTrue(new SequentialCommandGroup(
-                new PIDMoveArm(arm, ArmProfiledPID,  Units.degreesToRadians(CommandConstants.Arm.intake)), 
-                new RunIntake(intake, true,.7, true), 
-                new PIDMoveArm(arm, ArmProfiledPID,  Units.degreesToRadians(CommandConstants.Arm.traversal))
-                // new InstantCommand(()->System.out.println("Step 5"))
-        ));
+        // new POVButton(operatorJoystick, 180).onTrue(new SequentialCommandGroup(
+        //         new PIDMoveArm(arm, ArmProfiledPID,  Units.degreesToRadians(CommandConstants.Arm.intake)), 
+        //         new RunIntake(intake, true,.7, true), 
+        //         new PIDMoveArm(arm, ArmProfiledPID,  Units.degreesToRadians(CommandConstants.Arm.traversal))
+        //         // new InstantCommand(()->System.out.println("Step 5"))
+        // ));
         
         // .until(() -> (operatorJoystick.getRawButtonPressed(5) || operatorJoystick.getRawButtonPressed(6))));
 
@@ -145,7 +145,7 @@ public class RobotContainer {
 
     }
 
-    public Command getAutonomousCommand() {
-        return autoChooser.getAuto();
-    }
+    // public Command getAutonomousCommand() {
+    //     return autoChooser.getAuto();
+    // }
 }

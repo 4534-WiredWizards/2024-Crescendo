@@ -73,12 +73,12 @@ public class Robot extends TimedRobot {
         // block in order for anything in the Command-based framework to work.
         CommandScheduler.getInstance().run();
         // Limit switch on shuffle board
-        SmartDashboard.putBoolean("Intake LM", m_robotContainer.intake.getIntakeStatus());
-        SmartDashboard.putBoolean("Arm LM FW", m_robotContainer.arm.getArmStatusFw());
-        SmartDashboard.putBoolean("Arm LM RV", m_robotContainer.arm.getArmStatusRv());
-        SmartDashboard.putBoolean("Climb LM", m_robotContainer.climb.getClimbStatus());
-        SmartDashboard.putNumber("Climb Encoder", m_robotContainer.climb.getPosition());
-        SmartDashboard.putNumber("Arm Abs Encoder", Units.radiansToDegrees((m_robotContainer.arm.getAbsolutePosition())));
+        // SmartDashboard.putBoolean("Intake LM", m_robotContainer.intake.getIntakeStatus());
+        // SmartDashboard.putBoolean("Arm LM FW", m_robotContainer.arm.getArmStatusFw());
+        // SmartDashboard.putBoolean("Arm LM RV", m_robotContainer.arm.getArmStatusRv());
+        // SmartDashboard.putBoolean("Climb LM", m_robotContainer.climb.getClimbStatus());
+        // SmartDashboard.putNumber("Climb Encoder", m_robotContainer.climb.getPosition());
+        // SmartDashboard.putNumber("Arm Abs Encoder", Units.radiansToDegrees((m_robotContainer.arm.getAbsolutePosition())));
         SmartDashboard.putNumber("NavX", m_robotContainer.swerve.getHeading());
     }
 
@@ -95,15 +95,15 @@ public class Robot extends TimedRobot {
      * This autonomous runs the autonomous command selected by your
      * {@link RobotContainer} class.
      */
-    @Override
-    public void autonomousInit() {
-        m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    // @Override
+    // public void autonomousInit() {
+    //     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
-        // schedule the autonomous command (example)
-        if (m_autonomousCommand != null) {
-            m_autonomousCommand.schedule();
-        }
-    }
+    //     // schedule the autonomous command (example)
+    //     if (m_autonomousCommand != null) {
+    //         m_autonomousCommand.schedule();
+    //     }
+    // }
 
     /** This function is called periodically during autonomous. */
     @Override
