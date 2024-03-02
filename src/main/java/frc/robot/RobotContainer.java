@@ -112,13 +112,13 @@ public class RobotContainer {
 
         // ----------------------- ARM PID COMMANDS ---------------------------------
 
-        // Right D Pad
+        // Right D Pad - Move arm to traversal position
         new POVButton(operatorJoystick, 90).onTrue(new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.traversal)).until(() -> operatorJoystick.getRawButtonPressed(7)));
-        // Up D Pad
+        // Up D Pad - Move arm to amp position
         new POVButton(operatorJoystick, 0).onTrue(new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.amp)).until(() -> operatorJoystick.getRawButtonPressed(7)));
-        // Left D Pad
+        // Left D Pad - Move arm to close speaker position
         new POVButton(operatorJoystick, 270).onTrue(new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.closeSpeaker)).until(() -> operatorJoystick.getRawButtonPressed(7)));
-        // Down D Pad
+        // Down D Pad - Move arm to intake position
         new POVButton(operatorJoystick, 180).onTrue(new SequentialCommandGroup(
                 // Move arm down, run intake, move arm back up (once intake is full)
                 new PIDMoveArm(arm, ArmProfiledPID,  Units.degreesToRadians(CommandConstants.Arm.intake)), 
