@@ -71,14 +71,6 @@ public class Limelight extends SubsystemBase {
       return cameraPose[kZ];
     }
 
-    public double getLeftRightDistance() {
-      // April tag on the left is negitve
-      // April tag on the right is positve
-      cameraPose = NetworkTableInstance.getDefault().getTable("limelight").getEntry("camerapose_targetspace").getDoubleArray(new double[6]);
-      SmartDashboard.putNumber("Limelight Targetpose X Distance", cameraPose[kX]);
-      return cameraPose[kX];
-    }
-
     public double getThetaDegrees() {
       cameraPose = NetworkTableInstance.getDefault().getTable("limelight").getEntry("camerapose_targetspace").getDoubleArray(new double[6]);
       SmartDashboard.putNumber("Limelight Targetpose Theta Degs", cameraPose[ktpYaw]);
@@ -86,7 +78,7 @@ public class Limelight extends SubsystemBase {
     }
 
     public void resetLimelightPose(){
-      swerve.resetOdometry(new Pose2d(targetpose.getFrontBackDistance(), targetpose.getLeftRightDistance(), Rotation2d.fromDegrees(targetpose.getThetaDegrees())));
+      swerve.resetOdometry(new Pose2d(targetpose.getFrontBackDistance(), getLeftRightDistance(), Rotation2d.fromDegrees(targetpose.getThetaDegrees())));
     }
   }
 
@@ -96,8 +88,8 @@ public class Limelight extends SubsystemBase {
     // System.out.println(targetpose.getFrontBackDistance());
     // System.out.println(targetpose.getLeftRightDistance());
     // System.out.println(targetpose.getThetaDegrees());
-    if (!(targetpose.getFrontBackDistance() == 0.0 && targetpose.getLeftRightDistance() == 0.0 && targetpose.getThetaDegrees() == 0.0)) {
-      swerve.resetOdometry(new Pose2d(targetpose.getFrontBackDistance(), targetpose.getLeftRightDistance(), Rotation2d.fromDegrees(-targetpose.getThetaDegrees())));
+    if (!(targetpose.getFrontBackDistance() == 0.0 && getLeftRightDistance() == 0.0 && targetpose.getThetaDegrees() == 0.0)) {
+      swerve.resetOdometry(new Pose2d(targetpose.getFrontBackDistance(), getLeftRightDistance(), Rotation2d.fromDegrees(-targetpose.getThetaDegrees())));
     }
     
   }
@@ -123,4 +115,12 @@ public class Limelight extends SubsystemBase {
     table = NetworkTableInstance.getDefault().getTable("limelight");
     return table.getEntry("tx").getDouble(0.0);
   }
+
+  public double getLeftRightDistance() {
+      // April tag on the left is negitve
+      // April tag on the right is positve
+      cameraPose = NetworkTableInstance.getDefault().getTable("limelight").getEntry("camerapose_targetspace").getDoubleArray(new double[6]);
+      SmartDashboard.putNumber("Limelight Targetpose X Distance", cameraPose[kX]);
+      return cameraPose[kX];
+    }
 }
