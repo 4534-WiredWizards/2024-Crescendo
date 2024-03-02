@@ -84,65 +84,48 @@ public class RobotContainer {
     }
 
     private void configureButtonBindings() {
+        // ----------------------- DRIVER COMMANDS ---------------------------------
         new JoystickButton(driverJoystick, OIConstants.kDriverResetGyroButtonIdx).onTrue(new InstantCommand(() -> swerve.zeroHeading()));
 
 
 
-
-        // ----------------------- ARM COMMANDS ---------------------------------
-
-        // Basic Operator Shooter Control
-        // Right Trigger - Run Shooter (Speed changes based on how far the trigger is pressed)
-  
+        // ----------------------- INTAKE & Shooter COMMANDS ---------------------------------
         // Basic Operator Intake Control
         // Y - Run Intake
         new JoystickButton(operatorJoystick, InputDevices.btn_y).whileTrue(new RunIntake(intake, true, .7, true));
         new JoystickButton(operatorJoystick, InputDevices.btn_a).whileTrue(new RunIntake(intake, true, -.7, true));
-        // new JoystickButton(operatorJoystick, InputDevices.btn_x).onTrue(new PointToSpeaker(swerve, limelight));
+        // Testing Auto Speaker Scoring System
+        // new JoystickButton(operatorJoystick, InputDevices.btn_b).onTrue(new PointToSpeaker2(limelight, swerve));
+
+
+        // ----------------------- CLIMB COMMANDS ---------------------------------
         new JoystickButton(operatorJoystick, InputDevices.btn_x).whileTrue(new runClimb(0, climb));
-        // new JoystickButton(operatorJoystick, InputDevices.btn_b).whileTrue(new runClimb(510, climb));
+        new JoystickButton(operatorJoystick, InputDevices.btn_b).whileTrue(new runClimb(510, climb));
 
 
-        new JoystickButton(operatorJoystick, InputDevices.btn_b).onTrue(new PointToSpeaker2(limelight, swerve));
+        // ----------------------- ARM COMMANDS ---------------------------------
         
-
-        // new JoystickButton(operatorJoystick, InputDevices.btn_x).whileTrue(new RunShooter(shooter,.7, true));
-
         // Basic Operator Arm Control
         // Bumper Left & Right (Left- Move arm twoards the intake, Right- Move arm away from intake)
-        new JoystickButton(operatorJoystick ,InputDevices.btn_leftBumper).whileTrue(new MoveArm(arm, .3));
+        new JoystickButton(operatorJoystick ,InputDevices.btn_leftBumper).whileTrue(new MoveArm(arm, .25));
         new JoystickButton(operatorJoystick, InputDevices.btn_rightBumper).whileTrue(new MoveArm(arm, -.20));
 
-        //Lower arm position, run intake, move arm up if piece collected
-        // new JoystickButton(operatorJoystick, InputDevices.btn_x).onTrue(new PIDMoveArm(arm, ArmProfiledPID, Units.degreesToRadians(30.0)));
+        // ----------------------- ARM PID COMMANDS ---------------------------------
 
-        //new POVButton(operatorJoystick, 180).onTrue(new PIDMoveArm(arm, ArmProfiledPID, Units.degreesToRadians(-3.0)).until(() -> operatorJoystick.getRawButtonPressed(7)));
+        // Right D Pad
         new POVButton(operatorJoystick, 90).onTrue(new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.traversal)).until(() -> operatorJoystick.getRawButtonPressed(7)));
+        // Up D Pad
         new POVButton(operatorJoystick, 0).onTrue(new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.amp)).until(() -> operatorJoystick.getRawButtonPressed(7)));
+        // Left D Pad
         new POVButton(operatorJoystick, 270).onTrue(new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.closeSpeaker)).until(() -> operatorJoystick.getRawButtonPressed(7)));
-
-
-        //Move arm down to intake, then up
+        // Down D Pad
         new POVButton(operatorJoystick, 180).onTrue(new SequentialCommandGroup(
+                // Move arm down, run intake, move arm back up (once intake is full)
                 new PIDMoveArm(arm, ArmProfiledPID,  Units.degreesToRadians(CommandConstants.Arm.intake)), 
                 new RunIntake(intake, true,.7, true), 
                 new PIDMoveArm(arm, ArmProfiledPID,  Units.degreesToRadians(CommandConstants.Arm.traversal))
-                // new InstantCommand(()->System.out.println("Step 5"))
         ));
         
-        // .until(() -> (operatorJoystick.getRawButtonPressed(5) || operatorJoystick.getRawButtonPressed(6))));
-
-
-
-        //Move arm to amp height, spin up shooter, (Wont run intake tell button press)
-    //     new POVButton(operatorJoystick, 90).onTrue(new SequentialCommandGroup(
-    //             new InstantCommand(() -> limelight.resetLimelightTargetPose()),
-    //             new GeneralTrajectories().toTag(swerve),
-    //             new PIDMoveArm(arm, ArmProfiledPID, CommandConstants.Arm.ampheight),
-    //             new RunShooter(shooter, intake, () -> .9, false, true)
-    //    ).until(() -> operatorJoystick.getRawButtonPressed(7)));
-
-
     }
 
     public Command getAutonomousCommand() {
