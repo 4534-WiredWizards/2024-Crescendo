@@ -87,8 +87,7 @@ public class AutoChooser extends SubsystemBase {
 
             // --------- Shoots single preloaded note into speaker ---------
             new PIDMoveArm(arm, ArmProfiledPID,  Units.degreesToRadians(CommandConstants.Arm.closeSpeaker)), 
-            new RunShooter(shooter, intake, () -> 1.0, false,true),
-            new RunIntake(intake, true,.7, true), //Shoot note out of robot
+            new RunShooter(shooter, intake, () -> 1.0, false,true, true), //Shoots the ring automatically
             new PIDMoveArm(arm, ArmProfiledPID,  Units.degreesToRadians(CommandConstants.Arm.intake)), //Move arm down
 
 
@@ -96,10 +95,15 @@ public class AutoChooser extends SubsystemBase {
             // --------- Drive to the middle note ---------
             new ParallelCommandGroup(
               new RunIntake(intake, true,.7, true),
-              new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueMiddleNote, true)
+              new SequentialCommandGroup(
+                new DoNothing().withTimeout(.2),
+                new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueMiddleNote, true)
+              )
             ),
-            new PIDMoveArm(arm, ArmProfiledPID,  Units.degreesToRadians(CommandConstants.Arm.closeSpeaker))
-
+            new ParallelCommandGroup(
+              new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueMiddleNote, true),
+              new PIDMoveArm(arm, ArmProfiledPID,  Units.degreesToRadians(CommandConstants.Arm.closeSpeaker))
+            )
         );
       break;
 

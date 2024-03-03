@@ -9,6 +9,8 @@ import java.util.function.Supplier;
 import com.revrobotics.SparkPIDController;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Intake;
@@ -21,15 +23,17 @@ public class RunShooter extends Command {
   boolean isPressed;
   int presses;
   boolean autostop;
+  boolean autoIntake;
   private boolean PIDControl;
 
   /** Creates a new runShooter. */
-  public  RunShooter(Shooter shooter, Intake Intake, Supplier<Double> speed, boolean PIDControl, boolean autoStop) {
+  public  RunShooter(Shooter shooter, Intake Intake, Supplier<Double> speed, boolean PIDControl, boolean autoStop, boolean autoIntake) {
     this.shooter = shooter;
     this.speed = speed;
     this.Intake = Intake;
     this.PIDControl = PIDControl;
     this.autostop = autoStop;
+    this.autoIntake=autoIntake;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(this.shooter);
   }
@@ -44,14 +48,16 @@ public class RunShooter extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    SmartDashboard.putNumber("Intake Velocity", shooter.getSpeed());
     if (PIDControl) {shooter.velocityPID(speed.get() * 5000);} 
     else {shooter.move(speed.get());}
       
     // System.out.println(speed.get() * 5000);
     // TODO: Add logic for a parameter to not always auto run intake after reached velocity
-    // if(shooter.getSpeed() >  3000 ){
-    //   Intake.move(speed.get());
-    // }
+    if(shooter.getSpeed() >  4500 && autoIntake){ 
+      System.out.println("Running Intake From Shooter");
+      Intake.move(.7);
+    }
     //logic is for isFinished condition, Will check for limit switch being pressed in, then out, twice before stopping.
     if(Intake.getIntakeStatus() && !isPressed){
       presses += 1;
