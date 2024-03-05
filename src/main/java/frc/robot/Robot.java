@@ -73,7 +73,7 @@ public class Robot extends TimedRobot {
         // block in order for anything in the Command-based framework to work.
         CommandScheduler.getInstance().run();
         // Limit switch on shuffle board
-        SmartDashboard.putBoolean("Intake LM", m_robotContainer.intake.getIntakeStatus());
+        // SmartDashboard.putBoolean("Intake LM", m_robotContainer.intake.getIntakeStatus());
         SmartDashboard.putBoolean("Arm LM FW", m_robotContainer.arm.getArmStatusFw());
         SmartDashboard.putBoolean("Arm LM RV", m_robotContainer.arm.getArmStatusRv());
         SmartDashboard.putBoolean("Climb LM", m_robotContainer.climb.getClimbStatus());

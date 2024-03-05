@@ -30,27 +30,25 @@ public class AutoChooser extends SubsystemBase {
     DoNothing
   }
   private final SwerveSubsystem swerveSubsystem;
-  private final Shooter shooter;
+  // private final Shooter shooter;
   private final Arm arm;
   private final ArmProfiledPID ArmProfiledPID;
-  private final Intake intake;
+  // private final Intake intake;
   private final Limelight limelight;
   private SendableChooser<AutoMode> autoChooser;
   private Command autoRoutine;
   /** Creates a new AutoChooser. */
   public AutoChooser(
     SwerveSubsystem SwerveSubsystem,
-    Shooter Shooter,
     Arm Arm,
     ArmProfiledPID ArmProfiledPID,
-    Limelight Limelight,
-    Intake intake
+    Limelight Limelight
   ) {
     this.swerveSubsystem = SwerveSubsystem;
-    this.shooter = Shooter;
+    // this.shooter = Shooter;
     this.arm = Arm;
     this.ArmProfiledPID = ArmProfiledPID;
-    this.intake = intake;
+    // this.intake = intake;
     this.limelight = Limelight;
     autoChooser = new SendableChooser<AutoMode>();
     autoChooser.addOption("Red Middle Note", AutoMode.RedMiddleNote);
@@ -87,14 +85,14 @@ public class AutoChooser extends SubsystemBase {
 
             // --------- Shoots single preloaded note into speaker ---------
             new PIDMoveArm(arm, ArmProfiledPID,  Units.degreesToRadians(CommandConstants.Arm.closeSpeaker)), 
-            new RunShooter(shooter, intake, () -> 1.0, false,true, true), //Shoots the ring automatically
+            // new RunShooter(shooter, intake, () -> 1.0, false,true, true), //Shoots the ring automatically
             new PIDMoveArm(arm, ArmProfiledPID,  Units.degreesToRadians(CommandConstants.Arm.intake)), //Move arm down
 
 
 
             // --------- Drive to the middle note ---------
             new ParallelCommandGroup(
-              new RunIntake(intake, true,.7, true),
+              // new RunIntake(intake, true,.7, true),
               new SequentialCommandGroup(
                 new DoNothing().withTimeout(.2),
                 new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueMiddleNote, true)
