@@ -31,8 +31,8 @@ public class AutoChooser extends SubsystemBase {
   }
   private final SwerveSubsystem swerveSubsystem;
   // private final Shooter shooter;
-  private final Arm arm;
-  private final ArmProfiledPID ArmProfiledPID;
+  // private final Arm arm;
+  // private final ArmProfiledPID ArmProfiledPID;
   // private final Intake intake;
   private final Limelight limelight;
   private SendableChooser<AutoMode> autoChooser;
@@ -40,20 +40,21 @@ public class AutoChooser extends SubsystemBase {
   /** Creates a new AutoChooser. */
   public AutoChooser(
     SwerveSubsystem SwerveSubsystem,
-    Arm Arm,
-    ArmProfiledPID ArmProfiledPID,
+    // Arm Arm,
+    // ArmProfiledPID ArmProfiledPID,
     Limelight Limelight
   ) {
     this.swerveSubsystem = SwerveSubsystem;
     // this.shooter = Shooter;
-    this.arm = Arm;
-    this.ArmProfiledPID = ArmProfiledPID;
+    // this.arm = Arm;
+    // this.ArmProfiledPID = ArmProfiledPID;
     // this.intake = intake;
     this.limelight = Limelight;
     autoChooser = new SendableChooser<AutoMode>();
     autoChooser.addOption("Red Middle Note", AutoMode.RedMiddleNote);
     autoChooser.addOption("Blue Middle Note", AutoMode.BlueMiddleNote);
     autoChooser.addOption("Do Nothing", AutoMode.DoNothing);
+    autoChooser.setDefaultOption("Do Nothing", AutoMode.DoNothing);
     SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
@@ -64,6 +65,7 @@ public class AutoChooser extends SubsystemBase {
 
   public Command getAuto(){
     AutoMode selectedAutoMode = (AutoMode) (autoChooser.getSelected());
+
     System.out.println("Running getAuto");
     switch (selectedAutoMode) {
       default:
@@ -80,28 +82,12 @@ public class AutoChooser extends SubsystemBase {
         limelight.resetLimelightBotPose(); //Resets the swerve odometry pose based on whatever april tag is in view
         System.out.println("After Odom Reset"); 
         autoRoutine = new SequentialCommandGroup(
-            // Trajectory to center and take a shot
-            // new FollowTrajectory(swerveSubsystem, AutoTrajectories.middleBlueSpeaker, true),
+       
+            new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueMiddleNote, false),
+            new DoNothing().withTimeout(1),
+            new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueStageNote, true)
 
-            // --------- Shoots single preloaded note into speaker ---------
-            new PIDMoveArm(arm, ArmProfiledPID,  Units.degreesToRadians(CommandConstants.Arm.closeSpeaker)), 
-            // new RunShooter(shooter, intake, () -> 1.0, false,true, true), //Shoots the ring automatically
-            new PIDMoveArm(arm, ArmProfiledPID,  Units.degreesToRadians(CommandConstants.Arm.intake)), //Move arm down
-
-
-
-            // --------- Drive to the middle note ---------
-            new ParallelCommandGroup(
-              // new RunIntake(intake, true,.7, true),
-              new SequentialCommandGroup(
-                new DoNothing().withTimeout(.2),
-                new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueMiddleNote, true)
-              )
-            ),
-            new ParallelCommandGroup(
-              new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueMiddleNote, true),
-              new PIDMoveArm(arm, ArmProfiledPID,  Units.degreesToRadians(CommandConstants.Arm.closeSpeaker))
-            )
+           
         );
       break;
 
@@ -129,7 +115,7 @@ public class AutoChooser extends SubsystemBase {
       // break;
 
       case DoNothing:
-      autoRoutine = new DoNothing();
+        autoRoutine = new DoNothing();
   }
   return autoRoutine;
 }

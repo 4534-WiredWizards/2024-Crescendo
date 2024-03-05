@@ -37,7 +37,7 @@ public class FollowTrajectory extends SwerveControllerCommand {
 
     //uses motion profiling versus standard PID for smoother heading tracking and to limit rotational speed
     private static final ProfiledPIDController rotationController =
-        new ProfiledPIDController(3, 0, 0,   //.5 .1 0
+        new ProfiledPIDController(.5, .1, 0,   //.5 .1 0
              new TrapezoidProfile.Constraints(AutoConstants.kMaxVelocityMetersPerSecond,
                  AutoConstants.kMaxAccelerationMetersPerSecondSquared
             )

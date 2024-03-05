@@ -49,11 +49,11 @@ public class RobotContainer {
     // public final Intake intake = new Intake();
     // private final Shooter shooter = new Shooter();
     public final Climb climb = new Climb();
-    public final Arm arm = new Arm();
-    public final ArmProfiledPID ArmProfiledPID = new ArmProfiledPID(arm);
+    // public final Arm arm = new Arm();
+    // public final ArmProfiledPID ArmProfiledPID = new ArmProfiledPID(arm);
     public final SwerveSubsystem swerve = new SwerveSubsystem();
     private final Limelight limelight = new Limelight(swerve);
-    public final AutoChooser autoChooser = new AutoChooser(swerve, arm, ArmProfiledPID, limelight);
+    public final AutoChooser autoChooser = new AutoChooser(swerve, limelight);
 
 
 
@@ -107,24 +107,24 @@ public class RobotContainer {
         
         // Basic Operator Arm Control
         // Bumper Left & Right (Left- Move arm twoards the intake, Right- Move arm away from intake)
-        new JoystickButton(operatorJoystick ,InputDevices.btn_leftBumper).whileTrue(new MoveArm(arm, .25));
-        new JoystickButton(operatorJoystick, InputDevices.btn_rightBumper).whileTrue(new MoveArm(arm, -.20));
+        // new JoystickButton(operatorJoystick ,InputDevices.btn_leftBumper).whileTrue(new MoveArm(arm, .25));
+        // new JoystickButton(operatorJoystick, InputDevices.btn_rightBumper).whileTrue(new MoveArm(arm, -.20));
 
         // ----------------------- ARM PID COMMANDS ---------------------------------
 
         // Right D Pad - Move arm to traversal position
-        new POVButton(operatorJoystick, 90).onTrue(new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.traversal)).until(() -> operatorJoystick.getRawButtonPressed(7)));
-        // Up D Pad - Move arm to amp position
-        new POVButton(operatorJoystick, 0).onTrue(new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.amp)).until(() -> operatorJoystick.getRawButtonPressed(7)));
-        // Left D Pad - Move arm to close speaker position
-        new POVButton(operatorJoystick, 270).onTrue(new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.closeSpeaker)).until(() -> operatorJoystick.getRawButtonPressed(7)));
-        // Down D Pad - Move arm to intake position
-        new POVButton(operatorJoystick, 180).onTrue(new SequentialCommandGroup(
-                // Move arm down, run intake, move arm back up (once intake is full)
-                new PIDMoveArm(arm, ArmProfiledPID,  Units.degreesToRadians(CommandConstants.Arm.intake)), 
-                // new RunIntake(intake, true,.7, true), 
-                new PIDMoveArm(arm, ArmProfiledPID,  Units.degreesToRadians(CommandConstants.Arm.traversal))
-        ));
+        // new POVButton(operatorJoystick, 90).onTrue(new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.traversal)).until(() -> operatorJoystick.getRawButtonPressed(7)));
+        // // Up D Pad - Move arm to amp position
+        // new POVButton(operatorJoystick, 0).onTrue(new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.amp)).until(() -> operatorJoystick.getRawButtonPressed(7)));
+        // // Left D Pad - Move arm to close speaker position
+        // new POVButton(operatorJoystick, 270).onTrue(new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.closeSpeaker)).until(() -> operatorJoystick.getRawButtonPressed(7)));
+        // // Down D Pad - Move arm to intake position
+        // new POVButton(operatorJoystick, 180).onTrue(new SequentialCommandGroup(
+        //         // Move arm down, run intake, move arm back up (once intake is full)
+        //         new PIDMoveArm(arm, ArmProfiledPID,  Units.degreesToRadians(CommandConstants.Arm.intake)), 
+        //         // new RunIntake(intake, true,.7, true), 
+        //         new PIDMoveArm(arm, ArmProfiledPID,  Units.degreesToRadians(CommandConstants.Arm.traversal))
+        // ));
         
     }
 
