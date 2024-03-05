@@ -109,7 +109,7 @@ public class Limelight extends SubsystemBase {
     
    
     
-    new Pose2d(botpose.getXDistance(), botpose.getYDistance(), Rotation2d.fromDegrees(rotation)));
+    new Pose2d(botpose.getXDistance(), botpose.getYDistance(), Rotation2d.fromDegrees(rotation));
 
   }
 

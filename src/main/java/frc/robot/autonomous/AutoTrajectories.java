@@ -13,6 +13,7 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.util.Units;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.TrajectoryConstants;
 import frc.robot.RobotContainer;
 
 public class AutoTrajectories {
@@ -30,39 +31,75 @@ public class AutoTrajectories {
         .setKinematics(DriveConstants.kDriveKinematics);
 
    
-    public static Trajectory redMiddleNote =
+    // public static Trajectory redMiddleNote =
+    // TrajectoryGenerator.generateTrajectory(
+    //     new Pose2d(6, 1.5478, new Rotation2d(Math.toRadians(0))),
+    //     List.of(
+    //         // new Translation2d(Units.inchesToMeters(40), Units.inchesToMeters(0))
+    //     ),
+    //     new Pose2d(5.616321, 1.4478, new Rotation2d(Math.toRadians(0))),
+    //     RobotContainer.autoTrajectoryConfig
+    // );
+
+    // public static Trajectory blueMiddleNote = 
+    //     TrajectoryGenerator.generateTrajectory(
+    //         new Pose2d(-6.540121, 2.44, new Rotation2d(0)), //Move to center point before note
+    //         List.of(
+    //             // new Translation2d(1, 1)
+    //         ),
+    //         new Pose2d(-5.540121, 1.44, new Rotation2d(0)), //Mode to blue middle note
+    //         RobotContainer.autoTrajectoryConfig
+    // );
+
+    // public static Trajectory blueStageNote = 
+    //     TrajectoryGenerator.generateTrajectory(
+    //         new Pose2d(-6.540121, -.1, new Rotation2d(0)), //Move to center point before note
+    //         List.of(
+    //             // new Translation2d(1, 1)
+    //         ),
+    //         new Pose2d(-5.540121, 0.1, new Rotation2d(0)), //Mode to blue middle note
+    //         RobotContainer.autoTrajectoryConfig
+    // );
+
+    // NEW TRAJECTORIES Using new auto constants
+
+    // Red Stage Note
+    public static Trajectory redStageNote =
     TrajectoryGenerator.generateTrajectory(
-        new Pose2d(6, 1.5478, new Rotation2d(Math.toRadians(0))),
+        new Pose2d((TrajectoryConstants.red.stageNote[0] + 0.1), (TrajectoryConstants.red.stageNote[1] + 0.5), new Rotation2d(Math.toRadians(0))),
         List.of(
             // new Translation2d(Units.inchesToMeters(40), Units.inchesToMeters(0))
         ),
-        new Pose2d(5.616321, 1.4478, new Rotation2d(Math.toRadians(0))),
+        new Pose2d((TrajectoryConstants.red.stageNote[0] - 0.0), (TrajectoryConstants.red.stageNote[1] - 0.2), new Rotation2d(Math.toRadians(0))),
         RobotContainer.autoTrajectoryConfig
     );
 
-    public static Trajectory blueMiddleNote = 
-        TrajectoryGenerator.generateTrajectory(
-            new Pose2d(-6.540121, 2.44, new Rotation2d(0)), //Move to center point before note
-            List.of(
-                // new Translation2d(1, 1)
-            ),
-            new Pose2d(-5.540121, 1.44, new Rotation2d(0)), //Mode to blue middle note
-            RobotContainer.autoTrajectoryConfig
+    // Red Speaker Note
+    public static Trajectory redSpeakerNote =
+    TrajectoryGenerator.generateTrajectory(
+	    // Red Side is positive, so HIGHER numbers are closer to the drive station wall and
+	    // LOWER numbers are away from the drive station wall
+        // Array value 0 is the x value, 1 is the y value
+        new Pose2d((TrajectoryConstants.red.speakerNote[0] + 0.1), (TrajectoryConstants.red.speakerNote[1] + 0.5), new Rotation2d(Math.toRadians(0))),
+        List.of(
+            // new Translation2d(Units.inchesToMeters(40), Units.inchesToMeters(0))
+        ),
+        new Pose2d((TrajectoryConstants.red.speakerNote[0] - 0.0), (TrajectoryConstants.red.speakerNote[1] - 0.2), new Rotation2d(Math.toRadians(0))),
+        RobotContainer.autoTrajectoryConfig
     );
 
-    public static Trajectory blueStageNote = 
-        TrajectoryGenerator.generateTrajectory(
-            new Pose2d(-6.540121, -.1, new Rotation2d(0)), //Move to center point before note
-            List.of(
-                // new Translation2d(1, 1)
-            ),
-            new Pose2d(-5.540121, 0.1, new Rotation2d(0)), //Mode to blue middle note
-            RobotContainer.autoTrajectoryConfig
+    // Red Amp Note
+    public static Trajectory redAmpNote =
+    TrajectoryGenerator.generateTrajectory(
+        new Pose2d((TrajectoryConstants.red.ampNote[0] + 0.1), (TrajectoryConstants.red.ampNote[1] + 0.5), new Rotation2d(Math.toRadians(0))),
+        List.of(
+            // new Translation2d(Units.inchesToMeters(40), Units.inchesToMeters(0))
+        ),
+        new Pose2d((TrajectoryConstants.red.ampNote[0] - 0.0), (TrajectoryConstants.red.ampNote[1] - 0.2), new Rotation2d(Math.toRadians(0))),
+        RobotContainer.autoTrajectoryConfig
     );
 
-
-   
-
+    
 
     
 

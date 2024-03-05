@@ -220,6 +220,33 @@ public final class Constants {
                         kMaxAngularAccelerationRadiansPerSecondSquared);
     }
 
+    public static final class TrajectoryConstants {
+        // Define funtion to get X from a constant
+        public static void getX(double[] note) {
+            note[0] = 0;
+        }
+        // Define funtion to get Y from a constant
+        public void getY(double[] note) {
+            note[1] = 0;
+        }
+
+        // Constant position in meters for all game pieces
+        // Note position closest to each driver station wall.
+        // ----------- Blue Alliance -----------
+        public static final class blue {
+            public static final double[] stageNote = {-5.540121, 0};
+            public static final double[] speakerNote = {-5.540121, 1.4478};
+            public static final double[] ampNote = {-5.540121, 2.8956};
+        }
+        // ----------- Red Alliance -----------
+        public static final class red {
+            public static final double[] stageNote = {5.616321, 0};
+            public static final double[] speakerNote = {5.616321, 1.4478};
+            public static final double[] ampNote = {5.616321, 2.8956};
+        }
+    }
+
+
     public static final class OIConstants {
         // Port for the driver's controller (Thrust Master)
         public static final int kDriverControllerPort = 0;
