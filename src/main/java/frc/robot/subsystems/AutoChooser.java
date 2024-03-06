@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CommandConstants;
+import frc.robot.Constants.TrajectoryConstants;
 import frc.robot.GeneralTrajectories;
 import frc.robot.autonomous.AutoTrajectories;
 import frc.robot.commands.DoNothing;
@@ -27,6 +28,8 @@ public class AutoChooser extends SubsystemBase {
   public enum AutoMode{
     RedMiddleNote,
     BlueMiddleNote,
+    BlueAutoTest,
+    RedAutoTest,
     DoNothing
   }
   private final SwerveSubsystem swerveSubsystem;
@@ -51,8 +54,10 @@ public class AutoChooser extends SubsystemBase {
     // this.intake = intake;
     this.limelight = Limelight;
     autoChooser = new SendableChooser<AutoMode>();
-    autoChooser.addOption("Red Middle Note", AutoMode.RedMiddleNote);
-    autoChooser.addOption("Blue Middle Note", AutoMode.BlueMiddleNote);
+    // autoChooser.addOption("Red Middle Note", AutoMode.RedMiddleNote);
+    // autoChooser.addOption("Blue Middle Note", AutoMode.BlueMiddleNote);
+    autoChooser.addOption("Blue Auto Test", AutoMode.BlueAutoTest);
+    autoChooser.addOption("Red Auto Test", AutoMode.RedAutoTest);
     autoChooser.addOption("Do Nothing", AutoMode.DoNothing);
     autoChooser.setDefaultOption("Do Nothing", AutoMode.DoNothing);
     SmartDashboard.putData("Auto Chooser", autoChooser);
@@ -69,27 +74,39 @@ public class AutoChooser extends SubsystemBase {
     System.out.println("Running getAuto");
     switch (selectedAutoMode) {
       default:
-      case RedMiddleNote:
+      case BlueAutoTest: //Working
+        System.out.println("Starting Middle Blu Note"); 
+        limelight.resetLimelightBotPose(); //Resets the swerve odometry pose based on whatever april tag is in view
+        System.out.println("After Odom Reset"); 
+        autoRoutine = new SequentialCommandGroup(
+            new  InstantCommand(() -> System.out.println("Moving to note, "+TrajectoryConstants.blue.speakerNote[0]+", "+TrajectoryConstants.blue.speakerNote[1])),
+            new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueSpeakerNote, true)
+        );
+      break;
+      case RedAutoTest: //Working
         System.out.println("Starting Middle Red Note"); 
         limelight.resetLimelightBotPose(); //Resets the swerve odometry pose based on whatever april tag is in view
         System.out.println("After Odom Reset"); 
         autoRoutine = new SequentialCommandGroup(
-            new FollowTrajectory(swerveSubsystem, AutoTrajectories.redMiddleNote, true)
+            new  InstantCommand(() -> System.out.println("Moving to note, "+TrajectoryConstants.red.speakerNote[0]+", "+TrajectoryConstants.blue.speakerNote[1])),
+            new FollowTrajectory(swerveSubsystem, AutoTrajectories.redSpeakerNote, true)
         );
       break;
-      case BlueMiddleNote:
-        System.out.println("Starting Middle Blue Note"); 
-        limelight.resetLimelightBotPose(); //Resets the swerve odometry pose based on whatever april tag is in view
-        System.out.println("After Odom Reset"); 
-        autoRoutine = new SequentialCommandGroup(
+
+
+      // case BlueMiddleNote:
+      //   System.out.println("Starting Middle Blue Note"); 
+      //   limelight.resetLimelightBotPose(); //Resets the swerve odometry pose based on whatever april tag is in view
+      //   System.out.println("After Odom Reset"); 
+      //   autoRoutine = new SequentialCommandGroup(
        
-            new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueMiddleNote, false),
-            new DoNothing().withTimeout(1),
-            new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueStageNote, true)
+      //       new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueMiddleNote, false),
+      //       new DoNothing().withTimeout(1),
+      //       new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueStageNote, true)
 
            
-        );
-      break;
+      //   );
+      // break;
 
 
 

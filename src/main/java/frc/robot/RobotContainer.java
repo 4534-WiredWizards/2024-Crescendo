@@ -60,7 +60,8 @@ public class RobotContainer {
 
     public final static TrajectoryConfig autoTrajectoryConfig = new TrajectoryConfig(
         AutoConstants.kMaxSpeedMetersPerSecond,
-        AutoConstants.kMaxAccelerationMetersPerSecondSquared)
+        AutoConstants.kMaxAccelerationMetersPerSecondSquared
+        )
         .setKinematics(DriveConstants.kDriveKinematics);
 
     public RobotContainer() {

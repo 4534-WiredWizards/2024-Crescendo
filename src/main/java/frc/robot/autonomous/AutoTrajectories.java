@@ -23,13 +23,7 @@ public class AutoTrajectories {
      */
 
     // configures the maximum velocity and accel for the trajectories
-    private final static TrajectoryConfig config = 
-        new TrajectoryConfig(
-            AutoConstants.kMaxSpeedMetersPerSecond, 
-            AutoConstants.kMaxAccelerationMetersPerSecondSquared
-        )
-        .setKinematics(DriveConstants.kDriveKinematics);
-
+   
    
     // public static Trajectory redMiddleNote =
     // TrajectoryGenerator.generateTrajectory(
@@ -66,11 +60,11 @@ public class AutoTrajectories {
     // Red Stage Note
     public static Trajectory redStageNote =
     TrajectoryGenerator.generateTrajectory(
-        new Pose2d((TrajectoryConstants.red.stageNote[0] + 0.1), (TrajectoryConstants.red.stageNote[1] + 0.5), new Rotation2d(Math.toRadians(0))),
+        new Pose2d((TrajectoryConstants.red.stageNote[0] + 0.1), (TrajectoryConstants.red.stageNote[1] + 0.5), new Rotation2d(Math.toRadians(TrajectoryConstants.red.stageNote[2]))),
         List.of(
             // new Translation2d(Units.inchesToMeters(40), Units.inchesToMeters(0))
         ),
-        new Pose2d((TrajectoryConstants.red.stageNote[0] - 0.0), (TrajectoryConstants.red.stageNote[1] - 0.2), new Rotation2d(Math.toRadians(0))),
+        new Pose2d((TrajectoryConstants.red.stageNote[0] - 0.0), (TrajectoryConstants.red.stageNote[1] + 0.0), new Rotation2d(Math.toRadians(TrajectoryConstants.red.stageNote[2]))),
         RobotContainer.autoTrajectoryConfig
     );
 
@@ -80,27 +74,59 @@ public class AutoTrajectories {
 	    // Red Side is positive, so HIGHER numbers are closer to the drive station wall and
 	    // LOWER numbers are away from the drive station wall
         // Array value 0 is the x value, 1 is the y value
-        new Pose2d((TrajectoryConstants.red.speakerNote[0] + 0.1), (TrajectoryConstants.red.speakerNote[1] + 0.5), new Rotation2d(Math.toRadians(0))),
+        new Pose2d((TrajectoryConstants.red.speakerNote[0] + 0.1), (TrajectoryConstants.red.speakerNote[1] + 0.5), new Rotation2d(Math.toRadians(TrajectoryConstants.red.speakerNote[2]))),
         List.of(
             // new Translation2d(Units.inchesToMeters(40), Units.inchesToMeters(0))
         ),
-        new Pose2d((TrajectoryConstants.red.speakerNote[0] - 0.0), (TrajectoryConstants.red.speakerNote[1] - 0.2), new Rotation2d(Math.toRadians(0))),
+        new Pose2d((TrajectoryConstants.red.speakerNote[0] - 0.0), (TrajectoryConstants.red.speakerNote[1] + 0.0), new Rotation2d(Math.toRadians(TrajectoryConstants.red.speakerNote[2]))),
         RobotContainer.autoTrajectoryConfig
     );
 
     // Red Amp Note
     public static Trajectory redAmpNote =
     TrajectoryGenerator.generateTrajectory(
-        new Pose2d((TrajectoryConstants.red.ampNote[0] + 0.1), (TrajectoryConstants.red.ampNote[1] + 0.5), new Rotation2d(Math.toRadians(0))),
+        new Pose2d((TrajectoryConstants.red.ampNote[0] + 0.1), (TrajectoryConstants.red.ampNote[1] + 0.5), new Rotation2d(Math.toRadians(TrajectoryConstants.red.ampNote[2]))),
         List.of(
             // new Translation2d(Units.inchesToMeters(40), Units.inchesToMeters(0))
         ),
-        new Pose2d((TrajectoryConstants.red.ampNote[0] - 0.0), (TrajectoryConstants.red.ampNote[1] - 0.2), new Rotation2d(Math.toRadians(0))),
+        new Pose2d((TrajectoryConstants.red.ampNote[0] - 0.0), (TrajectoryConstants.red.ampNote[1] + 0.0), new Rotation2d(Math.toRadians(TrajectoryConstants.red.ampNote[2]))),
+        RobotContainer.autoTrajectoryConfig
+    );
+    
+
+    // Blue Stage Note
+    public static Trajectory blueStageNote =
+    TrajectoryGenerator.generateTrajectory(
+        new Pose2d((TrajectoryConstants.blue.stageNote[0] - 0.1), (TrajectoryConstants.blue.stageNote[1] + 0.5), new Rotation2d(Math.toRadians(TrajectoryConstants.blue.stageNote[2]))),
+        List.of(
+            // new Translation2d(Units.inchesToMeters(40), Units.inchesToMeters(0))
+        ),
+        new Pose2d((TrajectoryConstants.blue.stageNote[0] + 0.0), (TrajectoryConstants.blue.stageNote[1] + 0.0), new Rotation2d(Math.toRadians(TrajectoryConstants.blue.stageNote[2]))),
         RobotContainer.autoTrajectoryConfig
     );
 
-    
+    // Blue Speaker Note
+    public static Trajectory blueSpeakerNote =  
+    TrajectoryGenerator.generateTrajectory(
+        new Pose2d((TrajectoryConstants.blue.speakerNote[0] - 0.1), (TrajectoryConstants.blue.speakerNote[1] + 0.5), new Rotation2d(Math.toRadians(TrajectoryConstants.blue.speakerNote[2]))),
+        List.of(
+            // new Translation2d(Units.inchesToMeters(40), Units.inchesToMeters(0))
+        ),
+        new Pose2d((TrajectoryConstants.blue.speakerNote[0] + 0.0), (TrajectoryConstants.blue.speakerNote[1] + 0.0), new Rotation2d(Math.toRadians(TrajectoryConstants.blue.speakerNote[2]))),
+        RobotContainer.autoTrajectoryConfig
+    );
 
+
+    // Blue Amp Note
+    public static Trajectory blueAmpNote =
+    TrajectoryGenerator.generateTrajectory(
+        new Pose2d((TrajectoryConstants.blue.ampNote[0] - 0.1), (TrajectoryConstants.blue.ampNote[1] + 0.5), new Rotation2d(Math.toRadians(TrajectoryConstants.blue.ampNote[2]))),
+        List.of(
+            // new Translation2d(Units.inchesToMeters(40), Units.inchesToMeters(0))
+        ),
+        new Pose2d((TrajectoryConstants.blue.ampNote[0] + 0.0), (TrajectoryConstants.blue.ampNote[1] + 0.0), new Rotation2d(Math.toRadians(TrajectoryConstants.blue.ampNote[2]))),
+        RobotContainer.autoTrajectoryConfig
+    );
     
 
 

@@ -37,8 +37,9 @@ public class FollowTrajectory extends SwerveControllerCommand {
 
     //uses motion profiling versus standard PID for smoother heading tracking and to limit rotational speed
     private static final ProfiledPIDController rotationController =
-        new ProfiledPIDController(.5, .1, 0,   //.5 .1 0
-             new TrapezoidProfile.Constraints(AutoConstants.kMaxVelocityMetersPerSecond,
+        new ProfiledPIDController(1.5, .1
+        , 0,   //.5 .1 0
+             new TrapezoidProfile.Constraints(AutoConstants.kMaxRotationalVelocityMetersPerSecond,
                  AutoConstants.kMaxAccelerationMetersPerSecondSquared
             )
         );
@@ -65,6 +66,8 @@ public class FollowTrajectory extends SwerveControllerCommand {
             DriveConstants.kDriveKinematics, 
             new PIDController(1.5, 0, 0), //1 0 0
             new PIDController(1.5, 0, 0), //''
+            // new PIDController(0, 0, 0), //Temp 0 for testing
+            // new PIDController(0, 0, 0), //Temp 0 for testing
             rotationController,
             drive::setModuleStates, 
             drive

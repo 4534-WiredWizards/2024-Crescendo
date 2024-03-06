@@ -103,14 +103,16 @@ public class Limelight extends SubsystemBase {
     if (botpose.getXDistance() < 0) {
       // On blue side of field, add 180 to theta
       rotation -= 180;
+    } else if (botpose.getXDistance() > 0) {
+      // On red side of field, add 180 to theta
+      rotation += 180;
     }
 
 
     
    
     
-    new Pose2d(botpose.getXDistance(), botpose.getYDistance(), Rotation2d.fromDegrees(rotation));
-
+    swerve.resetOdometry(new Pose2d(botpose.getXDistance(), botpose.getYDistance(), Rotation2d.fromDegrees(rotation)));
   }
 
   public double gettx(){
