@@ -14,7 +14,8 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.revrobotics.SparkLimitSwitch;
-import frc.robot.RobotContainer;;
+import frc.robot.RobotContainer;
+import frc.robot.subsystems.Lights;;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -85,6 +86,8 @@ public class Robot extends TimedRobot {
     /** This function is called once each time the robot enters Disabled mode. */
     @Override
     public void disabledInit() {
+        Lights.LEDSegment.CandleLEDs.setColor(Lights.darkOrange);
+        Lights.LEDSegment.Panel.setColor(Lights.darkOrange);
     }
 
     @Override
@@ -119,6 +122,8 @@ public class Robot extends TimedRobot {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
+        Lights.LEDSegment.CandleLEDs.setFadeAnimation(Lights.green, .000001);
+        Lights.LEDSegment.Panel.setFadeAnimation(Lights.green, .000001);
     }
 
     /** This function is called periodically during operator control. */

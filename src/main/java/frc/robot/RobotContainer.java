@@ -68,7 +68,7 @@ public class RobotContainer {
         // set pipeline
         NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(1);
         
-        // shooter.setDefaultCommand(new RunShooter(shooter, intake,() -> operatorJoystick.getRawAxis(3), false,false, false));
+        shooter.setDefaultCommand(new RunShooter(shooter, intake,() -> operatorJoystick.getRawAxis(3), false,false, false));
         
         swerve.setDefaultCommand(new SwerveJoystickCmd(
             swerve,

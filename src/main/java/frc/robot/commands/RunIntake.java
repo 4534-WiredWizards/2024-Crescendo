@@ -12,6 +12,7 @@ import org.opencv.features2d.FlannBasedMatcher;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Lights;
 
 
 public class RunIntake extends Command {
@@ -42,6 +43,7 @@ public class RunIntake extends Command {
   @Override
   public void initialize() {
     init_state = intake.getIntakeStatus();
+    Lights.LEDSegment.Panel.setFadeAnimation(Lights.blue, .2);
 
   }
 
@@ -66,12 +68,13 @@ public class RunIntake extends Command {
   @Override
   public void end(boolean interrupted) {
     intake.move(0);
-
+    Lights.LEDSegment.Panel.setFadeAnimation(Lights.green, .000001);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    
     if(autostop){
       return !(init_state || !intake.getIntakeStatus());
     }
