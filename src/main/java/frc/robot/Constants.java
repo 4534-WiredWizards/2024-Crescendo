@@ -170,9 +170,9 @@ public final class Constants {
         public static final class Arm {
             public static final double AbsEncoderOffset=.77;
             public static final double amp = 100.0;
-            public static final double intake = -7.2;
+            public static final double intake = -7;
             public static final double traversal = 60;
-            public static final double closeSpeaker = 15;
+            public static final double closeSpeaker = 12;
             // Arm Feedforward Constants
             public static final double kP = 1;
             // Values Obtained from Characterization via reca.lc/arm
@@ -203,10 +203,10 @@ public final class Constants {
 
     public static final class AutoConstants {
         // If you want to slow down the robot during Autonomous, adjust these values
-        public static final double kMaxSpeedMetersPerSecond = DriveConstants.kPhysicalMaxSpeedMetersPerSecond /2; 
+        public static final double kMaxSpeedMetersPerSecond = DriveConstants.kPhysicalMaxSpeedMetersPerSecond /10; 
         public static final double kMaxAngularSpeedRadiansPerSecond = DriveConstants.kPhysicalMaxAngularSpeedRadiansPerSecond / 2;
-        public static final double kMaxAccelerationMetersPerSecondSquared = 3;
-        public static final double kMaxVelocityMetersPerSecond = 3;
+        public static final double kMaxAccelerationMetersPerSecondSquared = 5;
+        public static final double kMaxRotationalVelocityMetersPerSecond = 3;
         public static final double kMaxAngularAccelerationRadiansPerSecondSquared = Math.PI / 2;
         // The P value of the PID controller used in auto for the X and Y directions
         public static final double kPXController = 1.5;
@@ -219,6 +219,28 @@ public final class Constants {
                         kMaxAngularSpeedRadiansPerSecond,
                         kMaxAngularAccelerationRadiansPerSecondSquared);
     }
+
+    public static final class TrajectoryConstants {
+      
+        // Constant position in meters for all game pieces
+        // Note position closest to each driver station wall.
+        // ----------- Blue Alliance -----------
+        // Object Structure: X (In Meters), Y (In Meters), Angle (In Degrees)
+        public static final class blue {
+            public static final double[] stageNote = {-5.540121, 0, 0};
+            public static final double[] speakerNote = {-5.540121, 1.4478, 0};
+            public static final double[] ampNote = {-5.540121, 2.8956, 0};
+        }
+        // ----------- Red Alliance -----------
+        // Object Structure: X (In Meters), Y (In Meters), Angle (In Degrees)
+        // Add 180 to the angle for the red alliance as robot intake needs to face center of field
+        public static final class red {
+            public static final double[] stageNote = {5.616321, 0, 180};
+            public static final double[] speakerNote = {5.616321, 1.4478, 180};
+            public static final double[] ampNote = {5.616321, 2.8956, 180};
+        }
+    }
+
 
     public static final class OIConstants {
         // Port for the driver's controller (Thrust Master)

@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CommandConstants;
+import frc.robot.Constants.TrajectoryConstants;
 import frc.robot.GeneralTrajectories;
 import frc.robot.autonomous.AutoTrajectories;
 import frc.robot.commands.DoNothing;
@@ -27,35 +28,38 @@ public class AutoChooser extends SubsystemBase {
   public enum AutoMode{
     RedMiddleNote,
     BlueMiddleNote,
+    BlueAutoTest,
+    RedAutoTest,
     DoNothing
   }
   private final SwerveSubsystem swerveSubsystem;
-  private final Shooter shooter;
-  private final Arm arm;
-  private final ArmProfiledPID ArmProfiledPID;
-  private final Intake intake;
+  // private final Shooter shooter;
+  // private final Arm arm;
+  // private final ArmProfiledPID ArmProfiledPID;
+  // private final Intake intake;
   private final Limelight limelight;
   private SendableChooser<AutoMode> autoChooser;
   private Command autoRoutine;
   /** Creates a new AutoChooser. */
   public AutoChooser(
     SwerveSubsystem SwerveSubsystem,
-    Shooter Shooter,
-    Arm Arm,
-    ArmProfiledPID ArmProfiledPID,
-    Limelight Limelight,
-    Intake intake
+    // Arm Arm,
+    // ArmProfiledPID ArmProfiledPID,
+    Limelight Limelight
   ) {
     this.swerveSubsystem = SwerveSubsystem;
-    this.shooter = Shooter;
-    this.arm = Arm;
-    this.ArmProfiledPID = ArmProfiledPID;
-    this.intake = intake;
+    // this.shooter = Shooter;
+    // this.arm = Arm;
+    // this.ArmProfiledPID = ArmProfiledPID;
+    // this.intake = intake;
     this.limelight = Limelight;
     autoChooser = new SendableChooser<AutoMode>();
-    autoChooser.addOption("Red Middle Note", AutoMode.RedMiddleNote);
-    autoChooser.addOption("Blue Middle Note", AutoMode.BlueMiddleNote);
+    // autoChooser.addOption("Red Middle Note", AutoMode.RedMiddleNote);
+    // autoChooser.addOption("Blue Middle Note", AutoMode.BlueMiddleNote);
+    autoChooser.addOption("Blue Auto Test", AutoMode.BlueAutoTest);
+    autoChooser.addOption("Red Auto Test", AutoMode.RedAutoTest);
     autoChooser.addOption("Do Nothing", AutoMode.DoNothing);
+    autoChooser.setDefaultOption("Do Nothing", AutoMode.DoNothing);
     SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
@@ -66,46 +70,43 @@ public class AutoChooser extends SubsystemBase {
 
   public Command getAuto(){
     AutoMode selectedAutoMode = (AutoMode) (autoChooser.getSelected());
+
     System.out.println("Running getAuto");
     switch (selectedAutoMode) {
       default:
-      case RedMiddleNote:
+      case BlueAutoTest: //Working
+        System.out.println("Starting Middle Blu Note"); 
+        limelight.resetLimelightBotPose(); //Resets the swerve odometry pose based on whatever april tag is in view
+        System.out.println("After Odom Reset"); 
+        autoRoutine = new SequentialCommandGroup(
+            new  InstantCommand(() -> System.out.println("Moving to note, "+TrajectoryConstants.blue.speakerNote[0]+", "+TrajectoryConstants.blue.speakerNote[1])),
+            new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueSpeakerNote, true)
+        );
+      break;
+      case RedAutoTest: //Working
         System.out.println("Starting Middle Red Note"); 
         limelight.resetLimelightBotPose(); //Resets the swerve odometry pose based on whatever april tag is in view
         System.out.println("After Odom Reset"); 
         autoRoutine = new SequentialCommandGroup(
-            new FollowTrajectory(swerveSubsystem, AutoTrajectories.redMiddleNote, true)
+            new  InstantCommand(() -> System.out.println("Moving to note, "+TrajectoryConstants.red.speakerNote[0]+", "+TrajectoryConstants.blue.speakerNote[1])),
+            new FollowTrajectory(swerveSubsystem, AutoTrajectories.redSpeakerNote, true)
         );
       break;
-      case BlueMiddleNote:
-        System.out.println("Starting Middle Blue Note"); 
-        limelight.resetLimelightBotPose(); //Resets the swerve odometry pose based on whatever april tag is in view
-        System.out.println("After Odom Reset"); 
-        autoRoutine = new SequentialCommandGroup(
-            // Trajectory to center and take a shot
-            // new FollowTrajectory(swerveSubsystem, AutoTrajectories.middleBlueSpeaker, true),
-
-            // --------- Shoots single preloaded note into speaker ---------
-            new PIDMoveArm(arm, ArmProfiledPID,  Units.degreesToRadians(CommandConstants.Arm.closeSpeaker)), 
-            new RunShooter(shooter, intake, () -> 1.0, false,true, true), //Shoots the ring automatically
-            new PIDMoveArm(arm, ArmProfiledPID,  Units.degreesToRadians(CommandConstants.Arm.intake)), //Move arm down
 
 
+      // case BlueMiddleNote:
+      //   System.out.println("Starting Middle Blue Note"); 
+      //   limelight.resetLimelightBotPose(); //Resets the swerve odometry pose based on whatever april tag is in view
+      //   System.out.println("After Odom Reset"); 
+      //   autoRoutine = new SequentialCommandGroup(
+       
+      //       new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueMiddleNote, false),
+      //       new DoNothing().withTimeout(1),
+      //       new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueStageNote, true)
 
-            // --------- Drive to the middle note ---------
-            new ParallelCommandGroup(
-              new RunIntake(intake, true,.7, true),
-              new SequentialCommandGroup(
-                new DoNothing().withTimeout(.2),
-                new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueMiddleNote, true)
-              )
-            ),
-            new ParallelCommandGroup(
-              new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueMiddleNote, true),
-              new PIDMoveArm(arm, ArmProfiledPID,  Units.degreesToRadians(CommandConstants.Arm.closeSpeaker))
-            )
-        );
-      break;
+           
+      //   );
+      // break;
 
 
 
@@ -131,7 +132,7 @@ public class AutoChooser extends SubsystemBase {
       // break;
 
       case DoNothing:
-      autoRoutine = new DoNothing();
+        autoRoutine = new DoNothing();
   }
   return autoRoutine;
 }
