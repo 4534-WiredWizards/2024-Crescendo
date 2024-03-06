@@ -33,25 +33,27 @@ public class AutoChooser extends SubsystemBase {
     DoNothing
   }
   private final SwerveSubsystem swerveSubsystem;
-  // private final Shooter shooter;
-  // private final Arm arm;
-  // private final ArmProfiledPID ArmProfiledPID;
-  // private final Intake intake;
+  private final Shooter shooter;
+  private final Arm arm;
+  private final ArmProfiledPID ArmProfiledPID;
+  private final Intake intake;
   private final Limelight limelight;
   private SendableChooser<AutoMode> autoChooser;
   private Command autoRoutine;
   /** Creates a new AutoChooser. */
   public AutoChooser(
     SwerveSubsystem SwerveSubsystem,
-    // Arm Arm,
-    // ArmProfiledPID ArmProfiledPID,
+    Shooter Shooter,
+    Intake intake,
+    Arm Arm,
+    ArmProfiledPID ArmProfiledPID,
     Limelight Limelight
   ) {
     this.swerveSubsystem = SwerveSubsystem;
-    // this.shooter = Shooter;
-    // this.arm = Arm;
-    // this.ArmProfiledPID = ArmProfiledPID;
-    // this.intake = intake;
+    this.shooter = Shooter;
+    this.arm = Arm;
+    this.ArmProfiledPID = ArmProfiledPID;
+    this.intake = intake;
     this.limelight = Limelight;
     autoChooser = new SendableChooser<AutoMode>();
     // autoChooser.addOption("Red Middle Note", AutoMode.RedMiddleNote);
@@ -79,7 +81,7 @@ public class AutoChooser extends SubsystemBase {
         limelight.resetLimelightBotPose(); //Resets the swerve odometry pose based on whatever april tag is in view
         System.out.println("After Odom Reset"); 
         autoRoutine = new SequentialCommandGroup(
-            new  InstantCommand(() -> System.out.println("Moving to note, "+TrajectoryConstants.blue.speakerNote[0]+", "+TrajectoryConstants.blue.speakerNote[1])),
+            // new  InstantCommand(() -> System.out.println("Moving to note, "+TrajectoryConstants.blue.speakerNote[0]+", "+TrajectoryConstants.blue.speakerNote[1])),
             new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueSpeakerNote, true)
         );
       break;
@@ -88,7 +90,7 @@ public class AutoChooser extends SubsystemBase {
         limelight.resetLimelightBotPose(); //Resets the swerve odometry pose based on whatever april tag is in view
         System.out.println("After Odom Reset"); 
         autoRoutine = new SequentialCommandGroup(
-            new  InstantCommand(() -> System.out.println("Moving to note, "+TrajectoryConstants.red.speakerNote[0]+", "+TrajectoryConstants.blue.speakerNote[1])),
+            // new  InstantCommand(() -> System.out.println("Moving to note, "+TrajectoryConstants.red.speakerNote[0]+", "+TrajectoryConstants.blue.speakerNote[1])),
             new FollowTrajectory(swerveSubsystem, AutoTrajectories.redSpeakerNote, true)
         );
       break;

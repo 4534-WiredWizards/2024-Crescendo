@@ -69,7 +69,7 @@ public class Arm extends SubsystemBase {
    }
 
   public boolean getArmStatusRv(){
-    return leftForwardLimitSwitch.isPressed();
+    return leftReverseLimitSwitch.isPressed();
     }
 }
 
