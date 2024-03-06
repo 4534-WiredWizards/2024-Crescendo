@@ -57,6 +57,6 @@ public class PointToSpeaker2 extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return PIDController.atSetpoint();
+    return PIDController.atSetpoint() && (limelight.gettx() == 0);
   }
 }

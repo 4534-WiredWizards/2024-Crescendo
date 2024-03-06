@@ -119,7 +119,9 @@ public class Limelight extends SubsystemBase {
   public double getLeftRightDistance() {
       // April tag on the left is negitve
       // April tag on the right is positve
+
       cameraPose = NetworkTableInstance.getDefault().getTable("limelight").getEntry("camerapose_targetspace").getDoubleArray(new double[6]);
+    
       SmartDashboard.putNumber("Limelight Targetpose X Distance", cameraPose[kX]);
       return cameraPose[kX];
     }
