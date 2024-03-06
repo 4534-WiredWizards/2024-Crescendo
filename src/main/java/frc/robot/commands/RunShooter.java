@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Shooter;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.Intake;
 
 public class RunShooter extends Command {
@@ -41,8 +42,9 @@ public class RunShooter extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-  isPressed = false;
-  presses = 0;
+    isPressed = false;
+    presses = 0;
+    RobotContainer.leds.shooterStart();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -75,6 +77,7 @@ public class RunShooter extends Command {
   public void end(boolean interrupted) {
     shooter.move(0);
     Intake.move(0);
+    RobotContainer.leds.shooterStop();
   }
 
 

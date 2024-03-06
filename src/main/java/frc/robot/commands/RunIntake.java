@@ -11,6 +11,7 @@ import org.opencv.features2d.FlannBasedMatcher;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Lights;
 
@@ -43,8 +44,7 @@ public class RunIntake extends Command {
   @Override
   public void initialize() {
     init_state = intake.getIntakeStatus();
-    Lights.LEDSegment.Panel.setFadeAnimation(Lights.blue, .2);
-
+    RobotContainer.leds.intakeStart();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -68,15 +68,24 @@ public class RunIntake extends Command {
   @Override
   public void end(boolean interrupted) {
     intake.move(0);
-    Lights.LEDSegment.Panel.setFadeAnimation(Lights.green, .000001);
+    RobotContainer.leds.intakeStop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     
-    if(autostop){
-      return !(init_state || !intake.getIntakeStatus());
+    if(autostop){ //Automaticly stops the intake if a note is detected and if the intake is running
+      // INIT_STATE set to the current state of the note detector when the command is initialized
+      // !intake.getIntakeStatus() returns the current state of the note detector
+      if (init_state && !intake.getIntakeStatus()){
+        RobotContainer.leds.noteCollected();
+        return true;
+      }
+      else{
+        return false;
+      }
+      // return !(init_state || !intake.getIntakeStatus());
     }
     else{
       return false;

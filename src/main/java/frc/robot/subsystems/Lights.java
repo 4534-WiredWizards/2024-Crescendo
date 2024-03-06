@@ -28,6 +28,7 @@ import com.ctre.phoenix.led.CANdle.VBatOutputMode;
 import com.ctre.phoenix.led.ColorFlowAnimation.Direction;
 
 import frc.robot.Constants.LightsConstants;
+import frc.robot.RobotContainer;
 
 public class Lights extends SubsystemBase {
   // private final CANdle Candle = new CANdle(26, "rio");
@@ -35,6 +36,8 @@ public class Lights extends SubsystemBase {
 
   public static final CANdle Candle = new CANdle(LightsConstants.candlePort, "rio");
 
+
+  // DESIGN COLOR ARE NOT STORED HERE ---- SEE RGBColors BELOW 
   // Team & Default Colors
   public static final Color red = new Color(255, 0, 0);
   public static final Color black = new Color(0, 0, 0);
@@ -85,6 +88,67 @@ public class Lights extends SubsystemBase {
     LEDSegment.CandleLEDs.setColor(darkOrange);
   }
 
+  
+ // ------------------------- Subsytem Lights -------------------------
+  // Intake Start
+  public void intakeStart() {
+    LEDSegment.Panel.setFadeAnimation(blue, 0.05);
+  }
+  // Intake Stop
+  public void intakeStop() {
+    LEDSegment.Panel.clearAnimation();
+    enableRobot();
+  }
+
+  // Shooter Start
+  public void shooterStart() {
+    LEDSegment.Panel.setFadeAnimation(red, 0.5);
+  }
+
+  // Shooter Stop
+  public void shooterStop() {
+    LEDSegment.Panel.clearAnimation();
+    enableRobot();
+  }
+
+  // Note Collected
+  public void noteCollected() {
+    // Save the current animation
+    // Set to 2 secound orange strobe
+    LEDSegment.Panel.setStrobeAnimation(orange, 0.05);
+    try{Thread.sleep(1200);}catch(InterruptedException e){};
+    LEDSegment.Panel.clearAnimation();
+    enableRobot();
+  }
+
+  // Enable Robot
+  public void enableRobot() {
+    LEDSegment.Panel.setFlowAnimation(green, 0.05);
+  }
+  // Disable Robot
+  public void disableRobot() {
+    LEDSegment.CandleLEDs.setColor(orange);
+    // setFlowAnimation(red, 0.05);
+    // TODO: Add fade between drawings
+    LEDSegment.Panel.fullClear();
+    RobotContainer.leds.drawImage(Constants.LightDesign.WIRED_WIZARDS);
+    try{Thread.sleep(2000);}catch(InterruptedException e){};
+    LEDSegment.Panel.fullClear();
+    RobotContainer.leds.drawImage(Constants.LightDesign.nCino);
+    try{Thread.sleep(2000);}catch(InterruptedException e){};
+    LEDSegment.Panel.fullClear();
+    RobotContainer.leds.drawImage(Constants.LightDesign.Corning);
+    try{Thread.sleep(2000);}catch(InterruptedException e){};
+    LEDSegment.Panel.fullClear();
+    RobotContainer.leds.drawImage(Constants.LightDesign.CFCC);
+    try{Thread.sleep(2000);}catch(InterruptedException e){};
+  }
+
+  public void teleopStart() {
+      LEDSegment.CandleLEDs.setFadeAnimation(Lights.green, .000001);
+      LEDSegment.Panel.setFadeAnimation(Lights.green, .000001);
+  }
+
   public void clearSegmentCommand(LEDSegment segment) {
       segment.clearAnimation();
       segment.disableLEDs();
@@ -130,6 +194,7 @@ public class Lights extends SubsystemBase {
     }
 
     public void setFlowAnimation(Color color, double speed) {
+      // Animation that gradually lights the entire LED strip one LED at a time.
         setAnimation(new ColorFlowAnimation(
                 color.red, 
                 color.green, 
@@ -143,19 +208,23 @@ public class Lights extends SubsystemBase {
     }
 
     public void setFadeAnimation(Color color, double speed) {
+      //Animation that fades into and out of a specified color
         setAnimation(
                 new SingleFadeAnimation(color.red, color.green, color.blue, 0, speed, segmentSize, startIndex));
     }
 
     public void setBandAnimation(Color color, double speed) {
+      //Animation that sends a pocket of light across the LED strip.
         setAnimation(new LarsonAnimation(
                 color.red, color.green, color.blue, 0, speed, segmentSize, BounceMode.Front, 3, startIndex));
     }
 
     public void setStrobeAnimation(Color color, double speed) {
+      //Animation that strobes the LEDs a specified color
         setAnimation(new StrobeAnimation(color.red, color.green, color.blue, 0, speed, segmentSize, startIndex));
     }
 
+    // Random fun stuff - not practical
     public void setRainbowAnimation(double speed) {
         setAnimation(new RainbowAnimation(1, speed, segmentSize, false, startIndex));
     }
@@ -172,70 +241,11 @@ public class Lights extends SubsystemBase {
       setAnimation(new ColorFlowAnimation(color.red, color.green, color.blue, 0, speed, segmentSize, Direction.Forward));
     }
 
+    
+
+
+
   }
-
-
-
-
-
-//  MESSING AROUND
-
-
-public void scrollText(String text, int speed, Color color) {
-  // Set the text color
-  setColor(color);
-
-  // Iterate through each character in the text
-  for (int i = 0; i < text.length(); i++) {
-      char currentChar = text.charAt(i);
-
-      // Get the ASCII value of the character
-      int asciiValue = (int) currentChar;
-
-      // Display the character on the LED matrix
-      setCharacter(asciiValue, color);
-
-      // Wait for a short duration to create the scrolling effect
-      Timer.delay(speed / 100.0);  // Convert speed to seconds
-
-      // Clear the display to prepare for the next character
-      clearDisplay();
-  }
-}
-
-
- // Additional helper method to set a character on the LED matrix
- private void setCharacter(int asciiValue, Color color) {
-  // Adjust the ASCII value if needed to map to your specific character set
-  // You may need to implement a lookup table for character mappings
-
-  // Example: Map ASCII values 'A' to 'Z' to 0 to 25
-  if (asciiValue >= 'A' && asciiValue <= 'Z') {
-      asciiValue -= 'A';
-  }
-
-  // Example: Map ASCII values 'a' to 'z' to 0 to 25
-  else if (asciiValue >= 'a' && asciiValue <= 'z') {
-      asciiValue -= 'a';
-  }
-
-  // Example: Map ASCII values '0' to '9' to 26 to 35
-  else if (asciiValue >= '0' && asciiValue <= '9') {
-      asciiValue = 26 + (asciiValue - '0');
-  }
-
-  // Add more mappings as needed based on your character set
-
-  // Display the character on the LED matrix at a specific position
-  // Adjust the position and other parameters based on your matrix configuration
-  setRowAndColumn(0, asciiValue * 4, color.red, color.green, color.blue, 0);
-}
-
-// Additional helper method to clear the LED matrix display
-private void clearDisplay() {
-  // Clear the display by setting all LEDs to black
-  setColor(black);
-}
 
 
 
@@ -261,6 +271,25 @@ private void clearDisplay() {
     public static final int[] LIGHTGRAY = { 102, 102, 102, 100 };
     public static final int[] RED = { 255, 0, 0, 100 };
     public static final int[] BLACK = {0,0,0,0};
+    
+    public static final class ww {
+      public static final int[] DARKGRAY = RGBColors.DARKGRAY;
+      public static final int[] LIGHTGRAY = RGBColors.LIGHTGRAY;
+      public static final int[] RED = RGBColors.RED;
+    }
+    public static final class nCino { 
+        public static final int[] RED = {207,16,19,100};
+        public static final int[] YELLOW = {253,188,1,100};
+        public static final int[] GREEN = {92,182,77,100};
+        public static final int[] BLUE = {23,170,220,100};
+        public static final int[] TEXT = {255,255,255,20};
+    }
+    public static final class Corning {
+        public static final int[] TEXT = {255,255,255,20};
+    }
+    public static final class CFCC {
+        public static final int[] TEXT = {255,255,255,100};
+    }
   }
 
  
@@ -317,6 +346,8 @@ private void clearDisplay() {
       try {Thread.sleep(msDelay);}catch(InterruptedException e){}
     }
   }
+
+ 
 
 
 }

@@ -11,7 +11,8 @@ import edu.wpi.first.util.PixelFormat;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.revrobotics.SparkLimitSwitch;
 import frc.robot.RobotContainer;
@@ -42,8 +43,6 @@ public class Robot extends TimedRobot {
         // and put our
         // autonomous chooser on the dashboard.
         m_robotContainer = new RobotContainer();
-
-
         UsbCamera fisheye = CameraServer.startAutomaticCapture();
         fisheye.setResolution(320, 240);
         fisheye.setPixelFormat(PixelFormat.kMJPEG);
@@ -86,13 +85,26 @@ public class Robot extends TimedRobot {
     /** This function is called once each time the robot enters Disabled mode. */
     @Override
     public void disabledInit() {
-        Lights.LEDSegment.CandleLEDs.setColor(Lights.darkOrange);
-        Lights.LEDSegment.Panel.setColor(Lights.darkOrange);
+        
     }
 
     @Override
     public void disabledPeriodic() {
+
+        RobotContainer.leds.disableRobot();
+
+        // new SequentialCommandGroup(
+        //     new InstantCommand(()->  RobotContainer.leds.scrollAnimation(Constants.LightDesign.WIRED_WIZARDS, 100, 2)),
+        //     new InstantCommand(()-> {
+        //     try{
+        //         Thread.sleep(2000);
+        //     }catch(InterruptedException e){}
+        //     }),
+        //     new InstantCommand(()-> Lights.LEDSegment.Panel.fullClear()),
+        //     new InstantCommand(()->  RobotContainer.leds.drawImage(Constants.LightDesign.nCino))
+        // ).schedule();
     }
+    
 
     /**
      * This autonomous runs the autonomous command selected by your
@@ -122,8 +134,7 @@ public class Robot extends TimedRobot {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
-        Lights.LEDSegment.CandleLEDs.setFadeAnimation(Lights.green, .000001);
-        Lights.LEDSegment.Panel.setFadeAnimation(Lights.green, .000001);
+        RobotContainer.leds.teleopStart();
     }
 
     /** This function is called periodically during operator control. */
