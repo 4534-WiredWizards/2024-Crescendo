@@ -4,10 +4,6 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ArmProfiledPID;
 import frc.robot.subsystems.Arm;
@@ -43,7 +39,7 @@ public class PIDMoveArm extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("End");
+    System.out.println("ArmPIDMove Ended");
     armProfiledPID.disable();
     arm.move(0);
   }
@@ -58,7 +54,7 @@ public class PIDMoveArm extends Command {
     //   return false;
     // }
     if (armProfiledPID.atPIDGoal()) {
-      System.out.println("isFinished ArmPIDMove");
+      System.out.println("ArmPIDMove Finished");
       return true;
     } else {
       return false;
