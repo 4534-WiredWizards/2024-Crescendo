@@ -171,7 +171,7 @@ public final class Constants {
         public static final class Arm {
             public static final double AbsEncoderOffset=.189;
             public static final double amp = 100.0;
-            public static final double intake = -2;
+            public static final double intake = 0;
             public static final double traversal = 75;
             public static final double closeSpeaker = 19;
             // Arm Feedforward Constants
