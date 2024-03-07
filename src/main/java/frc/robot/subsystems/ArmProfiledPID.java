@@ -5,24 +5,19 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
-import frc.robot.Constants;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.Encoder;
-
-import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import com.revrobotics.CANSparkLowLevel;
-import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 
 public class ArmProfiledPID extends ProfiledPIDSubsystem{
     private final Arm arm;
+
+    // OLD ARM CONSTANTS - 20lbs - 28 COM
     // private final ArmFeedforward m_feedforward = new ArmFeedforward(1,0.45,2.49,0.03);
     
-    // OLD WITH HEAVY ARM - NO SHOCKS
-    private final ArmFeedforward m_feedforward = new ArmFeedforward(1,1.09,2.49,0.08);
+    //New - 21lbs - 24 COM
+    private final ArmFeedforward m_feedforward = new ArmFeedforward(1,0.81,2.51,0.05);
 
     public ArmProfiledPID(
         Arm arm
@@ -31,12 +26,12 @@ public class ArmProfiledPID extends ProfiledPIDSubsystem{
         // Start arm at rest in neutral position.
         super(
             new ProfiledPIDController(
-            4.2,
+            6.0,
             4.1,
             0,
-            new TrapezoidProfile.Constraints(5, 1)),0
+            new TrapezoidProfile.Constraints(9, 1))
         );
-        this.getController().setTolerance(Units.degreesToRadians(2), 2);
+        this.getController().setTolerance(Units.degreesToRadians(2), 1);
         this.arm = arm;
         // arm.getAbsolutePosition();
         // Input goal, rather self explanatory: Constants.kArmOffsetRads

@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CommandConstants;
 import frc.robot.Constants.TrajectoryConstants;
 import frc.robot.GeneralTrajectories;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.autonomous.AutoTrajectories;
 import frc.robot.commands.DoNothing;
@@ -96,17 +97,18 @@ public class AutoChooser extends SubsystemBase {
         System.out.println("Starting Middle Red Note"); 
         limelight.resetLimelightBotPose(); //Resets the swerve odometry pose based on whatever april tag is in view
         System.out.println("After Odom Reset"); 
-        autoRoutine = new SequentialCommandGroup(
+        String allianceColor = RobotContainer.getAllianceColor();
+        System.out.println("AUTO Alliance Color: "+allianceColor);
+        
+
+        Command blueAuto = new SequentialCommandGroup(
             new ParallelCommandGroup(
               new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueSpeakerShoot, true),
-              new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.closeSpeaker)),
+              new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.closeSpeaker)).withTimeout(2),
               new RunShooter(shooter, intake, () -> 1.0, false,true, true)
-              // new InstantCommand(()-> shooter.move(1)).withTimeout(.5)
-              // new RunShooter(shooter, intake, () -> 1.0, false,false, false).withTimeout(1)
             ),
-            // new RunShooter(shooter, intake, () -> 1.0, false,true, true),
-            new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.intake)),
             new ParallelCommandGroup(
+              new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.intake)),
               new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueSpeakerNote, true),
               new RunIntake(intake, true, .7, true)
             ),
@@ -114,12 +116,20 @@ public class AutoChooser extends SubsystemBase {
               new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueSpeakerShoot, true),
               new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.closeSpeaker)),
               new SequentialCommandGroup(
-                new DoNothing().withTimeout(.5),
+                new DoNothing().withTimeout(.8), //Wait a for robot to drive back to shooting position
                 new RunShooter(shooter, intake, () -> 1.0, false,true, true)
               )
             )
             // new PIDMoveArm(arm, ArmProfiledPID, 0.0)
         );
+        Command redAuto = new SequentialCommandGroup();
+        if (allianceColor == "Blue"){
+          autoRoutine = blueAuto;
+        } else if (allianceColor == "Red"){
+          autoRoutine = redAuto;
+        } else {
+          autoRoutine = new SequentialCommandGroup();
+        }
       break;
 
 
@@ -186,6 +196,8 @@ public class AutoChooser extends SubsystemBase {
       // autoRoutine = new GeneralTrajectories().Back(swerveSubsystem);
       // break;
 
+     
+     
       case DoNothing:
         autoRoutine = new DoNothing();
   }

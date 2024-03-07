@@ -4,10 +4,6 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -78,15 +74,15 @@ public class Lights extends SubsystemBase {
     config.brightnessScalar = .5;
     config.vBatOutputMode = VBatOutputMode.Modulated;
     Candle.configAllSettings(config, 100);
-    RobotInit();
+    // RobotInit();
 
   }
 
-  public void RobotInit() {
-    LEDSegment.CandleLEDs.fullClear();
-    LEDSegment.Panel.fullClear();
-    LEDSegment.CandleLEDs.setColor(darkOrange);
-  }
+  // public void RobotInit() {
+  //   LEDSegment.CandleLEDs.fullClear();
+  //   LEDSegment.Panel.fullClear();
+  //   LEDSegment.CandleLEDs.setColor(darkOrange);
+  // }
 
   
  // ------------------------- Subsytem Lights -------------------------
@@ -97,18 +93,18 @@ public class Lights extends SubsystemBase {
   // Intake Stop
   public void intakeStop() {
     LEDSegment.Panel.clearAnimation();
-    enableRobot();
+    teleopStart();
   }
 
   // Shooter Start
   public void shooterStart() {
-    LEDSegment.Panel.setFadeAnimation(red, 0.5);
+    LEDSegment.Panel.setFadeAnimation(red, 0.7);
   }
 
   // Shooter Stop
   public void shooterStop() {
     LEDSegment.Panel.clearAnimation();
-    enableRobot();
+    // enableRobot();
   }
 
   // Note Collected
@@ -120,19 +116,22 @@ public class Lights extends SubsystemBase {
   //   LEDSegment.Panel.clearAnimation();
   //   enableRobot();
   // }
-
-  // Enable Robot
-  public void enableRobot() {
-    LEDSegment.Panel.setFadeAnimation(orange, 0.05);
+  //RobotInit
+  public void robotInit() {
+    LEDSegment.CandleLEDs.fullClear();
+    LEDSegment.Panel.fullClear();
+    RobotContainer.leds.drawImage(Constants.LightDesign.WIRED_WIZARDS);
   }
+
   // Disable Robot
-  public void disableRobot() {
-    // NOT IN USE BECAUSE CANT BE INTERRUPPTED
+  public void disabledStart() {
+    LEDSegment.CandleLEDs.setFadeAnimation(Lights.orange, .000001);
+
   }
 
   public void teleopStart() {
-      LEDSegment.CandleLEDs.setFadeAnimation(Lights.green, .000001);
-      LEDSegment.Panel.setFadeAnimation(Lights.green, .000001);
+    LEDSegment.CandleLEDs.setFadeAnimation(Lights.green, .000001);
+    LEDSegment.Panel.setFadeAnimation(Lights.green, .000001);
   }
 
   public void clearSegmentCommand(LEDSegment segment) {

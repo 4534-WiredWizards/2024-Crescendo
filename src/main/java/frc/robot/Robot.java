@@ -12,15 +12,8 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ScheduleCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import com.revrobotics.SparkLimitSwitch;
-import frc.robot.RobotContainer;
-import frc.robot.commands.DoNothing;
-import frc.robot.subsystems.Lights;
-import frc.robot.subsystems.Lights.LEDSegment;;
+import frc.robot.subsystems.Lights;;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -48,9 +41,11 @@ public class Robot extends TimedRobot {
         // autonomous chooser on the dashboard.
         m_robotContainer = new RobotContainer();
         UsbCamera fisheye = CameraServer.startAutomaticCapture();
-            fisheye.setResolution(320, 240);
-            fisheye.setPixelFormat(PixelFormat.kMJPEG);
-        }
+        fisheye.setResolution(320, 240);
+        fisheye.setPixelFormat(PixelFormat.kMJPEG);
+        Lights.LEDSegment.Panel.fullClear();
+        RobotContainer.leds.robotInit();
+    }
 
     /**
      * This function is called every robot packet, no matter the mode. Use this for
@@ -84,36 +79,33 @@ public class Robot extends TimedRobot {
         // SmartDashboard.putNumber("Arm Abs Encoder", m_robotContainer.arm.getAbsolutePosition());
         SmartDashboard.putNumber("NavX", m_robotContainer.swerve.getHeading());
         SmartDashboard.putString("Alliance", DriverStation.getAlliance().get().toString());
-        SmartDashboard.putString("Alliance Color", m_robotContainer.getAllianceColor());
+        SmartDashboard.putString("Alliance Color", RobotContainer.getAllianceColor());
     }
 
     /** This function is called once each time the robot enters Disabled mode. */
     @Override
     public void disabledInit() {
-        LEDSegment.Panel.fullClear();
-        RobotContainer.leds.drawImage(Constants.LightDesign.WIRED_WIZARDS);
-
+       RobotContainer.leds.disabledStart();
     
     }
 
     @Override
     public void disabledPeriodic() {
         // While robot is disabled, run the LED code
-        // RobotContainer.leds.disabled();
-        // new SequentialCommandGroup(
-        //     // new InstantCommand(()-> m_led.scrollAnimation(Constants.LightDesign.WIRED_WIZARDS, 100, 2)),
-        //     new InstantCommand(()-> Lights.LEDSegment.Panel.fullClear()),
-        //     new InstantCommand(()-> RobotContainer.leds.drawImage(Constants.LightDesign.WIRED_WIZARDS)),
-        //     new InstantCommand(()-> {try{Thread.sleep(2000);}catch(InterruptedException e){}}),
-        //     new InstantCommand(()-> Lights.LEDSegment.Panel.fullClear()),
-        //     new InstantCommand(()-> RobotContainer.leds.drawImage(Constants.LightDesign.nCino)),
-        //     new InstantCommand(()-> {try{Thread.sleep(2000);}catch(InterruptedException e){}}),
-        //     new InstantCommand(()-> Lights.LEDSegment.Panel.fullClear()),
-        //     new InstantCommand(()-> RobotContainer.leds.drawImage(Constants.LightDesign.Corning)),
-        //     new InstantCommand(()-> {try{Thread.sleep(2000);}catch(InterruptedException e){}}),
-        //     new InstantCommand(()-> Lights.LEDSegment.Panel.fullClear()),
-        //     new InstantCommand(()-> RobotContainer.leds.drawImage(Constants.LightDesign.CFCC))
-        //   ).schedule();
+   
+        //RobotContainer.ledsm_led.scrollAnimation(Constants.LightDesign.WIRED_WIZARDS, 100, 2)),
+    //    Lights.LEDSegment.Panel.fullClear();
+    //    RobotContainer.leds.drawImage(Constants.LightDesign.WIRED_WIZARDS);
+    //    {try{Thread.sleep(2000);}catch(InterruptedException e){}};
+    //    Lights.LEDSegment.Panel.fullClear();
+    //    RobotContainer.leds.drawImage(Constants.LightDesign.nCino);
+    //    {try{Thread.sleep(2000);}catch(InterruptedException e){}};
+    //    Lights.LEDSegment.Panel.fullClear();
+    //    RobotContainer.leds.drawImage(Constants.LightDesign.Corning);
+    //    {try{Thread.sleep(2000);}catch(InterruptedException e){}};
+    //    Lights.LEDSegment.Panel.fullClear();
+    //    RobotContainer.leds.drawImage(Constants.LightDesign.CFCC);
+        
     }
     
 
@@ -145,7 +137,6 @@ public class Robot extends TimedRobot {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
-        LEDSegment.Panel.fullClear();
         RobotContainer.leds.teleopStart();
     }
 
