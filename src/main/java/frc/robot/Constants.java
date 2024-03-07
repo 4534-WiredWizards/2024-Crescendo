@@ -4,7 +4,6 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
-import frc.robot.subsystems.ArmProfiledPID;
 import frc.robot.subsystems.Lights.RGBColors;
 
 public final class Constants {
@@ -170,8 +169,8 @@ public final class Constants {
         //Arm Commands
         public static final class Arm {
             public static final double AbsEncoderOffset=.2;
-            public static final double amp = 100.0;
-            public static final double intake = 4.2;
+            public static final double amp = 113.0;
+            public static final double intake = 3;
             public static final double traversal = 75;
             public static final double closeSpeaker = 19;
             // Arm Feedforward Constants
