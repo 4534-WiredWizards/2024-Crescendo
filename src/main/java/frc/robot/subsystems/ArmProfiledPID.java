@@ -26,12 +26,12 @@ public class ArmProfiledPID extends ProfiledPIDSubsystem{
         // Start arm at rest in neutral position.
         super(
             new ProfiledPIDController(
-            6.0,
-            4.1,
-            0,
+                3.1, // Down from 6
+                3.4, // Down from 4.1
+                0,
             new TrapezoidProfile.Constraints(9, 1))
         );
-        this.getController().setTolerance(Units.degreesToRadians(2), 1);
+        this.getController().setTolerance(Units.degreesToRadians(1), 1);
         this.arm = arm;
         // arm.getAbsolutePosition();
         // Input goal, rather self explanatory: Constants.kArmOffsetRads
