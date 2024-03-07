@@ -100,7 +100,7 @@ public class AutoTrajectories {
     TrajectoryGenerator.generateTrajectory(
         new Pose2d((TrajectoryConstants.blue.speakerShoot[0] -.3), (TrajectoryConstants.blue.speakerShoot[1] + 0.01), new Rotation2d(Math.toRadians(TrajectoryConstants.blue.speakerShoot[2]))),
         List.of(),
-        new Pose2d((TrajectoryConstants.blue.speakerShoot[0] -.3), (TrajectoryConstants.blue.speakerShoot[1] + 0.0), new Rotation2d(Math.toRadians(TrajectoryConstants.blue.speakerShoot[2]))),
+        new Pose2d((TrajectoryConstants.blue.speakerShoot[0] -.4), (TrajectoryConstants.blue.speakerShoot[1] + 0.1), new Rotation2d(Math.toRadians(TrajectoryConstants.blue.speakerShoot[2]))),
         RobotContainer.autoTrajectoryConfig
     );
     
@@ -121,7 +121,7 @@ public class AutoTrajectories {
     TrajectoryGenerator.generateTrajectory(
         new Pose2d((TrajectoryConstants.blue.speakerNote[0] - 0.1), (TrajectoryConstants.blue.speakerNote[1] + 0.01), new Rotation2d(Math.toRadians(TrajectoryConstants.blue.speakerNote[2]))),
         List.of(),
-        new Pose2d((TrajectoryConstants.blue.speakerNote[0] + 0.3), (TrajectoryConstants.blue.speakerNote[1] + 0.0), new Rotation2d(Math.toRadians(TrajectoryConstants.blue.speakerNote[2]))),
+        new Pose2d((TrajectoryConstants.blue.speakerNote[0] + 0.3), (TrajectoryConstants.blue.speakerNote[1] - 0.1), new Rotation2d(Math.toRadians(TrajectoryConstants.blue.speakerNote[2]))),
         RobotContainer.autoTrajectoryConfig
     );
 
