@@ -1,6 +1,10 @@
 package frc.robot;
 
 import java.util.List;
+import java.util.Optional;
+
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -125,7 +129,7 @@ public class RobotContainer {
         new POVButton(operatorJoystick, 180).onTrue(new SequentialCommandGroup(
                 // Move arm down, run intake, move arm back up (once intake is full)
                 new PIDMoveArm(arm, ArmProfiledPID,  Units.degreesToRadians(CommandConstants.Arm.intake)), 
-                // new RunIntake(intake, true,.7, true), 
+                new RunIntake(intake, true,.7, true), 
                 new PIDMoveArm(arm, ArmProfiledPID,  Units.degreesToRadians(CommandConstants.Arm.traversal))
         ));
         
@@ -133,5 +137,24 @@ public class RobotContainer {
 
     public Command getAutonomousCommand() {
         return autoChooser.getAuto();
+    }
+   
+    // Code to get Alliance color
+    public static String getAllianceColor() {
+        // Fetch the alliance color
+        Optional<Alliance> ally = DriverStation.getAlliance();
+        if (ally.isPresent()) {
+            if (ally.get() == Alliance.Red) {
+                return "Red";
+            }
+            if (ally.get() == Alliance.Blue) {
+                return "Blue";
+            }
+        }
+        else {
+            // Throw Error
+            return "Error";
+        }
+        return null;
     }
 }

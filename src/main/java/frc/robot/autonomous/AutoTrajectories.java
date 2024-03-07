@@ -92,6 +92,17 @@ public class AutoTrajectories {
         new Pose2d((TrajectoryConstants.red.ampNote[0] - 0.0), (TrajectoryConstants.red.ampNote[1] + 0.0), new Rotation2d(Math.toRadians(TrajectoryConstants.red.ampNote[2]))),
         RobotContainer.autoTrajectoryConfig
     );
+
+
+    // Blue Speaker Shoot
+    // Location Just in front of the blue speaker note that preloaded note can be scored from
+    public static Trajectory blueSpeakerShoot =
+    TrajectoryGenerator.generateTrajectory(
+        new Pose2d((TrajectoryConstants.blue.speakerShoot[0] -.3), (TrajectoryConstants.blue.speakerShoot[1] + 0.01), new Rotation2d(Math.toRadians(TrajectoryConstants.blue.speakerShoot[2]))),
+        List.of(),
+        new Pose2d((TrajectoryConstants.blue.speakerShoot[0] -.3), (TrajectoryConstants.blue.speakerShoot[1] + 0.0), new Rotation2d(Math.toRadians(TrajectoryConstants.blue.speakerShoot[2]))),
+        RobotContainer.autoTrajectoryConfig
+    );
     
 
     // Blue Stage Note
@@ -108,11 +119,9 @@ public class AutoTrajectories {
     // Blue Speaker Note
     public static Trajectory blueSpeakerNote =  
     TrajectoryGenerator.generateTrajectory(
-        new Pose2d((TrajectoryConstants.blue.speakerNote[0] - 0.1), (TrajectoryConstants.blue.speakerNote[1] + 0.5), new Rotation2d(Math.toRadians(TrajectoryConstants.blue.speakerNote[2]))),
-        List.of(
-            // new Translation2d(Units.inchesToMeters(40), Units.inchesToMeters(0))
-        ),
-        new Pose2d((TrajectoryConstants.blue.speakerNote[0] + 0.0), (TrajectoryConstants.blue.speakerNote[1] + 0.0), new Rotation2d(Math.toRadians(TrajectoryConstants.blue.speakerNote[2]))),
+        new Pose2d((TrajectoryConstants.blue.speakerNote[0] - 0.1), (TrajectoryConstants.blue.speakerNote[1] + 0.01), new Rotation2d(Math.toRadians(TrajectoryConstants.blue.speakerNote[2]))),
+        List.of(),
+        new Pose2d((TrajectoryConstants.blue.speakerNote[0] + 0.3), (TrajectoryConstants.blue.speakerNote[1] + 0.0), new Rotation2d(Math.toRadians(TrajectoryConstants.blue.speakerNote[2]))),
         RobotContainer.autoTrajectoryConfig
     );
 

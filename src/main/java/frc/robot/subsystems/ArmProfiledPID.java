@@ -19,10 +19,10 @@ import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 
 public class ArmProfiledPID extends ProfiledPIDSubsystem{
     private final Arm arm;
-    private final ArmFeedforward m_feedforward = new ArmFeedforward(1,0.45,2.49,0.03);
+    // private final ArmFeedforward m_feedforward = new ArmFeedforward(1,0.45,2.49,0.03);
     
     // OLD WITH HEAVY ARM - NO SHOCKS
-    // private final ArmFeedforward m_feedforward = new ArmFeedforward(1,0.90,2.49,0.07);
+    private final ArmFeedforward m_feedforward = new ArmFeedforward(1,1.09,2.49,0.08);
 
     public ArmProfiledPID(
         Arm arm
@@ -31,13 +31,12 @@ public class ArmProfiledPID extends ProfiledPIDSubsystem{
         // Start arm at rest in neutral position.
         super(
             new ProfiledPIDController(
-            3.1,
-            3.4,
+            4.2,
+            4.1,
             0,
-            new TrapezoidProfile.Constraints(
-                5, 1)),0
+            new TrapezoidProfile.Constraints(5, 1)),0
         );
-        this.getController().setTolerance(Units.degreesToRadians(1), 1);
+        this.getController().setTolerance(Units.degreesToRadians(2), 2);
         this.arm = arm;
         // arm.getAbsolutePosition();
         // Input goal, rather self explanatory: Constants.kArmOffsetRads
@@ -50,7 +49,7 @@ public class ArmProfiledPID extends ProfiledPIDSubsystem{
         double feedforward = m_feedforward.calculate(setpoint.position, setpoint.velocity);
         // Add the feedforward to the PID output to get the motor output
         arm.setVoltage(output + feedforward);
-    }
+    }   
 
   @Override
     public double getMeasurement() {

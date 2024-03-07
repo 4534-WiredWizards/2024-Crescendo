@@ -8,15 +8,19 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.util.PixelFormat;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.revrobotics.SparkLimitSwitch;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.Lights;;
+import frc.robot.commands.DoNothing;
+import frc.robot.subsystems.Lights;
+import frc.robot.subsystems.Lights.LEDSegment;;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -44,8 +48,8 @@ public class Robot extends TimedRobot {
         // autonomous chooser on the dashboard.
         m_robotContainer = new RobotContainer();
         UsbCamera fisheye = CameraServer.startAutomaticCapture();
-        fisheye.setResolution(320, 240);
-        fisheye.setPixelFormat(PixelFormat.kMJPEG);
+            fisheye.setResolution(320, 240);
+            fisheye.setPixelFormat(PixelFormat.kMJPEG);
 
 
         }
@@ -79,30 +83,23 @@ public class Robot extends TimedRobot {
         SmartDashboard.putBoolean("Climb LM", m_robotContainer.climb.getClimbStatus());
         SmartDashboard.putNumber("Climb Encoder", m_robotContainer.climb.getPosition());
         SmartDashboard.putNumber("Arm Abs Encoder", Units.radiansToDegrees((m_robotContainer.arm.getAbsolutePosition())));
+        // SmartDashboard.putNumber("Arm Abs Encoder", m_robotContainer.arm.getAbsolutePosition());
         SmartDashboard.putNumber("NavX", m_robotContainer.swerve.getHeading());
+        SmartDashboard.putString("Alliance", DriverStation.getAlliance().get().toString());
+        SmartDashboard.putString("Alliance Color", m_robotContainer.getAllianceColor());
     }
 
     /** This function is called once each time the robot enters Disabled mode. */
     @Override
     public void disabledInit() {
-        
+        LEDSegment.Panel.fullClear();
+        {try {Thread.sleep(1000);}catch(InterruptedException e){}}
+        RobotContainer.leds.drawImage(Constants.LightDesign.WIRED_WIZARDS);
     }
 
     @Override
     public void disabledPeriodic() {
-
-        RobotContainer.leds.disableRobot();
-
-        // new SequentialCommandGroup(
-        //     new InstantCommand(()->  RobotContainer.leds.scrollAnimation(Constants.LightDesign.WIRED_WIZARDS, 100, 2)),
-        //     new InstantCommand(()-> {
-        //     try{
-        //         Thread.sleep(2000);
-        //     }catch(InterruptedException e){}
-        //     }),
-        //     new InstantCommand(()-> Lights.LEDSegment.Panel.fullClear()),
-        //     new InstantCommand(()->  RobotContainer.leds.drawImage(Constants.LightDesign.nCino))
-        // ).schedule();
+       
     }
     
 
@@ -134,6 +131,7 @@ public class Robot extends TimedRobot {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
+        LEDSegment.Panel.fullClear();
         RobotContainer.leds.teleopStart();
     }
 

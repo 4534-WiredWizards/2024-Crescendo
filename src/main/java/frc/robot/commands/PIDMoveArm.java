@@ -32,7 +32,7 @@ public class PIDMoveArm extends Command {
     armProfiledPID.setGoal(setpoint);
     armProfiledPID.enable();
 
-     System.out.println("Start");
+     System.out.println("Start PIDMoveArm");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -58,7 +58,7 @@ public class PIDMoveArm extends Command {
     //   return false;
     // }
     if (armProfiledPID.atPIDGoal()) {
-      System.out.println("isFinished");
+      System.out.println("isFinished ArmPIDMove");
       return true;
     } else {
       return false;

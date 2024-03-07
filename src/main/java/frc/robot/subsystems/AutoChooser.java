@@ -4,7 +4,13 @@
 
 package frc.robot.subsystems;
 
+import java.util.Optional;
+
+import javax.swing.Spring;
+
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -16,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CommandConstants;
 import frc.robot.Constants.TrajectoryConstants;
 import frc.robot.GeneralTrajectories;
+import frc.robot.RobotContainer;
 import frc.robot.autonomous.AutoTrajectories;
 import frc.robot.commands.DoNothing;
 import frc.robot.commands.PIDMoveArm;
@@ -30,6 +37,7 @@ public class AutoChooser extends SubsystemBase {
     BlueMiddleNote,
     BlueAutoTest,
     RedAutoTest,
+    MidleNote,
     DoNothing
   }
   private final SwerveSubsystem swerveSubsystem;
@@ -56,10 +64,11 @@ public class AutoChooser extends SubsystemBase {
     this.intake = intake;
     this.limelight = Limelight;
     autoChooser = new SendableChooser<AutoMode>();
-    // autoChooser.addOption("Red Middle Note", AutoMode.RedMiddleNote);
+    autoChooser.addOption("Red Middle Note", AutoMode.RedMiddleNote);
     // autoChooser.addOption("Blue Middle Note", AutoMode.BlueMiddleNote);
-    autoChooser.addOption("Blue Auto Test", AutoMode.BlueAutoTest);
-    autoChooser.addOption("Red Auto Test", AutoMode.RedAutoTest);
+    // autoChooser.addOption("Blue Auto Test", AutoMode.BlueAutoTest);
+    // autoChooser.addOption("Red Auto Test", AutoMode.RedAutoTest);
+    // autoChooser.addOption("Red Middle Note", AutoMode.RedMidleNote);
     autoChooser.addOption("Do Nothing", AutoMode.DoNothing);
     autoChooser.setDefaultOption("Do Nothing", AutoMode.DoNothing);
     SmartDashboard.putData("Auto Chooser", autoChooser);
@@ -70,31 +79,75 @@ public class AutoChooser extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
+  public void fetchTrajectories(String AllianceColor, String Trajectory){
+    // AutoTrajectories.fetchTrajectories();
+  }
+
   public Command getAuto(){
     AutoMode selectedAutoMode = (AutoMode) (autoChooser.getSelected());
 
     System.out.println("Running getAuto");
     switch (selectedAutoMode) {
       default:
-      case BlueAutoTest: //Working
-        System.out.println("Starting Middle Blu Note"); 
-        limelight.resetLimelightBotPose(); //Resets the swerve odometry pose based on whatever april tag is in view
-        System.out.println("After Odom Reset"); 
-        autoRoutine = new SequentialCommandGroup(
-            // new  InstantCommand(() -> System.out.println("Moving to note, "+TrajectoryConstants.blue.speakerNote[0]+", "+TrajectoryConstants.blue.speakerNote[1])),
-            new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueSpeakerNote, true)
-        );
-      break;
-      case RedAutoTest: //Working
+
+
+      // NEW STUFF
+      case RedMiddleNote:
         System.out.println("Starting Middle Red Note"); 
         limelight.resetLimelightBotPose(); //Resets the swerve odometry pose based on whatever april tag is in view
         System.out.println("After Odom Reset"); 
         autoRoutine = new SequentialCommandGroup(
-            // new  InstantCommand(() -> System.out.println("Moving to note, "+TrajectoryConstants.red.speakerNote[0]+", "+TrajectoryConstants.blue.speakerNote[1])),
-            new FollowTrajectory(swerveSubsystem, AutoTrajectories.redSpeakerNote, true)
+            new ParallelCommandGroup(
+              new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueSpeakerShoot, true),
+              new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.closeSpeaker)),
+              new RunShooter(shooter, intake, () -> 1.0, false,true, true)
+              // new InstantCommand(()-> shooter.move(1)).withTimeout(.5)
+              // new RunShooter(shooter, intake, () -> 1.0, false,false, false).withTimeout(1)
+            ),
+            // new RunShooter(shooter, intake, () -> 1.0, false,true, true),
+            new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.intake)),
+            new ParallelCommandGroup(
+              new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueSpeakerNote, true),
+              new RunIntake(intake, true, .7, true)
+            ),
+            new ParallelCommandGroup(
+              new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueSpeakerShoot, true),
+              new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.closeSpeaker)),
+              new SequentialCommandGroup(
+                new DoNothing().withTimeout(.5),
+                new RunShooter(shooter, intake, () -> 1.0, false,true, true)
+              )
+            )
+            // new PIDMoveArm(arm, ArmProfiledPID, 0.0)
         );
       break;
 
+
+
+      // WOKRING
+      // case BlueAutoTest: //Working
+      //   System.out.println("Starting Middle Blu Note"); 
+      //   limelight.resetLimelightBotPose(); //Resets the swerve odometry pose based on whatever april tag is in view
+      //   System.out.println("After Odom Reset"); 
+      //   autoRoutine = new SequentialCommandGroup(
+      //       // new  InstantCommand(() -> System.out.println("Moving to note, "+TrajectoryConstants.blue.speakerNote[0]+", "+TrajectoryConstants.blue.speakerNote[1])),
+      //       new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueSpeakerNote, true)
+      //   );
+      // break;
+      // case RedAutoTest: //Working
+      //   System.out.println("Starting Middle Red Note"); 
+      //   limelight.resetLimelightBotPose(); //Resets the swerve odometry pose based on whatever april tag is in view
+      //   System.out.println("After Odom Reset"); 
+      //   autoRoutine = new SequentialCommandGroup(
+      //       // new  InstantCommand(() -> System.out.println("Moving to note, "+TrajectoryConstants.red.speakerNote[0]+", "+TrajectoryConstants.blue.speakerNote[1])),
+      //       new FollowTrajectory(swerveSubsystem, AutoTrajectories.redSpeakerNote, true)
+      //   );
+      // break;
+
+
+
+
+      // OLD STUFF
 
       // case BlueMiddleNote:
       //   System.out.println("Starting Middle Blue Note"); 

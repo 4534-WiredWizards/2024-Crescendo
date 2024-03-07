@@ -112,36 +112,22 @@ public class Lights extends SubsystemBase {
   }
 
   // Note Collected
-  public void noteCollected() {
-    // Save the current animation
-    // Set to 2 secound orange strobe
-    LEDSegment.Panel.setStrobeAnimation(orange, 0.05);
-    try{Thread.sleep(1200);}catch(InterruptedException e){};
-    LEDSegment.Panel.clearAnimation();
-    enableRobot();
-  }
+  // public void noteCollected() {
+  //   // Save the current animation
+  //   // Set to 2 secound orange strobe
+  //   LEDSegment.Panel.setStrobeAnimation(orange, 0.05);
+  //   try{Thread.sleep(200);}catch(InterruptedException e){};
+  //   LEDSegment.Panel.clearAnimation();
+  //   enableRobot();
+  // }
 
   // Enable Robot
   public void enableRobot() {
-    LEDSegment.Panel.setFlowAnimation(green, 0.05);
+    LEDSegment.Panel.setFadeAnimation(orange, 0.05);
   }
   // Disable Robot
   public void disableRobot() {
-    LEDSegment.CandleLEDs.setColor(orange);
-    // setFlowAnimation(red, 0.05);
-    // TODO: Add fade between drawings
-    LEDSegment.Panel.fullClear();
-    RobotContainer.leds.drawImage(Constants.LightDesign.WIRED_WIZARDS);
-    try{Thread.sleep(2000);}catch(InterruptedException e){};
-    LEDSegment.Panel.fullClear();
-    RobotContainer.leds.drawImage(Constants.LightDesign.nCino);
-    try{Thread.sleep(2000);}catch(InterruptedException e){};
-    LEDSegment.Panel.fullClear();
-    RobotContainer.leds.drawImage(Constants.LightDesign.Corning);
-    try{Thread.sleep(2000);}catch(InterruptedException e){};
-    LEDSegment.Panel.fullClear();
-    RobotContainer.leds.drawImage(Constants.LightDesign.CFCC);
-    try{Thread.sleep(2000);}catch(InterruptedException e){};
+    // NOT IN USE BECAUSE CANT BE INTERRUPPTED
   }
 
   public void teleopStart() {
@@ -285,7 +271,7 @@ public class Lights extends SubsystemBase {
         public static final int[] TEXT = {255,255,255,20};
     }
     public static final class Corning {
-        public static final int[] TEXT = {255,255,255,20};
+        public static final int[] TEXT = {0,93,150,20};
     }
     public static final class CFCC {
         public static final int[] TEXT = {255,255,255,100};

@@ -78,14 +78,17 @@ public class RunIntake extends Command {
     if(autostop){ //Automaticly stops the intake if a note is detected and if the intake is running
       // INIT_STATE set to the current state of the note detector when the command is initialized
       // !intake.getIntakeStatus() returns the current state of the note detector
-      if (init_state && !intake.getIntakeStatus()){
-        RobotContainer.leds.noteCollected();
-        return true;
-      }
-      else{
-        return false;
-      }
-      // return !(init_state || !intake.getIntakeStatus());
+      // if (init_state && !intake.getIntakeStatus()){
+      //   RobotContainer.leds.noteCollected();
+      //   return true;
+      // }
+      // else{
+      //   return false;
+      // }
+      // if (!(init_state || !intake.getIntakeStatus())) {
+      //   // Note Intake
+      // }
+      return !(init_state || !intake.getIntakeStatus());
     }
     else{
       return false;

@@ -169,11 +169,11 @@ public final class Constants {
         }
         //Arm Commands
         public static final class Arm {
-            public static final double AbsEncoderOffset=.77;
+            public static final double AbsEncoderOffset=.189;
             public static final double amp = 100.0;
-            public static final double intake = -7;
-            public static final double traversal = 60;
-            public static final double closeSpeaker = 12;
+            public static final double intake = -2;
+            public static final double traversal = 75;
+            public static final double closeSpeaker = 19;
             // Arm Feedforward Constants
             public static final double kP = 1;
             // Values Obtained from Characterization via reca.lc/arm
@@ -229,6 +229,7 @@ public final class Constants {
         // Object Structure: X (In Meters), Y (In Meters), Angle (In Degrees)
         public static final class blue {
             public static final double[] stageNote = {-5.540121, 0, 0};
+            public static final double[] speakerShoot = {-7.038721, 1.4478, 0};
             public static final double[] speakerNote = {-5.540121, 1.4478, 0};
             public static final double[] ampNote = {-5.540121, 2.8956, 0};
         }
