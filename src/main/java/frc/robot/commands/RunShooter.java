@@ -45,16 +45,19 @@ public class RunShooter extends Command {
   public void initialize() {
     isPressed = false;
     presses = 0;
-    RobotContainer.leds.shooterStart();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     SmartDashboard.putNumber("Intake Velocity", shooter.getSpeed());
+    if(shooter.getSpeed() >  4500 ){ 
+      RobotContainer.leds.shooterStart();
+    }
     if (PIDControl) {shooter.velocityPID(speed.get() * 5000);} 
     else {shooter.move(speed.get());}
-      
+    
+
     // System.out.println(speed.get() * 5000);
     // TODO: Add logic for a parameter to not always auto run intake after reached velocity
     if(shooter.getSpeed() >  4500 && autoIntake){ 
