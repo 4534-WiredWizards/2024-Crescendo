@@ -108,7 +108,7 @@ public final class Constants {
         //Measure this by rotating all the modules to the forward position and reading the CANcoder's value
         public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = Units.degreesToRadians(241.3);
         public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = Units.degreesToRadians(283.7);
-        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = Units.degreesToRadians(131.4);
+        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = Units.degreesToRadians(217.61-90);
         public static final double kBackRightDriveAbsoluteEncoderOffsetRad = Units.degreesToRadians(196.4);
 
         // in m/s, based on MK4 L2 speed of 14.5 ft/s
@@ -169,9 +169,9 @@ public final class Constants {
         }
         //Arm Commands
         public static final class Arm {
-            public static final double AbsEncoderOffset=.189;
+            public static final double AbsEncoderOffset=.2;
             public static final double amp = 100.0;
-            public static final double intake = 0;
+            public static final double intake = 4.2;
             public static final double traversal = 75;
             public static final double closeSpeaker = 19;
             // Arm Feedforward Constants
