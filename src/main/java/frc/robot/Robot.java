@@ -50,8 +50,6 @@ public class Robot extends TimedRobot {
         UsbCamera fisheye = CameraServer.startAutomaticCapture();
             fisheye.setResolution(320, 240);
             fisheye.setPixelFormat(PixelFormat.kMJPEG);
-
-
         }
 
     /**
@@ -93,13 +91,29 @@ public class Robot extends TimedRobot {
     @Override
     public void disabledInit() {
         LEDSegment.Panel.fullClear();
-        {try {Thread.sleep(1000);}catch(InterruptedException e){}}
         RobotContainer.leds.drawImage(Constants.LightDesign.WIRED_WIZARDS);
+
+    
     }
 
     @Override
     public void disabledPeriodic() {
-       
+        // While robot is disabled, run the LED code
+        // RobotContainer.leds.disabled();
+        // new SequentialCommandGroup(
+        //     // new InstantCommand(()-> m_led.scrollAnimation(Constants.LightDesign.WIRED_WIZARDS, 100, 2)),
+        //     new InstantCommand(()-> Lights.LEDSegment.Panel.fullClear()),
+        //     new InstantCommand(()-> RobotContainer.leds.drawImage(Constants.LightDesign.WIRED_WIZARDS)),
+        //     new InstantCommand(()-> {try{Thread.sleep(2000);}catch(InterruptedException e){}}),
+        //     new InstantCommand(()-> Lights.LEDSegment.Panel.fullClear()),
+        //     new InstantCommand(()-> RobotContainer.leds.drawImage(Constants.LightDesign.nCino)),
+        //     new InstantCommand(()-> {try{Thread.sleep(2000);}catch(InterruptedException e){}}),
+        //     new InstantCommand(()-> Lights.LEDSegment.Panel.fullClear()),
+        //     new InstantCommand(()-> RobotContainer.leds.drawImage(Constants.LightDesign.Corning)),
+        //     new InstantCommand(()-> {try{Thread.sleep(2000);}catch(InterruptedException e){}}),
+        //     new InstantCommand(()-> Lights.LEDSegment.Panel.fullClear()),
+        //     new InstantCommand(()-> RobotContainer.leds.drawImage(Constants.LightDesign.CFCC))
+        //   ).schedule();
     }
     
 
