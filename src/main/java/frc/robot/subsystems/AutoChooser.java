@@ -122,7 +122,26 @@ public class AutoChooser extends SubsystemBase {
             )
             // new PIDMoveArm(arm, ArmProfiledPID, 0.0)
         );
-        Command redAuto = new SequentialCommandGroup();
+        Command redAuto = new SequentialCommandGroup(
+          new ParallelCommandGroup(
+            new FollowTrajectory(swerveSubsystem, AutoTrajectories.redSpeakerShoot, true),
+            new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.closeSpeaker)).withTimeout(2),
+            new RunShooter(shooter, intake, () -> 1.0, false,true, true)
+          ),
+          new ParallelCommandGroup(
+            new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.intake)),
+            new FollowTrajectory(swerveSubsystem, AutoTrajectories.redSpeakerNote, true),
+            new RunIntake(intake, true, .7, true)
+          ),
+          new ParallelCommandGroup(
+            new FollowTrajectory(swerveSubsystem, AutoTrajectories.redSpeakerShoot, true),
+            new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.closeSpeaker)),
+            new SequentialCommandGroup(
+              new DoNothing().withTimeout(.8), //Wait a for robot to drive back to shooting position
+              new RunShooter(shooter, intake, () -> 1.0, false,true, true)
+            )
+          )
+        );
         if (allianceColor == "Blue"){
           autoRoutine = blueAuto;
         } else if (allianceColor == "Red"){

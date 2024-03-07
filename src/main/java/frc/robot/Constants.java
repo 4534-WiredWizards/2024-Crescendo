@@ -237,6 +237,7 @@ public final class Constants {
         // Add 180 to the angle for the red alliance as robot intake needs to face center of field
         public static final class red {
             public static final double[] stageNote = {5.616321, 0, 180};
+            public static final double[] speakerShoot = {7.114921, 1.4478, 180};
             public static final double[] speakerNote = {5.616321, 1.4478, 180};
             public static final double[] ampNote = {5.616321, 2.8956, 180};
         }

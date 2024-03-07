@@ -93,6 +93,15 @@ public class AutoTrajectories {
         RobotContainer.autoTrajectoryConfig
     );
 
+    // Red Speaker Shoot
+    public static Trajectory redSpeakerShoot =
+    TrajectoryGenerator.generateTrajectory(
+        new Pose2d((TrajectoryConstants.red.speakerShoot[0] + 0.3), (TrajectoryConstants.red.speakerShoot[1] + 0.01), new Rotation2d(Math.toRadians(TrajectoryConstants.red.speakerShoot[2]))),
+        List.of(),
+        new Pose2d((TrajectoryConstants.red.speakerShoot[0] + 0.4), (TrajectoryConstants.red.speakerShoot[1] + 0.1), new Rotation2d(Math.toRadians(TrajectoryConstants.red.speakerShoot[2]))),
+        RobotContainer.autoTrajectoryConfig
+    );
+
 
     // Blue Speaker Shoot
     // Location Just in front of the blue speaker note that preloaded note can be scored from
