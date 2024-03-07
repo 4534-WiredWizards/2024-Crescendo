@@ -4,25 +4,15 @@
 
 package frc.robot.subsystems;
 
-import java.util.Optional;
-
-import javax.swing.Spring;
-
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CommandConstants;
-import frc.robot.Constants.TrajectoryConstants;
 import frc.robot.GeneralTrajectories;
-import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.autonomous.AutoTrajectories;
 import frc.robot.commands.DoNothing;
@@ -34,11 +24,8 @@ import frc.robot.subsystems.drivetrain.FollowTrajectory;
 public class AutoChooser extends SubsystemBase {
 
   public enum AutoMode{
-    RedMiddleNote,
-    BlueMiddleNote,
-    BlueAutoTest,
-    RedAutoTest,
-    MidleNote,
+    TwoNoteMiddle,
+    LeaveZone,
     DoNothing
   }
   private final SwerveSubsystem swerveSubsystem;
@@ -65,12 +52,9 @@ public class AutoChooser extends SubsystemBase {
     this.intake = intake;
     this.limelight = Limelight;
     autoChooser = new SendableChooser<AutoMode>();
-    autoChooser.addOption("Red Middle Note", AutoMode.RedMiddleNote);
-    // autoChooser.addOption("Blue Middle Note", AutoMode.BlueMiddleNote);
-    // autoChooser.addOption("Blue Auto Test", AutoMode.BlueAutoTest);
-    // autoChooser.addOption("Red Auto Test", AutoMode.RedAutoTest);
-    // autoChooser.addOption("Red Middle Note", AutoMode.RedMidleNote);
+    autoChooser.addOption("Two Note Middle", AutoMode.TwoNoteMiddle);
     autoChooser.addOption("Do Nothing", AutoMode.DoNothing);
+    autoChooser.addOption("Leave Zone", AutoMode.LeaveZone);
     autoChooser.setDefaultOption("Do Nothing", AutoMode.DoNothing);
     SmartDashboard.putData("Auto Chooser", autoChooser);
   }
@@ -93,7 +77,7 @@ public class AutoChooser extends SubsystemBase {
 
 
       // NEW STUFF
-      case RedMiddleNote:
+      case TwoNoteMiddle:
         System.out.println("Starting Middle Red Note"); 
         limelight.resetLimelightBotPose(); //Resets the swerve odometry pose based on whatever april tag is in view
         System.out.println("After Odom Reset"); 
@@ -149,6 +133,10 @@ public class AutoChooser extends SubsystemBase {
         } else {
           autoRoutine = new SequentialCommandGroup();
         }
+      break;
+
+      case LeaveZone:
+        autoRoutine = new GeneralTrajectories().Back(swerveSubsystem);
       break;
 
 

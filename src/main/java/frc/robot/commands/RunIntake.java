@@ -4,16 +4,9 @@
 
 package frc.robot.commands;
 
-import java.util.function.DoubleSupplier;
-import java.util.function.Supplier;
-
-import org.opencv.features2d.FlannBasedMatcher;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Lights;
 
 
 public class RunIntake extends Command {
