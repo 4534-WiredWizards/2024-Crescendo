@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.subsystems.Lights;;
+// import frc.robot.subsystems.Lights;;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -43,8 +43,8 @@ public class Robot extends TimedRobot {
         UsbCamera fisheye = CameraServer.startAutomaticCapture();
         fisheye.setResolution(320, 240);
         fisheye.setPixelFormat(PixelFormat.kMJPEG);
-        Lights.LEDSegment.Panel.fullClear();
-        RobotContainer.leds.robotInit();
+        // .LEDSegment.Panel.fullClear();
+        // RobotContainer.leds.robotInit();
     }
 
     /**
@@ -85,7 +85,7 @@ public class Robot extends TimedRobot {
     /** This function is called once each time the robot enters Disabled mode. */
     @Override
     public void disabledInit() {
-       RobotContainer.leds.disabledStart();
+    //    RobotContainer.leds.disabledStart();
     
     }
 
@@ -137,7 +137,7 @@ public class Robot extends TimedRobot {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
-        RobotContainer.leds.teleopStart();
+        // RobotContainer.leds.teleopStart();
     }
 
     /** This function is called periodically during operator control. */
