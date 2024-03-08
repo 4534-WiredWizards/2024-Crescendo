@@ -170,9 +170,9 @@ public final class Constants {
         public static final class Arm {
             public static final double AbsEncoderOffset=.2;
             public static final double amp = 113.0;
-            public static final double intake = 3;
+            public static final double intake = 5;
             public static final double traversal = 75;
-            public static final double closeSpeaker = 19;
+            public static final double closeSpeaker = 23;
             // Arm Feedforward Constants
             public static final double kP = 1;
             // Values Obtained from Characterization via reca.lc/arm

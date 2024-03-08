@@ -64,8 +64,8 @@ public class RunShooter extends Command {
       System.out.println("Running Intake From Shooter");
       // Run RunShooter commmand from command
       // new RunIntake(Intake, true, .7, true);
-      Intake.move(.7);
-      try{Thread.sleep(500);}catch(InterruptedException e){};
+      Intake.move(1);
+      try{Thread.sleep(200);}catch(InterruptedException e){};
     }
     //logic is for isFinished condition, Will check for limit switch being pressed in, then out, twice before stopping.
     if(Intake.getIntakeStatus() && !isPressed){

@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ArmProfiledPID;
 import frc.robot.subsystems.Arm;
@@ -27,7 +28,6 @@ public class PIDMoveArm extends Command {
   public void initialize() {
     armProfiledPID.setGoal(setpoint);
     armProfiledPID.enable();
-
      System.out.println("Start PIDMoveArm");
   }
 
@@ -40,25 +40,21 @@ public class PIDMoveArm extends Command {
   @Override
   public void end(boolean interrupted) {
     System.out.println("ArmPIDMove Ended");
-    armProfiledPID.disable();
     arm.move(0);
+    armProfiledPID.disable();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    // if (Math.abs(arm.getAbsolutePosition() - setpoint) < Units.degreesToRadians(1)) {
-    //   System.out.println("isFinished");
-    //   return true;
-    // } else {
-    //   return false;
-    // }
-    if (armProfiledPID.atPIDGoal()) {
+    // || (Math.abs(arm.getAbsolutePosition() - setpoint) < Units.degreesToRadians(2))
+    if (armProfiledPID.atPIDGoal() ) {
       System.out.println("ArmPIDMove Finished");
       return true;
     } else {
       return false;
     }
+    
   }
 
 }

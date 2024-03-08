@@ -14,10 +14,10 @@ public class ArmProfiledPID extends ProfiledPIDSubsystem{
     private final Arm arm;
 
     // OLD ARM CONSTANTS - 20lbs - 28 COM
-    // private final ArmFeedforward m_feedforward = new ArmFeedforward(1,0.45,2.49,0.03);
+    private final ArmFeedforward m_feedforward = new ArmFeedforward(1,0.45,2.49,0.03);
     
     //New - 21lbs - 24 COM
-    private final ArmFeedforward m_feedforward = new ArmFeedforward(1,0.81,2.51,0.05);
+    // private final ArmFeedforward m_feedforward = new ArmFeedforward(1,0.81,2.51,0.05);
 
     public ArmProfiledPID(
         Arm arm
@@ -26,12 +26,12 @@ public class ArmProfiledPID extends ProfiledPIDSubsystem{
         // Start arm at rest in neutral position.
         super(
             new ProfiledPIDController(
-                3.1, // Down from 6
-                3.4, // Down from 4.1
+                6,//3.1 // Down from 6
+                4.1,//3.4 // Down from 4.1
                 0,
             new TrapezoidProfile.Constraints(9, 1))
         );
-        this.getController().setTolerance(Units.degreesToRadians(1), 1);
+        this.getController().setTolerance(Units.degreesToRadians(2), 1);
         this.arm = arm;
         // arm.getAbsolutePosition();
         // Input goal, rather self explanatory: Constants.kArmOffsetRads

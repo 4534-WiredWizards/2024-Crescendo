@@ -88,8 +88,11 @@ public class AutoChooser extends SubsystemBase {
         Command blueAuto = new SequentialCommandGroup(
             new ParallelCommandGroup(
               new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueSpeakerShoot, true),
-              new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.closeSpeaker)).withTimeout(2),
-              new RunShooter(shooter, intake, () -> 1.0, false,true, true)
+              new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.closeSpeaker)).withTimeout(1.2),
+              new SequentialCommandGroup(
+                new DoNothing().withTimeout(1), //Wait a for robot to drive back to shooting position
+                new RunShooter(shooter, intake, () -> 1.0, false,true, true)
+              )            
             ),
             new ParallelCommandGroup(
               new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.intake)),
@@ -100,7 +103,7 @@ public class AutoChooser extends SubsystemBase {
               new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueSpeakerShoot, true),
               new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.closeSpeaker)),
               new SequentialCommandGroup(
-                new DoNothing().withTimeout(.8), //Wait a for robot to drive back to shooting position
+                new DoNothing().withTimeout(1), //Wait a for robot to drive back to shooting position
                 new RunShooter(shooter, intake, () -> 1.0, false,true, true)
               )
             )
