@@ -17,6 +17,7 @@ public class Intake extends SubsystemBase {
   /** Creates a new Intake. */
   public Intake() {
     intakeMotor.setIdleMode(IdleMode.kBrake);
+    intakeMotor.setSmartCurrentLimit(60);
     IntakeLimitSwitch = intakeMotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
     IntakeLimitSwitch.enableLimitSwitch(false);
   }

@@ -29,6 +29,10 @@ public class Climb extends SubsystemBase {
     leftClimbMotor.setIdleMode(IdleMode.kBrake);
     rightClimbMotor.setIdleMode(IdleMode.kBrake);
 
+    // Current limiting to prevent frying the spark max
+    leftClimbMotor.setSmartCurrentLimit(60);
+    rightClimbMotor.setSmartCurrentLimit(60);
+
     
     rightClimbMotor.follow(leftClimbMotor, true);
     

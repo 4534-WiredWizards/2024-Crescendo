@@ -31,6 +31,10 @@ public class Shooter extends SubsystemBase {
     // topMotor.setIdleMode(IdleMode.kBrake);
     // bottomMotor.setIdleMode(IdleMode.kBrake);
 
+    // Current limiting to prevent frying the spark max
+    topMotor.setSmartCurrentLimit(60);
+    bottomMotor.setSmartCurrentLimit(60);
+
 
     bottomMotor.follow(topMotor,false);
 

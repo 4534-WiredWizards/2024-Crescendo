@@ -34,6 +34,9 @@ public class Arm extends SubsystemBase {
     rightmotor.setIdleMode(IdleMode.kBrake);
     leftmotor.setIdleMode(IdleMode.kBrake);
 
+    // Current limiting to prevent frying the spark max
+    rightmotor.setSmartCurrentLimit(60);
+    leftmotor.setSmartCurrentLimit(60);
 
 
     rightmotor.follow(leftmotor, true);
