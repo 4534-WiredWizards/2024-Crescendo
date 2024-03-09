@@ -67,11 +67,11 @@ public class AutoTrajectories {
 	    // Red Side is positive, so HIGHER numbers are closer to the drive station wall and
 	    // LOWER numbers are away from the drive station wall
         // Array value 0 is the x value, 1 is the y value
-        new Pose2d((TrajectoryConstants.red.speakerNote[0] + 0.1), (TrajectoryConstants.red.speakerNote[1] + 0.5), new Rotation2d(Math.toRadians(TrajectoryConstants.red.speakerNote[2]))),
+        new Pose2d((TrajectoryConstants.red.speakerNote[0] + 0.1), (TrajectoryConstants.red.speakerNote[1] - 0.01), new Rotation2d(Math.toRadians(TrajectoryConstants.red.speakerNote[2]))),
         List.of(
             // new Translation2d(Units.inchesToMeters(40), Units.inchesToMeters(0))
         ),
-        new Pose2d((TrajectoryConstants.red.speakerNote[0] - 0.0), (TrajectoryConstants.red.speakerNote[1] + 0.0), new Rotation2d(Math.toRadians(TrajectoryConstants.red.speakerNote[2]))),
+        new Pose2d((TrajectoryConstants.red.speakerNote[0] - 0.3), (TrajectoryConstants.red.speakerNote[1] + 0.1), new Rotation2d(Math.toRadians(TrajectoryConstants.red.speakerNote[2]))),
         RobotContainer.autoTrajectoryConfig
     );
 
