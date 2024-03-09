@@ -120,13 +120,14 @@ public class Lights extends SubsystemBase {
   public void robotInit() {
     LEDSegment.CandleLEDs.fullClear();
     LEDSegment.Panel.fullClear();
-    RobotContainer.leds.drawImage(Constants.LightDesign.WIRED_WIZARDS);
+drawImage(Constants.LightDesign.WIRED_WIZARDS);
   }
 
   // Disable Robot
   public void disabledStart() {
     LEDSegment.CandleLEDs.setFadeAnimation(Lights.orange, .000001);
-
+    LEDSegment.Panel.fullClear();
+    robotInit();
   }
 
   public void teleopStart() {
