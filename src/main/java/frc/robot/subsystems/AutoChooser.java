@@ -25,7 +25,7 @@ public class AutoChooser extends SubsystemBase {
 
   public enum AutoMode{
     TwoNoteMiddle,
-    ProLoaded,
+    PreLoaded,
     LeaveZone,
     DoNothing
   }
@@ -54,7 +54,7 @@ public class AutoChooser extends SubsystemBase {
     this.limelight = Limelight;
     autoChooser = new SendableChooser<AutoMode>();
     autoChooser.addOption("Two Note Middle", AutoMode.TwoNoteMiddle);
-    autoChooser.addOption("Shoot Pre Loaded", AutoMode.ProLoaded);
+    autoChooser.addOption("Shoot Pre Loaded", AutoMode.PreLoaded);
     autoChooser.addOption("Do Nothing", AutoMode.DoNothing);
     autoChooser.addOption("Leave Zone", AutoMode.LeaveZone);
     autoChooser.setDefaultOption("Do Nothing", AutoMode.DoNothing);
@@ -114,8 +114,11 @@ public class AutoChooser extends SubsystemBase {
         Command redAuto = new SequentialCommandGroup(
           new ParallelCommandGroup(
             new FollowTrajectory(swerveSubsystem, AutoTrajectories.redSpeakerShoot, true),
-            new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.closeSpeaker)).withTimeout(2),
-            new RunShooter(shooter, intake, () -> 1.0, false,true, true)
+            new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.closeSpeaker)).withTimeout(3),
+            new SequentialCommandGroup(
+              new DoNothing().withTimeout(1.2), //Wait a for robot to drive back to shooting position
+              new RunShooter(shooter, intake, () -> 1.0, false,true, true)
+            )            
           ),
           new ParallelCommandGroup(
             new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.intake)),
@@ -126,11 +129,12 @@ public class AutoChooser extends SubsystemBase {
             new FollowTrajectory(swerveSubsystem, AutoTrajectories.redSpeakerShoot, true),
             new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.closeSpeaker)),
             new SequentialCommandGroup(
-              new DoNothing().withTimeout(.8), //Wait a for robot to drive back to shooting position
+              new DoNothing().withTimeout(1), //Wait a for robot to drive back to shooting position
               new RunShooter(shooter, intake, () -> 1.0, false,true, true)
             )
           )
         );
+          // new PIDMoveArm(arm, ArmProfiledPID, 0.0)
         if (allianceColor == "Blue"){
           autoRoutine = blueAuto;
         } else if (allianceColor == "Red"){
@@ -140,12 +144,11 @@ public class AutoChooser extends SubsystemBase {
         }
       break;
 
-      case ProLoaded:
+      case PreLoaded:
         autoRoutine = new ParallelCommandGroup(
-              new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueSpeakerShoot, true),
               new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.closeSpeaker)),
               new SequentialCommandGroup(
-                new DoNothing().withTimeout(1), //Wait a for robot to drive back to shooting position
+                new DoNothing().withTimeout(2), //Wait a for robot to drive back to shooting position
                 new RunShooter(shooter, intake, () -> 1.0, false,true, true)
               )
         );
