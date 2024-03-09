@@ -25,6 +25,7 @@ public class AutoChooser extends SubsystemBase {
 
   public enum AutoMode{
     TwoNoteMiddle,
+    ProLoaded,
     LeaveZone,
     DoNothing
   }
@@ -53,6 +54,7 @@ public class AutoChooser extends SubsystemBase {
     this.limelight = Limelight;
     autoChooser = new SendableChooser<AutoMode>();
     autoChooser.addOption("Two Note Middle", AutoMode.TwoNoteMiddle);
+    autoChooser.addOption("Shoot Pre Loaded", AutoMode.ProLoaded);
     autoChooser.addOption("Do Nothing", AutoMode.DoNothing);
     autoChooser.addOption("Leave Zone", AutoMode.LeaveZone);
     autoChooser.setDefaultOption("Do Nothing", AutoMode.DoNothing);
@@ -138,6 +140,18 @@ public class AutoChooser extends SubsystemBase {
         }
       break;
 
+      case ProLoaded:
+        autoRoutine = new ParallelCommandGroup(
+              new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueSpeakerShoot, true),
+              new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.closeSpeaker)),
+              new SequentialCommandGroup(
+                new DoNothing().withTimeout(1), //Wait a for robot to drive back to shooting position
+                new RunShooter(shooter, intake, () -> 1.0, false,true, true)
+              )
+        );
+      break;
+
+      
       case LeaveZone:
         autoRoutine = new GeneralTrajectories().Back(swerveSubsystem);
       break;
