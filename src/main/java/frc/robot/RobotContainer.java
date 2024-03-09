@@ -34,6 +34,7 @@ import frc.robot.commands.PIDMoveArm;
 import frc.robot.commands.PointToSpeaker;
 import frc.robot.commands.PointToSpeaker2;
 import frc.robot.commands.SwerveJoystickCmd;
+import frc.robot.commands.manualClimb;
 import frc.robot.commands.runClimb;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.ArmProfiledPID;
@@ -106,9 +107,10 @@ public class RobotContainer {
 
 
         // ----------------------- CLIMB COMMANDS ---------------------------------
-        new JoystickButton(operatorJoystick, InputDevices.btn_x).whileTrue(new runClimb(0, climb));
-        new JoystickButton(operatorJoystick, InputDevices.btn_b).whileTrue(new runClimb(510, climb));
-
+        // new JoystickButton(operatorJoystick, InputDevices.btn_x).whileTrue(new runClimb(0, climb));
+        // new JoystickButton(operatorJoystick, InputDevices.btn_b).whileTrue(new runClimb(510, climb));
+        new JoystickButton(operatorJoystick, InputDevices.btn_x).whileTrue(new manualClimb(true, climb));
+        new JoystickButton(operatorJoystick, InputDevices.btn_x).whileTrue(new manualClimb(false, climb));
 
         // ----------------------- ARM COMMANDS ---------------------------------
         
