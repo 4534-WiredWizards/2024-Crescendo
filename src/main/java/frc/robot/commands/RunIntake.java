@@ -37,7 +37,7 @@ public class RunIntake extends Command {
   @Override
   public void initialize() {
     init_state = intake.getIntakeStatus();
-    // RobotContainer.leds.intakeStart();
+    RobotContainer.leds.intakeStart();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -61,7 +61,7 @@ public class RunIntake extends Command {
   @Override
   public void end(boolean interrupted) {
     intake.move(0);
-    // RobotContainer.leds.intakeStop();
+    RobotContainer.leds.intakeStop();
   }
 
   // Returns true when the command should end.

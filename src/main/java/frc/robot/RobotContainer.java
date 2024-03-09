@@ -40,7 +40,7 @@ import frc.robot.subsystems.ArmProfiledPID;
 import frc.robot.subsystems.AutoChooser;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Intake;
-// import frc.robot.subsystems.Lights;
+import frc.robot.subsystems.Lights;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -58,7 +58,7 @@ public class RobotContainer {
     public final ArmProfiledPID ArmProfiledPID = new ArmProfiledPID(arm);
     public final SwerveSubsystem swerve = new SwerveSubsystem();
     private final Limelight limelight = new Limelight(swerve);
-    // public final static Lights leds = new Lights();
+    public final static Lights leds = new Lights();
     public final AutoChooser autoChooser = new AutoChooser(swerve, shooter, intake, arm, ArmProfiledPID, limelight);
 
 

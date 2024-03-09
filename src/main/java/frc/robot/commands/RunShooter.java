@@ -52,7 +52,7 @@ public class RunShooter extends Command {
   public void execute() {
     SmartDashboard.putNumber("Intake Velocity", shooter.getSpeed());
     if(shooter.getSpeed() >  4500 ){ 
-      // RobotContainer.leds.shooterStart();
+      RobotContainer.leds.shooterStart();
     }
     if (PIDControl) {shooter.velocityPID(speed.get() * 5000);} 
     else {shooter.move(speed.get());}
@@ -85,7 +85,7 @@ public class RunShooter extends Command {
     System.out.println("Exited Shooter");
     shooter.move(0);
     Intake.move(0);
-    // RobotContainer.leds.shooterStop();
+    RobotContainer.leds.shooterStop();
   }
 
 
