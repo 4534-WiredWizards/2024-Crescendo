@@ -93,7 +93,7 @@ public class RunShooter extends Command {
   @Override
   public boolean isFinished() {
     if(autostop){
-      return(presses == 1 & !isPressed);
+      return(presses == 1 && !isPressed);
     }
     else{
       return false;
