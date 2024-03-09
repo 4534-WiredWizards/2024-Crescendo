@@ -80,6 +80,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("NavX", m_robotContainer.swerve.getHeading());
         SmartDashboard.putString("Alliance", DriverStation.getAlliance().get().toString());
         SmartDashboard.putString("Alliance Color", RobotContainer.getAllianceColor());
+        SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
     }
 
     /** This function is called once each time the robot enters Disabled mode. */
