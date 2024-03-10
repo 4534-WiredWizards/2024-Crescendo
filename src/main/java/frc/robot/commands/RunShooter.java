@@ -45,6 +45,7 @@ public class RunShooter extends Command {
   public void initialize() {
     isPressed = false;
     presses = 0;
+    SmartDashboard.putNumber("Intake Velocity",0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

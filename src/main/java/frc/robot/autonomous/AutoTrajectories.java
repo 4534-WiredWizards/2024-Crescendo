@@ -71,7 +71,7 @@ public class AutoTrajectories {
         List.of(
             // new Translation2d(Units.inchesToMeters(40), Units.inchesToMeters(0))
         ),
-        new Pose2d((TrajectoryConstants.red.speakerNote[0] - 0.3), (TrajectoryConstants.red.speakerNote[1] + 0.1), new Rotation2d(Math.toRadians(TrajectoryConstants.red.speakerNote[2]))),
+        new Pose2d((TrajectoryConstants.red.speakerNote[0] - 0.4), (TrajectoryConstants.red.speakerNote[1] + 0.1), new Rotation2d(Math.toRadians(TrajectoryConstants.red.speakerNote[2]))),
         RobotContainer.autoTrajectoryConfig
     );
 
@@ -123,7 +123,7 @@ public class AutoTrajectories {
     TrajectoryGenerator.generateTrajectory(
         new Pose2d((TrajectoryConstants.blue.speakerNote[0] - 0.1), (TrajectoryConstants.blue.speakerNote[1] + 0.01), new Rotation2d(Math.toRadians(TrajectoryConstants.blue.speakerNote[2]))),
         List.of(),
-        new Pose2d((TrajectoryConstants.blue.speakerNote[0] + 0.3), (TrajectoryConstants.blue.speakerNote[1] - 0.1), new Rotation2d(Math.toRadians(TrajectoryConstants.blue.speakerNote[2]))),
+        new Pose2d((TrajectoryConstants.blue.speakerNote[0] + 0.4), (TrajectoryConstants.blue.speakerNote[1] - 0.1), new Rotation2d(Math.toRadians(TrajectoryConstants.blue.speakerNote[2]))),
         RobotContainer.autoTrajectoryConfig
     );
 

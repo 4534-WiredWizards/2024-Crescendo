@@ -12,6 +12,7 @@ import com.revrobotics.SparkPIDController;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -40,6 +41,7 @@ public class Shooter extends SubsystemBase {
 
     // New PID Controller
     shooterController = topMotor.getPIDController();
+    SmartDashboard.putNumber("Intake Velocity",0);
   }
 
   @Override

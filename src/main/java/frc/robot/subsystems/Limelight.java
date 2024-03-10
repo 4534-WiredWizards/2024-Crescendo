@@ -94,11 +94,13 @@ public class Limelight extends SubsystemBase {
     
   }
 
-  public void resetLimelightBotPose(){
+  public boolean resetLimelightBotPose(){
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(1);
-    System.out.println("Bp X: "+botpose.getXDistance());
-    System.out.println("Bp Y:"+botpose.getYDistance());
-    double rotation = botpose.getThetaDegreesFeild();
+    Double botX = botpose.getXDistance();
+    Double botY = botpose.getYDistance();
+    Double rotation = botpose.getThetaDegreesFeild();
+    System.out.println("Bp X: "+botX);
+    System.out.println("Bp Y:"+botY);
     System.out.println("Bp Theta:"+rotation);
     if (botpose.getXDistance() < 0) {
       // On blue side of field, add 180 to theta
@@ -106,13 +108,14 @@ public class Limelight extends SubsystemBase {
     } else if (botpose.getXDistance() > 0) {
       // On red side of field, add 180 to theta
       rotation += 180;
-    }
-
-
-    
-   
-    
+    }  
     swerve.resetOdometry(new Pose2d(botpose.getXDistance(), botpose.getYDistance(), Rotation2d.fromDegrees(rotation)));
+    if (botX != 0) {
+      return true;
+    } else {
+      System.err.println("NO VALUE FOR TAG'S");
+      return false;
+    }
   }
 
   public double gettx(){

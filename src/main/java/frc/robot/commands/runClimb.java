@@ -37,7 +37,7 @@ public class runClimb extends Command {
   @Override
   public void execute() {
 
-    System.out.println("Climb Status->"+climb.getClimbStatus());
+    // System.out.println("Climb Status->"+climb.getClimbStatus());
     if (TargetPos == 0) {
       // if  (!climb.getClimbStatus()) {
         climb.move(Constants.CommandConstants.Climb.windSpeed);
@@ -57,7 +57,7 @@ public class runClimb extends Command {
     } else {
       climb.move(0);
       distanceFromTargetPos = 0;
-      System.out.println("Invalid climb command " + TargetPos);
+      // System.out.println("Invalid climb command " + TargetPos);
     }
   }
 

@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import org.opencv.aruco.Aruco;
+
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -27,7 +29,12 @@ public class AutoChooser extends SubsystemBase {
     TwoNoteMiddle,
     PreLoaded,
     LeaveZone,
+    ShootAndLeave,
     DoNothing
+  }
+  public enum AllianceColor{
+    Red,
+    Blue
   }
   private final SwerveSubsystem swerveSubsystem;
   private final Shooter shooter;
@@ -36,6 +43,7 @@ public class AutoChooser extends SubsystemBase {
   private final Intake intake;
   private final Limelight limelight;
   private SendableChooser<AutoMode> autoChooser;
+  private SendableChooser<AllianceColor> allianceColorChooser;
   private Command autoRoutine;
   /** Creates a new AutoChooser. */
   public AutoChooser(
@@ -53,12 +61,19 @@ public class AutoChooser extends SubsystemBase {
     this.intake = intake;
     this.limelight = Limelight;
     autoChooser = new SendableChooser<AutoMode>();
-    autoChooser.addOption("Two Note Middle", AutoMode.TwoNoteMiddle);
-    autoChooser.addOption("Shoot Pre Loaded", AutoMode.PreLoaded);
+    autoChooser.addOption("Two Note Middle(TAG)", AutoMode.TwoNoteMiddle);
+    autoChooser.addOption("Shoot Pre Loaded(NO TAG)", AutoMode.PreLoaded);
+    autoChooser.addOption("Shoot & Leave(NO TAG)", AutoMode.ShootAndLeave);
     autoChooser.addOption("Do Nothing", AutoMode.DoNothing);
-    autoChooser.addOption("Leave Zone", AutoMode.LeaveZone);
+    autoChooser.addOption("Leave Zone(NO TAG)", AutoMode.LeaveZone);
     autoChooser.setDefaultOption("Do Nothing", AutoMode.DoNothing);
     SmartDashboard.putData("Auto Chooser", autoChooser);
+    // Drop Down Menu For Alliance Selection
+    allianceColorChooser = new SendableChooser<AllianceColor>();
+    allianceColorChooser.addOption("Red", AllianceColor.Red);
+    allianceColorChooser.addOption("Blue", AllianceColor.Blue);
+    SmartDashboard.putData("Alliance Color", allianceColorChooser);
+
   }
 
   @Override
@@ -72,6 +87,7 @@ public class AutoChooser extends SubsystemBase {
 
   public Command getAuto(){
     AutoMode selectedAutoMode = (AutoMode) (autoChooser.getSelected());
+    AllianceColor selectedAllianceColor = (AllianceColor) (allianceColorChooser.getSelected());
 
     System.out.println("Running getAuto");
     switch (selectedAutoMode) {
@@ -80,13 +96,11 @@ public class AutoChooser extends SubsystemBase {
 
       // NEW STUFF
       case TwoNoteMiddle:
-        System.out.println("Starting Middle Red Note"); 
-        limelight.resetLimelightBotPose(); //Resets the swerve odometry pose based on whatever april tag is in view
+        System.out.println("Starting Middle Note"); 
+        Boolean gotValues = limelight.resetLimelightBotPose(); //Resets the swerve odometry pose based on whatever april tag is in view
         System.out.println("After Odom Reset"); 
-        String allianceColor = RobotContainer.getAllianceColor();
-        System.out.println("AUTO Alliance Color: "+allianceColor);
-        
-
+        // String allianceColor = RobotContainer.getAllianceColor();
+        AllianceColor fetchColor = selectedAllianceColor;
         Command blueAuto = new SequentialCommandGroup(
             new ParallelCommandGroup(
               new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueSpeakerShoot, true),
@@ -135,9 +149,11 @@ public class AutoChooser extends SubsystemBase {
           )
         );
           // new PIDMoveArm(arm, ArmProfiledPID, 0.0)
-        if (allianceColor == "Blue"){
+        if (fetchColor == AllianceColor.Blue && gotValues){
+          System.out.println("Blue Two Note Auto");
           autoRoutine = blueAuto;
-        } else if (allianceColor == "Red"){
+        } else if (fetchColor == AllianceColor.Red && gotValues){
+          System.out.println("Red Two Note Auto");
           autoRoutine = redAuto;
         } else {
           autoRoutine = new SequentialCommandGroup();
@@ -155,6 +171,19 @@ public class AutoChooser extends SubsystemBase {
       break;
 
       
+      case ShootAndLeave:
+      autoRoutine = new SequentialCommandGroup(
+        new ParallelCommandGroup(
+          new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.closeSpeaker)),
+          new SequentialCommandGroup(
+            new DoNothing().withTimeout(2), //Wait a for robot to drive back to shooting position
+            new RunShooter(shooter, intake, () -> 1.0, false,true, true)
+          )
+        ),
+        new GeneralTrajectories().Back(swerveSubsystem)
+      );
+      break;
+
       case LeaveZone:
         autoRoutine = new GeneralTrajectories().Back(swerveSubsystem);
       break;

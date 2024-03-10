@@ -1,25 +1,15 @@
 package frc.robot;
 
-import java.util.List;
 import java.util.Optional;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Constants.AutoConstants;
@@ -31,7 +21,6 @@ import frc.robot.commands.RunIntake;
 import frc.robot.commands.RunShooter;
 import frc.robot.commands.MoveArm;
 import frc.robot.commands.PIDMoveArm;
-import frc.robot.commands.PointToSpeaker;
 import frc.robot.commands.PointToSpeaker2;
 import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.commands.manualClimb;
@@ -103,14 +92,14 @@ public class RobotContainer {
         new JoystickButton(operatorJoystick, InputDevices.btn_y).whileTrue(new RunIntake(intake, true, .7, true));
         new JoystickButton(operatorJoystick, InputDevices.btn_a).whileTrue(new RunIntake(intake, true, -.7, true));
         // Testing Auto Speaker Scoring System
-        new JoystickButton(operatorJoystick, InputDevices.btn_b).onTrue(new PointToSpeaker2(limelight, swerve));
+        // new JoystickButton(operatorJoystick, InputDevices.btn_b).onTrue(new PointToSpeaker2(limelight, swerve));
 
 
         // ----------------------- CLIMB COMMANDS ---------------------------------
-        // new JoystickButton(operatorJoystick, InputDevices.btn_x).whileTrue(new runClimb(0, climb));
-        // new JoystickButton(operatorJoystick, InputDevices.btn_b).whileTrue(new runClimb(510, climb));
-        new JoystickButton(operatorJoystick, InputDevices.btn_x).whileTrue(new manualClimb(true, climb));
-        new JoystickButton(operatorJoystick, InputDevices.btn_x).whileTrue(new manualClimb(false, climb));
+        new JoystickButton(operatorJoystick, InputDevices.btn_x).whileTrue(new runClimb(0, climb));
+        new JoystickButton(operatorJoystick, InputDevices.btn_b).whileTrue(new runClimb(510, climb));
+        // new JoystickButton(operatorJoystick, InputDevices.btn_x).whileTrue(new manualClimb(true, climb));
+        // new JoystickButton(operatorJoystick, InputDevices.btn_x).whileTrue(new manualClimb(false, climb));
 
         // ----------------------- ARM COMMANDS ---------------------------------
         
@@ -141,22 +130,25 @@ public class RobotContainer {
         return autoChooser.getAuto();
     }
    
-    // Code to get Alliance color
-    public static String getAllianceColor() {
+    // // Code to get Alliance color
+    // public static String getAllianceColor() {
         // Fetch the alliance color
-        Optional<Alliance> ally = DriverStation.getAlliance();
-        if (ally.isPresent()) {
-            if (ally.get() == Alliance.Red) {
-                return "Red";
-            }
-            if (ally.get() == Alliance.Blue) {
-                return "Blue";
-            }
-        }
-        else {
-            // Throw Error
-            return "Error";
-        }
-        return null;
-    }
+        // return "Red";
+        // Optional<Alliance> ally = DriverStation.getAlliance();
+        // if (ally.isPresent()) {
+        //     if (ally.get() == Alliance.Red) {
+        //         return "Red";
+        //     }
+        //     if (ally.get() == Alliance.Blue) {
+        //         return "Blue";
+        //     }
+        //     else {
+        //         return "Error";
+        //     }
+        // }
+        // else {
+        //     // Throw Error
+        //     return "Error";
+        // }
+    // }
 }

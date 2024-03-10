@@ -45,6 +45,7 @@ public class Robot extends TimedRobot {
         fisheye.setPixelFormat(PixelFormat.kMJPEG);
         Lights.LEDSegment.Panel.fullClear();
         RobotContainer.leds.robotInit();
+        // SmartDashboard.putString("Alliance Color", (RobotContainer.getAllianceColor()!=null) ? RobotContainer.getAllianceColor() : "None");
     }
 
     /**
@@ -78,9 +79,8 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("Arm Abs Encoder", Units.radiansToDegrees((m_robotContainer.arm.getAbsolutePosition())));
         // SmartDashboard.putNumber("Arm Abs Encoder", m_robotContainer.arm.getAbsolutePosition());
         SmartDashboard.putNumber("NavX", m_robotContainer.swerve.getHeading());
-        SmartDashboard.putString("Alliance", DriverStation.getAlliance().get().toString());
-        SmartDashboard.putString("Alliance Color", RobotContainer.getAllianceColor());
-        SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
+        // SmartDashboard.putString("Alliance", DriverStation.getAlliance().get().toString());
+        // SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
     }
 
     /** This function is called once each time the robot enters Disabled mode. */

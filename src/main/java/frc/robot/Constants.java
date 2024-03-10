@@ -163,7 +163,7 @@ public final class Constants {
         public static final class Climb {
             public static final double highPos = 100.0;
             public static final double midPos = 50.0;
-            public static final double windSpeed = -1;
+            public static final double windSpeed = -.8;
             public static final double unwindSpeed = -windSpeed;
         }
         //Arm Commands
