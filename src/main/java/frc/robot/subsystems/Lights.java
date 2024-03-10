@@ -104,7 +104,7 @@ public class Lights extends SubsystemBase {
   // Shooter Stop
   public void shooterStop() {
     LEDSegment.Panel.clearAnimation();
-    // enableRobot();
+    teleopStart();
   }
 
   // Note Collected
@@ -120,7 +120,7 @@ public class Lights extends SubsystemBase {
   public void robotInit() {
     LEDSegment.CandleLEDs.fullClear();
     LEDSegment.Panel.fullClear();
-drawImage(Constants.LightDesign.WIRED_WIZARDS);
+    drawImage(Constants.LightDesign.WIRED_WIZARDS);
   }
 
   // Disable Robot
