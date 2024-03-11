@@ -85,6 +85,14 @@ public class AutoChooser extends SubsystemBase {
     // AutoTrajectories.fetchTrajectories();
   }
 
+  ParallelCommandGroup shootNoteWhenOnSub = ParallelCommandGroup(
+      new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.closeSpeaker)),
+      new SequentialCommandGroup(
+        new DoNothing().withTimeout(1.2), //Wait a for robot to drive back to shooting position
+        new RunShooter(shooter, intake, () -> 1.0, false,true, true)
+      )
+  );
+
   public Command getAuto(){
     AutoMode selectedAutoMode = (AutoMode) (autoChooser.getSelected());
     AllianceColor selectedAllianceColor = (AllianceColor) (allianceColorChooser.getSelected());
@@ -104,11 +112,7 @@ public class AutoChooser extends SubsystemBase {
         Command blueAuto = new SequentialCommandGroup(
             new ParallelCommandGroup(
               new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueSpeakerShoot, true),
-              new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.closeSpeaker)).withTimeout(3),
-              new SequentialCommandGroup(
-                new DoNothing().withTimeout(1.2), //Wait a for robot to drive back to shooting position
-                new RunShooter(shooter, intake, () -> 1.0, false,true, true)
-              )            
+              shootNoteWhenOnSub     
             ),
             new ParallelCommandGroup(
               new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.intake)),
@@ -117,22 +121,14 @@ public class AutoChooser extends SubsystemBase {
             ),
             new ParallelCommandGroup(
               new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueSpeakerShoot, true),
-              new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.closeSpeaker)),
-              new SequentialCommandGroup(
-                new DoNothing().withTimeout(1), //Wait a for robot to drive back to shooting position
-                new RunShooter(shooter, intake, () -> 1.0, false,true, true)
-              )
+             shootNoteWhenOnSub,
             )
             // new PIDMoveArm(arm, ArmProfiledPID, 0.0)
         );
         Command redAuto = new SequentialCommandGroup(
-          new ParallelCommandGroup(
+        new ParallelCommandGroup(
             new FollowTrajectory(swerveSubsystem, AutoTrajectories.redSpeakerShoot, true),
-            new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.closeSpeaker)).withTimeout(3),
-            new SequentialCommandGroup(
-              new DoNothing().withTimeout(1.2), //Wait a for robot to drive back to shooting position
-              new RunShooter(shooter, intake, () -> 1.0, false,true, true)
-            )            
+            shootNoteWhenOnSub        
           ),
           new ParallelCommandGroup(
             new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.intake)),
@@ -141,11 +137,7 @@ public class AutoChooser extends SubsystemBase {
           ),
           new ParallelCommandGroup(
             new FollowTrajectory(swerveSubsystem, AutoTrajectories.redSpeakerShoot, true),
-            new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.closeSpeaker)),
-            new SequentialCommandGroup(
-              new DoNothing().withTimeout(1), //Wait a for robot to drive back to shooting position
-              new RunShooter(shooter, intake, () -> 1.0, false,true, true)
-            )
+            shootNoteWhenOnSub
           )
         );
           // new PIDMoveArm(arm, ArmProfiledPID, 0.0)
@@ -161,13 +153,7 @@ public class AutoChooser extends SubsystemBase {
       break;
 
       case PreLoaded:
-        autoRoutine = new ParallelCommandGroup(
-              new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.closeSpeaker)),
-              new SequentialCommandGroup(
-                new DoNothing().withTimeout(2), //Wait a for robot to drive back to shooting position
-                new RunShooter(shooter, intake, () -> 1.0, false,true, true)
-              )
-        );
+        autoRoutine = shootNoteWhenOnSub;
       break;
 
       
