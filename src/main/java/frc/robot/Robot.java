@@ -86,8 +86,8 @@ public class Robot extends TimedRobot {
     /** This function is called once each time the robot enters Disabled mode. */
     @Override
     public void disabledInit() {
-       RobotContainer.leds.disabledStart();
-    
+        {try{Thread.sleep(2000);}catch(InterruptedException e){}};
+        RobotContainer.leds.disabledStart();
     }
 
     @Override
