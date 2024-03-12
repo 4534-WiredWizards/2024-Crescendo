@@ -227,6 +227,7 @@ public class AutoChooser extends SubsystemBase {
           autoRoutine = blueStage;
         } else {
           autoRoutine = shootNoteWhenOnSub;
+          // TODO: Add logic for static exit auto
         }
       break;
 
