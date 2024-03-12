@@ -93,6 +93,7 @@ public class RobotContainer {
         new JoystickButton(operatorJoystick, InputDevices.btn_a).whileTrue(new RunIntake(intake, true, -.7, true));
         // Testing Auto Speaker Scoring System
         // new JoystickButton(operatorJoystick, InputDevices.btn_b).onTrue(new PointToSpeaker2(limelight, swerve));
+        // new JoystickButton(operatorJoystick, InputDevices.btn_b).onTrue(new ArmToShootingH(limelight, swerve));
 
 
         // ----------------------- CLIMB COMMANDS ---------------------------------
