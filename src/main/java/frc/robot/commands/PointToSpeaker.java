@@ -42,7 +42,14 @@ public class PointToSpeaker extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    limelight.resetLimelightBotPose();
+
+    // Reset the swerv odometry to the limelight botpose
+    Double botXPose = limelight.botpose.getXDistance();
+    Double botYPose = limelight.botpose.getYDistance();
+    Double botRotation = limelight.botpose.getThetaDegreesField();
+    limelight.resetLimelightBotPose(botXPose, botYPose, botRotation);
+
+
     this.position = swerveSubsystem.getPose();
     double distanceX = position.getX() - AprilTagPositions.Tag4_x;
     double distanceY = position.getY() - AprilTagPositions.Tag4_y;

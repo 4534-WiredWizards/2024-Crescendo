@@ -226,10 +226,11 @@ public final class Constants {
         // Note position closest to each driver station wall.
         // ----------- Blue Alliance -----------
         // Object Structure: X (In Meters), Y (In Meters), Angle (In Degrees)
+        public static final Double centerOfSubwoofer = 1.4478;
         public static final class blue {
             public static final double[] stageNote = {-5.540121, 0, 0};
-            public static final double[] speakerShoot = {-7.038721, 1.4478, 0};
-            public static final double[] speakerNote = {-5.540121, 1.4478, 0};
+            public static final double[] speakerShoot = {-7.038721,centerOfSubwoofer, 0};
+            public static final double[] speakerNote = {-5.540121, centerOfSubwoofer, 0};
             public static final double[] ampNote = {-5.540121, 2.8956, 0};
         }
         // ----------- Red Alliance -----------
@@ -237,8 +238,8 @@ public final class Constants {
         // Add 180 to the angle for the red alliance as robot intake needs to face center of field
         public static final class red {
             public static final double[] stageNote = {5.616321, 0, 180};
-            public static final double[] speakerShoot = {7.114921, 1.4478, 180};
-            public static final double[] speakerNote = {5.616321, 1.4478, 180};
+            public static final double[] speakerShoot = {7.114921, centerOfSubwoofer, 180};
+            public static final double[] speakerNote = {5.616321, centerOfSubwoofer, 180};
             public static final double[] ampNote = {5.616321, 2.8956, 180};
         }
     }

@@ -56,7 +56,7 @@ public class Limelight extends SubsystemBase {
       return cameraPose[kY];
     }
 
-    public double getThetaDegreesFeild() {
+    public double getThetaDegreesField() {
       cameraPose = NetworkTableInstance.getDefault().getTable("limelight").getEntry("botpose").getDoubleArray(new double[6]);
       SmartDashboard.putNumber("Limelight Botpose Theta Degs", cameraPose[kbpYaw]);
       return cameraPose[kbpYaw];
@@ -94,22 +94,22 @@ public class Limelight extends SubsystemBase {
     
   }
 
-  public boolean resetLimelightBotPose(){
+  public boolean resetLimelightBotPose(Double botX, Double botY, Double rotation){
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(1);
-    Double botX = botpose.getXDistance();
-    Double botY = botpose.getYDistance();
-    Double rotation = botpose.getThetaDegreesFeild();
+    // Double botX = botX;
+    // Double botY = botY;
+    // Double rotation = botpose.getThetaDegreesField();
     System.out.println("Bp X: "+botX);
     System.out.println("Bp Y:"+botY);
     System.out.println("Bp Theta:"+rotation);
-    if (botpose.getXDistance() < 0) {
+    if (botX < 0) {
       // On blue side of field, add 180 to theta
       rotation -= 180;
-    } else if (botpose.getXDistance() > 0) {
+    } else if (botX > 0) {
       // On red side of field, add 180 to theta
       rotation += 180;
     }  
-    swerve.resetOdometry(new Pose2d(botpose.getXDistance(), botpose.getYDistance(), Rotation2d.fromDegrees(rotation)));
+    swerve.resetOdometry(new Pose2d(botX, botY, Rotation2d.fromDegrees(rotation)));
     if (botX != 0) {
       return true;
     } else {
