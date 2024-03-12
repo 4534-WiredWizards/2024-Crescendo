@@ -213,7 +213,22 @@ public class AutoChooser extends SubsystemBase {
       case Side2Note:
         System.out.println("Starting Middle Note"); 
         Boolean Side2NoteResetOdom = limelight.resetLimelightBotPose(botXPose,botYPose,botRotation);
-        Command redAmp = new SequentialCommandGroup(null);
+        Command redAmp = new SequentialCommandGroup(
+          shootNoteWhenOnSub,    
+          new ParallelCommandGroup(
+            new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.intake)),
+            new FollowTrajectory(swerveSubsystem, AutoTrajectories.redAmpNote, true),
+            new RunIntake(intake, true, .7, true)
+          ),
+          new ParallelCommandGroup(
+            // new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueSpeakerShoot, true),
+            // TODO: Move back to where you started
+           shootNoteWhenOnSub
+          )
+          // new PIDMoveArm(arm, ArmProfiledPID, 0.0)
+      );
+
+
         Command redStage = new SequentialCommandGroup(null);
         Command blueAmp = new SequentialCommandGroup(null);
         Command blueStage = new SequentialCommandGroup(null);
