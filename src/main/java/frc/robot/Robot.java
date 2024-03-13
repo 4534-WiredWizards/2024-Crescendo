@@ -77,7 +77,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putBoolean("Climb LM", m_robotContainer.climb.getClimbStatus());
         SmartDashboard.putNumber("Climb Encoder", m_robotContainer.climb.getPosition());
         SmartDashboard.putNumber("Arm Abs Encoder", Units.radiansToDegrees((m_robotContainer.arm.getAbsolutePosition())));
-        // SmartDashboard.putNumber("Arm Abs Encoder", m_robotContainer.arm.getAbsolutePosition());
+        // SmartDashboard.putNumber("Arm Abs Encoder", m_robotContainer.arm.getAbsolutePosition()); // For raw value
         SmartDashboard.putNumber("NavX", m_robotContainer.swerve.getHeading());
         // SmartDashboard.putString("Alliance", DriverStation.getAlliance().get().toString());
         // SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());

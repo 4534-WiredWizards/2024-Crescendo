@@ -34,6 +34,7 @@ public class AutoChooser extends SubsystemBase {
     LeaveZone,
     ShootAndLeave,
     Side2Note,
+    FourNoteCenter,
     DoNothing
   }
   public enum AllianceColor{
@@ -77,6 +78,7 @@ public class AutoChooser extends SubsystemBase {
     autoChooser.addOption("Two Note Middle(TAG)", AutoMode.TwoNoteMiddle);
     autoChooser.addOption("Pre Loaded", AutoMode.PreLoaded);
     autoChooser.addOption("Side 2 Note", AutoMode.Side2Note);
+    autoChooser.addOption("Four Note Auto", AutoMode.FourNoteCenter);
     autoChooser.addOption("Do Nothing", AutoMode.DoNothing);
     // autoChooser.addOption("Leave Zone(NO TAG)", AutoMode.LeaveZone);
     autoChooser.setDefaultOption("Do Nothing", AutoMode.DoNothing);
@@ -147,8 +149,7 @@ public class AutoChooser extends SubsystemBase {
         //Resets the swerve odometry pose based on whatever april tag is in view
         // System.out.println("After Odom Reset"); 
         // String allianceColor = RobotContainer.getAllianceColor();
-        AllianceColor fetchColor = selectedAllianceColor;
-        Command blueAuto = new SequentialCommandGroup(
+        Command blueTwoNoteAuto = new SequentialCommandGroup(
             new ParallelCommandGroup(
               new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueSpeakerShoot, true),
               shootNoteWhenOnSub     
@@ -164,7 +165,7 @@ public class AutoChooser extends SubsystemBase {
             )
             // new PIDMoveArm(arm, ArmProfiledPID, 0.0)
         );
-        Command redAuto = new SequentialCommandGroup(
+        Command redTwoNoteAuto = new SequentialCommandGroup(
         new ParallelCommandGroup(
             new FollowTrajectory(swerveSubsystem, AutoTrajectories.redSpeakerShoot, true),
             shootNoteWhenOnSub        
@@ -180,12 +181,12 @@ public class AutoChooser extends SubsystemBase {
           )
         );
           // new PIDMoveArm(arm, ArmProfiledPID, 0.0)
-        if (fetchColor == AllianceColor.Blue && twoNoteResetOdom){
+        if (selectedAllianceColor == AllianceColor.Blue && twoNoteResetOdom){
           System.out.println("Blue Two Note Auto");
-          autoRoutine = blueAuto;
-        } else if (fetchColor == AllianceColor.Red && twoNoteResetOdom){
+          autoRoutine = blueTwoNoteAuto;
+        } else if (selectedAllianceColor == AllianceColor.Red && twoNoteResetOdom){
           System.out.println("Red Two Note Auto");
-          autoRoutine = redAuto;
+          autoRoutine = redTwoNoteAuto;
         } else {
           autoRoutine = shootNoteWhenOnSub;
         }
@@ -250,6 +251,56 @@ public class AutoChooser extends SubsystemBase {
       
       case LeaveZone:
         autoRoutine = new GeneralTrajectories().Back(swerveSubsystem);
+      break;
+
+      case FourNoteCenter:
+        Boolean fourNoteResetOdom = limelight.resetLimelightBotPose(botXPose,botYPose,botRotation);
+        System.out.println("Starting Four Note"); 
+    
+      //Resets the swerve odometry pose based on whatever april tag is in view
+      // System.out.println("After Odom Reset"); 
+      // String allianceColor = RobotContainer.getAllianceColor();
+      Command blueAuto = new SequentialCommandGroup(
+          new ParallelCommandGroup(
+            new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueSpeakerShoot, true),
+            shootNoteWhenOnSub     
+          ),
+          new ParallelCommandGroup(
+            new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.intake)),
+            new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueSpeakerNote, true),
+            new RunIntake(intake, true, .7, true)
+          ),
+          new ParallelCommandGroup(
+            new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueSpeakerShoot, true),
+           shootNoteWhenOnSub
+          )
+          // new PIDMoveArm(arm, ArmProfiledPID, 0.0)
+      );
+      Command redAuto = new SequentialCommandGroup(
+      new ParallelCommandGroup(
+          new FollowTrajectory(swerveSubsystem, AutoTrajectories.redSpeakerShoot, true),
+          shootNoteWhenOnSub        
+        ),
+        new ParallelCommandGroup(
+          new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.intake)),
+          new FollowTrajectory(swerveSubsystem, AutoTrajectories.redSpeakerNote, true),
+          new RunIntake(intake, true, .7, true)
+        ),
+        new ParallelCommandGroup(
+          new FollowTrajectory(swerveSubsystem, AutoTrajectories.redSpeakerShoot, true),
+          shootNoteWhenOnSub
+        )
+      );
+        // new PIDMoveArm(arm, ArmProfiledPID, 0.0)
+      if (selectedAllianceColor == AllianceColor.Blue && fourNoteResetOdom){
+        System.out.println("Blue Two Note Auto");
+        autoRoutine = blueAuto;
+      } else if (selectedAllianceColor == AllianceColor.Red && fourNoteResetOdom){
+        System.out.println("Red Two Note Auto");
+        autoRoutine = redAuto;
+      } else {
+        autoRoutine = shootNoteWhenOnSub;
+      }
       break;
 
 

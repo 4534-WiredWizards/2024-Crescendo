@@ -35,8 +35,8 @@ public class Arm extends SubsystemBase {
     leftmotor.setIdleMode(IdleMode.kBrake);
 
     // Current limiting to prevent frying the spark max
-    rightmotor.setSmartCurrentLimit(60);
-    leftmotor.setSmartCurrentLimit(60);
+    rightmotor.setSmartCurrentLimit(80);
+    leftmotor.setSmartCurrentLimit(80);
 
 
     rightmotor.follow(leftmotor, true);
@@ -64,11 +64,13 @@ public class Arm extends SubsystemBase {
   }
 
   public double getAbsolutePosition() {
-    return(((-1*absEncoder.getAbsolutePosition())+Constants.CommandConstants.Arm.AbsEncoderOffset+1)%1.0)*(2*Math.PI);
+    // return(((-1*absEncoder.getAbsolutePosition())+Constants.CommandConstants.Arm.AbsEncoderOffset+1)%1.0)*(2*Math.PI);
 
     //((-1*absEncoder.getAbsolutePosition())+Constants.CommandConstants.Arm.AbsEncoderOffset)*2*Math.PI;
     // return((-1*absEncoder.getAbsolutePosition())+Constants.CommandConstants.Arm.AbsEncoderOffset);
-    // return absEncoder.getAbsolutePosition();
+
+    
+    return absEncoder.getAbsolutePosition();
   }
 
   public boolean getArmStatusFw(){
