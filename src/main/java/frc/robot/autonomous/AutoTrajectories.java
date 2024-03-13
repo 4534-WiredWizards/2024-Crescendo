@@ -65,7 +65,7 @@ public class AutoTrajectories {
     public static Trajectory redSpeakerNote =
     TrajectoryGenerator.generateTrajectory(
 	    // Red Side is positive, so HIGHER numbers are closer to the drive station wall and
-	    // LOWER numbers are away from the drive station wall
+	    // LOWER numbers are away from the dlrive station wall
         // Array value 0 is the x value, 1 is the y value
         new Pose2d((TrajectoryConstants.red.speakerNote[0] + 0.1), (TrajectoryConstants.red.speakerNote[1] - 0.01), new Rotation2d(Math.toRadians(TrajectoryConstants.red.speakerNote[2]))),
         List.of(
