@@ -4,8 +4,14 @@
 
 package frc.robot.subsystems;
 
+import java.util.List;
+
 import org.opencv.aruco.Aruco;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.proto.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -21,6 +27,8 @@ import frc.robot.RobotContainer;
 import frc.robot.autonomous.AutoTrajectories;
 import frc.robot.commands.DoNothing;
 import frc.robot.commands.PIDMoveArm;
+import frc.robot.commands.PointToSpeaker2;
+import frc.robot.commands.RotateByDegrees;
 import frc.robot.commands.RunIntake;
 import frc.robot.commands.RunShooter;
 import frc.robot.subsystems.Limelight.Botpose;
@@ -56,7 +64,7 @@ public class AutoChooser extends SubsystemBase {
   private SendableChooser<AutoMode> autoChooser;
   private SendableChooser<AllianceColor> allianceColorChooser;
   private Command autoRoutine;
-  private ParallelCommandGroup shootNoteWhenOnSub; 
+
   
   /** Creates a new AutoChooser. */
   public AutoChooser(
@@ -89,13 +97,7 @@ public class AutoChooser extends SubsystemBase {
 
 
     // Constants for auto
-    this.shootNoteWhenOnSub = new ParallelCommandGroup(
-      new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.closeSpeaker)),
-      new SequentialCommandGroup(
-        new DoNothing().withTimeout(1.2), //Wait a for robot to drive back to shooting position
-        new RunShooter(shooter, intake, () -> 1.0, false,true, true)
-      )
-    );
+    
   }
 
   @Override
@@ -124,7 +126,25 @@ public class AutoChooser extends SubsystemBase {
     }
   }
 
+  private ParallelCommandGroup shootNoteWhenOnSub(){
+    return new ParallelCommandGroup(
+      new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.closeSpeaker)),
+      new SequentialCommandGroup(
+        new DoNothing().withTimeout(1.2), //Wait a for robot to drive back to shooting position
+        new RunShooter(shooter, intake, () -> 1.0, false,true, true)
+      )
+    );
+  }
+  private ParallelCommandGroup shootNoteWhenOnNote(){
+    return new ParallelCommandGroup(
+      new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.noteShot)),
+      new SequentialCommandGroup(
+        new DoNothing().withTimeout(1.2), //Wait a for robot to drive back to shooting position
+        new RunShooter(shooter, intake, () -> 1.0, false,true, true)
+      )
+    );
 
+  }
   public Command getAuto(){
     AutoMode selectedAutoMode = (AutoMode) (autoChooser.getSelected());
     AllianceColor selectedAllianceColor = (AllianceColor) (allianceColorChooser.getSelected());
@@ -151,7 +171,7 @@ public class AutoChooser extends SubsystemBase {
         Command blueAuto = new SequentialCommandGroup(
             new ParallelCommandGroup(
               new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueSpeakerShoot, true),
-              shootNoteWhenOnSub     
+              shootNoteWhenOnSub()     
             ),
             new ParallelCommandGroup(
               new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.intake)),
@@ -160,14 +180,14 @@ public class AutoChooser extends SubsystemBase {
             ),
             new ParallelCommandGroup(
               new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueSpeakerShoot, true),
-             shootNoteWhenOnSub
+             shootNoteWhenOnSub()
             )
             // new PIDMoveArm(arm, ArmProfiledPID, 0.0)
         );
         Command redAuto = new SequentialCommandGroup(
         new ParallelCommandGroup(
             new FollowTrajectory(swerveSubsystem, AutoTrajectories.redSpeakerShoot, true),
-            shootNoteWhenOnSub        
+            shootNoteWhenOnSub()       
           ),
           new ParallelCommandGroup(
             new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.intake)),
@@ -176,7 +196,7 @@ public class AutoChooser extends SubsystemBase {
           ),
           new ParallelCommandGroup(
             new FollowTrajectory(swerveSubsystem, AutoTrajectories.redSpeakerShoot, true),
-            shootNoteWhenOnSub
+            shootNoteWhenOnSub()
           )
         );
           // new PIDMoveArm(arm, ArmProfiledPID, 0.0)
@@ -187,12 +207,12 @@ public class AutoChooser extends SubsystemBase {
           System.out.println("Red Two Note Auto");
           autoRoutine = redAuto;
         } else {
-          autoRoutine = shootNoteWhenOnSub;
+          autoRoutine = shootNoteWhenOnSub();
         }
       break;
 
       case PreLoaded:
-        autoRoutine = shootNoteWhenOnSub;
+        autoRoutine = shootNoteWhenOnSub();
       break;
 
       
@@ -211,27 +231,62 @@ public class AutoChooser extends SubsystemBase {
       // break;
 
       case Side2Note:
+
+
         System.out.println("Starting Middle Note"); 
         Boolean Side2NoteResetOdom = limelight.resetLimelightBotPose(botXPose,botYPose,botRotation);
         Command redAmp = new SequentialCommandGroup(
-          shootNoteWhenOnSub,    
+          shootNoteWhenOnSub(),    
           new ParallelCommandGroup(
             new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.intake)),
             new FollowTrajectory(swerveSubsystem, AutoTrajectories.redAmpNote, true),
             new RunIntake(intake, true, .7, true)
           ),
           new ParallelCommandGroup(
-            // new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueSpeakerShoot, true),
-            // TODO: Move back to where you started
-           shootNoteWhenOnSub
+            new RotateByDegrees(swerveSubsystem, -28.2685),
+            shootNoteWhenOnNote()
           )
-          // new PIDMoveArm(arm, ArmProfiledPID, 0.0)
-      );
+          );
 
 
-        Command redStage = new SequentialCommandGroup(null);
-        Command blueAmp = new SequentialCommandGroup(null);
-        Command blueStage = new SequentialCommandGroup(null);
+        Command redStage = new SequentialCommandGroup(
+          shootNoteWhenOnSub(),    
+          new ParallelCommandGroup(
+            new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.intake)),
+            new FollowTrajectory(swerveSubsystem, AutoTrajectories.redStageNote, true),
+            new RunIntake(intake, true, .7, true)
+          ),
+          new ParallelCommandGroup(
+            new RotateByDegrees(swerveSubsystem, + 28.2685),
+            shootNoteWhenOnNote()
+          )
+        );
+        Command blueAmp = new SequentialCommandGroup(
+         shootNoteWhenOnSub(),    
+          new ParallelCommandGroup(
+            new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.intake)),
+            new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueAmpNote, true),
+            new RunIntake(intake, true, .7, true)
+          ),
+          new ParallelCommandGroup(
+            new RotateByDegrees(swerveSubsystem, + 27.6066),
+            shootNoteWhenOnNote()
+          )
+          );
+
+        Command blueStage = new SequentialCommandGroup(
+          shootNoteWhenOnSub(),    
+          new ParallelCommandGroup(
+            new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.intake)),
+            new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueStageNote, true),
+            new RunIntake(intake, true, .7, true)
+          ),
+          new ParallelCommandGroup(
+            new RotateByDegrees(swerveSubsystem, -27.6066),
+            shootNoteWhenOnNote()
+          )
+          );
+
         if (subWooferSide == SubWooferSide.RedAmp && Side2NoteResetOdom) {
           autoRoutine = redAmp;
         } else if (subWooferSide == SubWooferSide.RedStage && Side2NoteResetOdom) {
@@ -241,7 +296,7 @@ public class AutoChooser extends SubsystemBase {
         } else if (subWooferSide == SubWooferSide.BlueStage && Side2NoteResetOdom) {
           autoRoutine = blueStage;
         } else {
-          autoRoutine = shootNoteWhenOnSub;
+          autoRoutine = shootNoteWhenOnSub();
           // TODO: Add logic for static exit auto
         }
       break;

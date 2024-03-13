@@ -173,6 +173,8 @@ public final class Constants {
             public static final double intake = 5;
             public static final double traversal = 75;
             public static final double closeSpeaker = 21;
+            //Test and tune noteShot
+            public static final double noteShot = 30;
             // Arm Feedforward Constants
             public static final double kP = 1;
             // Values Obtained from Characterization via reca.lc/arm
