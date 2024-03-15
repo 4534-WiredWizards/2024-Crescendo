@@ -55,7 +55,7 @@ public class RunShooter extends Command {
     if(shooter.getSpeed() >  4500 ){ 
       RobotContainer.leds.shooterStart();
     } 
-    if (PIDControl) {shooter.velocityPID(speed.get() * 5000);} 
+    if (PIDControl) {shooter.velocityPID(speed.get());} 
     else {shooter.move(speed.get());}
     
 

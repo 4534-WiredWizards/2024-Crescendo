@@ -318,7 +318,7 @@ public class AutoChooser extends SubsystemBase {
       Command blueAuto = new SequentialCommandGroup(
           new ParallelCommandGroup(
             new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueSpeakerShoot, true),
-            shootNoteWhenOnSub     
+            shootNoteWhenOnSub()  
           ),
           new ParallelCommandGroup(
             new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.intake)),
@@ -327,14 +327,14 @@ public class AutoChooser extends SubsystemBase {
           ),
           new ParallelCommandGroup(
             new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueSpeakerShoot, true),
-           shootNoteWhenOnSub
+           shootNoteWhenOnSub()
           )
           // new PIDMoveArm(arm, ArmProfiledPID, 0.0)
       );
       Command redAuto = new SequentialCommandGroup(
       new ParallelCommandGroup(
           new FollowTrajectory(swerveSubsystem, AutoTrajectories.redSpeakerShoot, true),
-          shootNoteWhenOnSub        
+          shootNoteWhenOnSub()        
         ),
         new ParallelCommandGroup(
           new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.intake)),
@@ -343,7 +343,7 @@ public class AutoChooser extends SubsystemBase {
         ),
         new ParallelCommandGroup(
           new FollowTrajectory(swerveSubsystem, AutoTrajectories.redSpeakerShoot, true),
-          shootNoteWhenOnSub
+          shootNoteWhenOnSub()
         )
       );
         // new PIDMoveArm(arm, ArmProfiledPID, 0.0)
@@ -354,7 +354,7 @@ public class AutoChooser extends SubsystemBase {
         System.out.println("Red Two Note Auto");
         autoRoutine = redAuto;
       } else {
-        autoRoutine = shootNoteWhenOnSub;
+        autoRoutine = shootNoteWhenOnSub();
       }
       break;
 
