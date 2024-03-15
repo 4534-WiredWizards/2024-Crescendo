@@ -4,8 +4,11 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.CommandConstants;
+import frc.robot.autonomous.AutoTrajectories;
 import frc.robot.commands.DoNothing;
 import frc.robot.commands.PIDMoveArm;
+import frc.robot.commands.RotateByDegrees;
+import frc.robot.commands.RunIntake;
 import frc.robot.commands.RunShooter;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.ArmProfiledPID;
@@ -19,12 +22,12 @@ public class blueStageTwoNoteSide extends ParallelCommandGroup {
    new SequentialCommandGroup(
           shootNoteWhenOnSub(),    
           new ParallelCommandGroup(
-            new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.intake)),
-            new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueStageNote, true),
+            new PIDMoveArm(arm,armProfiledPID, Units.degreesToRadians(CommandConstants.Arm.intake)),
+            new FollowTrajectory(swerve, AutoTrajectories.blueStageNote, true),
             new RunIntake(intake, true, .7, true)
           ),
           new ParallelCommandGroup(
-            new RotateByDegrees(swerveSubsystem, -27.6066),
+            new RotateByDegrees(swerve, -27.6066),
             shootNoteWhenOnNote()
           )
           );
