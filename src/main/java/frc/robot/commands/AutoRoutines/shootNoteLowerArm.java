@@ -13,6 +13,7 @@ import frc.robot.commands.RunShooter;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.ArmProfiledPID;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwerveSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -20,7 +21,7 @@ import frc.robot.subsystems.SwerveSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class shootNoteLowerArm extends ParallelDeadlineGroup {
   /** Creates a new shootNoteLowerArm. */
-  public shootNoteLowerArm(Arm arm, ArmProfiledPID armProfiledPID, Intake intake, SwerveSubsystem swerve, frc.robot.subsystems.Shooter shooter) {
+  public shootNoteLowerArm(Arm arm, ArmProfiledPID armProfiledPID, Intake intake, SwerveSubsystem swerve, Shooter shooter) {
     // Add the deadline command in the super() call. Add other commands using
     // addCommands().
     super(new PIDMoveArm(arm,armProfiledPID, Units.degreesToRadians(CommandConstants.Arm.closeSpeaker)));

@@ -31,9 +31,15 @@ import frc.robot.commands.PointToSpeaker2;
 import frc.robot.commands.RotateByDegrees;
 import frc.robot.commands.RunIntake;
 import frc.robot.commands.RunShooter;
-import frc.robot.commands.AutoRoutines.blueTwoNoteCenter;
-import frc.robot.commands.AutoRoutines.redTwoNoteCenter;
+import frc.robot.commands.AutoRoutines.redAmpTwoNoteStage;
 import frc.robot.commands.AutoRoutines.shootNoteWhenOnSub;
+import frc.robot.commands.AutoRoutines.centerFourNote.redFourNoteCenter;
+import frc.robot.commands.AutoRoutines.centerTwoNote.blueTwoNoteCenter;
+import frc.robot.commands.AutoRoutines.centerTwoNote.redTwoNoteCenter;
+import frc.robot.commands.AutoRoutines.sideTwoNote.blueAmpTwoNoteSide;
+import frc.robot.commands.AutoRoutines.sideTwoNote.blueStageTwoNoteSide;
+import frc.robot.commands.AutoRoutines.sideTwoNote.redAmpTwoNoteSide;
+import frc.robot.commands.AutoRoutines.sideTwoNote.redStageTwoNoteSide;
 import frc.robot.subsystems.Limelight.Botpose;
 import frc.robot.subsystems.drivetrain.FollowTrajectory;
 
@@ -173,72 +179,20 @@ public class AutoChooser extends SubsystemBase {
 
 
       case Side2Note:
-
-
         System.out.println("Starting Middle Note"); 
         Boolean Side2NoteResetOdom = limelight.resetLimelightBotPose(botXPose,botYPose,botRotation);
-        Command redAmp = new SequentialCommandGroup(
-          shootNoteWhenOnSub(),    
-          new ParallelCommandGroup(
-            new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.intake)),
-            new FollowTrajectory(swerveSubsystem, AutoTrajectories.redAmpNote, true),
-            new RunIntake(intake, true, .7, true)
-          ),
-          new ParallelCommandGroup(
-            new RotateByDegrees(swerveSubsystem, -28.2685),
-            shootNoteWhenOnNote()
-          )
-          );
-
-
-        Command redStage = new SequentialCommandGroup(
-          shootNoteWhenOnSub(),    
-          new ParallelCommandGroup(
-            new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.intake)),
-            new FollowTrajectory(swerveSubsystem, AutoTrajectories.redStageNote, true),
-            new RunIntake(intake, true, .7, true)
-          ),
-          new ParallelCommandGroup(
-            new RotateByDegrees(swerveSubsystem, + 28.2685),
-            shootNoteWhenOnNote()
-          )
-        );
-        Command blueAmp = new SequentialCommandGroup(
-         shootNoteWhenOnSub(),    
-          new ParallelCommandGroup(
-            new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.intake)),
-            new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueAmpNote, true),
-            new RunIntake(intake, true, .7, true)
-          ),
-          new ParallelCommandGroup(
-            new RotateByDegrees(swerveSubsystem, + 27.6066),
-            shootNoteWhenOnNote()
-          )
-          );
-
-        Command blueStage = new SequentialCommandGroup(
-          shootNoteWhenOnSub(),    
-          new ParallelCommandGroup(
-            new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.intake)),
-            new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueStageNote, true),
-            new RunIntake(intake, true, .7, true)
-          ),
-          new ParallelCommandGroup(
-            new RotateByDegrees(swerveSubsystem, -27.6066),
-            shootNoteWhenOnNote()
-          )
-          );
+       
 
         if (subWooferSide == SubWooferSide.RedAmp && Side2NoteResetOdom) {
-          autoRoutine = redAmp;
+          autoRoutine = new redAmpTwoNoteSide(arm, ArmProfiledPID, intake, swerveSubsystem, shooter);
         } else if (subWooferSide == SubWooferSide.RedStage && Side2NoteResetOdom) {
-          autoRoutine = redStage;
+          autoRoutine = new redStageTwoNoteSide(arm, ArmProfiledPID, intake, swerveSubsystem, shooter);
         } else if (subWooferSide == SubWooferSide.BlueAmp && Side2NoteResetOdom) {
-          autoRoutine = blueAmp;
+          autoRoutine = new blueAmpTwoNoteSide(arm, ArmProfiledPID, intake, swerveSubsystem, shooter);
         } else if (subWooferSide == SubWooferSide.BlueStage && Side2NoteResetOdom) {
-          autoRoutine = blueStage;
+          autoRoutine = new blueStageTwoNoteSide(arm, ArmProfiledPID, intake, shooter, swerveSubsystem);
         } else {
-          autoRoutine = shootNoteWhenOnSub();
+          autoRoutine = new shootNoteWhenOnSub(arm, ArmProfiledPID, intake, swerveSubsystem, shooter);
           // TODO: Add logic for static exit auto
         }
       break;
@@ -250,52 +204,22 @@ public class AutoChooser extends SubsystemBase {
       break;
 
       case FourNoteCenter:
+
+
         Boolean fourNoteResetOdom = limelight.resetLimelightBotPose(botXPose,botYPose,botRotation);
         System.out.println("Starting Four Note"); 
     
-      //Resets the swerve odometry pose based on whatever april tag is in view
-      // System.out.println("After Odom Reset"); 
-      // String allianceColor = RobotContainer.getAllianceColor();
-      Command blueAuto = new SequentialCommandGroup(
-          new ParallelCommandGroup(
-            new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueSpeakerShoot, true),
-            shootNoteWhenOnSub()  
-          ),
-          new ParallelCommandGroup(
-            new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.intake)),
-            new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueSpeakerNote, true),
-            new RunIntake(intake, true, .7, true)
-          ),
-          new ParallelCommandGroup(
-            new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueSpeakerShoot, true),
-           shootNoteWhenOnSub()
-          )
-          // new PIDMoveArm(arm, ArmProfiledPID, 0.0)
-      );
-      Command redAuto = new SequentialCommandGroup(
-      new ParallelCommandGroup(
-          new FollowTrajectory(swerveSubsystem, AutoTrajectories.redSpeakerShoot, true),
-          shootNoteWhenOnSub()        
-        ),
-        new ParallelCommandGroup(
-          new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.intake)),
-          new FollowTrajectory(swerveSubsystem, AutoTrajectories.redSpeakerNote, true),
-          new RunIntake(intake, true, .7, true)
-        ),
-        new ParallelCommandGroup(
-          new FollowTrajectory(swerveSubsystem, AutoTrajectories.redSpeakerShoot, true),
-          shootNoteWhenOnSub()
-        )
-      );
+     
+      
         // new PIDMoveArm(arm, ArmProfiledPID, 0.0)
       if (selectedAllianceColor == AllianceColor.Blue && fourNoteResetOdom){
         System.out.println("Blue Two Note Auto");
-        autoRoutine = blueAuto;
+        autoRoutine = new  blueFourNoteCenter(arm, ArmProfiledPID, intake, swerveSubsystem, shooter);
       } else if (selectedAllianceColor == AllianceColor.Red && fourNoteResetOdom){
         System.out.println("Red Two Note Auto");
-        autoRoutine = redAuto;
+        autoRoutine = new redFourNoteCenter(arm, ArmProfiledPID, intake, swerveSubsystem, shooter);
       } else {
-        autoRoutine = shootNoteWhenOnSub();
+        autoRoutine = new shootNoteWhenOnSub(arm, ArmProfiledPID, intake, swerveSubsystem, shooter);
       }
       break;
 

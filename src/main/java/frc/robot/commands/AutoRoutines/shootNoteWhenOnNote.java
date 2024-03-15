@@ -14,11 +14,12 @@ import frc.robot.commands.RunShooter;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.ArmProfiledPID;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwerveSubsystem;
 
 public class shootNoteWhenOnNote extends ParallelCommandGroup {
   /** Creates a new PlaceAndStation. */
-  public shootNoteWhenOnNote(Arm arm, ArmProfiledPID armProfiledPID, Intake intake, SwerveSubsystem swerve, frc.robot.subsystems.Shooter shooter) {
+  public shootNoteWhenOnNote(Arm arm, ArmProfiledPID armProfiledPID, Intake intake, SwerveSubsystem swerve, Shooter shooter) {
     addCommands(
       new PIDMoveArm(arm,armProfiledPID, Units.degreesToRadians(CommandConstants.Arm.noteShot)),
       new SequentialCommandGroup(
