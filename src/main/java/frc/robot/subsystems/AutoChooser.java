@@ -31,6 +31,9 @@ import frc.robot.commands.PointToSpeaker2;
 import frc.robot.commands.RotateByDegrees;
 import frc.robot.commands.RunIntake;
 import frc.robot.commands.RunShooter;
+import frc.robot.commands.AutoRoutines.blueTwoNoteCenter;
+import frc.robot.commands.AutoRoutines.redTwoNoteCenter;
+import frc.robot.commands.AutoRoutines.shootNoteWhenOnSub;
 import frc.robot.subsystems.Limelight.Botpose;
 import frc.robot.subsystems.drivetrain.FollowTrajectory;
 
@@ -128,25 +131,7 @@ public class AutoChooser extends SubsystemBase {
     }
   }
 
-  private ParallelCommandGroup shootNoteWhenOnSub(){
-    return new ParallelCommandGroup(
-      new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.closeSpeaker)),
-      new SequentialCommandGroup(
-        new DoNothing().withTimeout(1.2), //Wait a for robot to drive back to shooting position
-        new RunShooter(shooter, intake, () -> 1.0, false,true, true)
-      )
-    );
-  }
-  private ParallelCommandGroup shootNoteWhenOnNote(){
-    return new ParallelCommandGroup(
-      new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.noteShot)),
-      new SequentialCommandGroup(
-        new DoNothing().withTimeout(1.2), //Wait a for robot to drive back to shooting position
-        new RunShooter(shooter, intake, () -> 1.0, false,true, true)
-      )
-    );
 
-  }
   public Command getAuto(){
     AutoMode selectedAutoMode = (AutoMode) (autoChooser.getSelected());
     AllianceColor selectedAllianceColor = (AllianceColor) (allianceColorChooser.getSelected());
@@ -169,67 +154,23 @@ public class AutoChooser extends SubsystemBase {
         //Resets the swerve odometry pose based on whatever april tag is in view
         // System.out.println("After Odom Reset"); 
         // String allianceColor = RobotContainer.getAllianceColor();
-        Command blueTwoNoteAuto = new SequentialCommandGroup(
-            new ParallelCommandGroup(
-              new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueSpeakerShoot, true),
-              shootNoteWhenOnSub()     
-            ),
-            new ParallelCommandGroup(
-              new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.intake)),
-              new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueSpeakerNote, true),
-              new RunIntake(intake, true, .7, true)
-            ),
-            new ParallelCommandGroup(
-              new FollowTrajectory(swerveSubsystem, AutoTrajectories.blueSpeakerShoot, true),
-             shootNoteWhenOnSub()
-            )
-            // new PIDMoveArm(arm, ArmProfiledPID, 0.0)
-        );
-        Command redTwoNoteAuto = new SequentialCommandGroup(
-        new ParallelCommandGroup(
-            new FollowTrajectory(swerveSubsystem, AutoTrajectories.redSpeakerShoot, true),
-            shootNoteWhenOnSub()       
-          ),
-          new ParallelCommandGroup(
-            new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.intake)),
-            new FollowTrajectory(swerveSubsystem, AutoTrajectories.redSpeakerNote, true),
-            new RunIntake(intake, true, .7, true)
-          ),
-          new ParallelCommandGroup(
-            new FollowTrajectory(swerveSubsystem, AutoTrajectories.redSpeakerShoot, true),
-            shootNoteWhenOnSub()
-          )
-        );
+        
           // new PIDMoveArm(arm, ArmProfiledPID, 0.0)
         if (selectedAllianceColor == AllianceColor.Blue && twoNoteResetOdom){
           System.out.println("Blue Two Note Auto");
-          autoRoutine = blueTwoNoteAuto;
+          autoRoutine = new blueTwoNoteCenter(arm, ArmProfiledPID, intake, swerveSubsystem, shooter)  ;
         } else if (selectedAllianceColor == AllianceColor.Red && twoNoteResetOdom){
           System.out.println("Red Two Note Auto");
-          autoRoutine = redTwoNoteAuto;
+          autoRoutine = new redTwoNoteCenter(swerveSubsystem, arm, ArmProfiledPID, intake, shooter);
         } else {
-          autoRoutine = shootNoteWhenOnSub();
+          autoRoutine = new shootNoteWhenOnSub(arm, ArmProfiledPID, intake, swerveSubsystem, shooter);
         }
       break;
 
       case PreLoaded:
-        autoRoutine = shootNoteWhenOnSub();
+        autoRoutine = new shootNoteWhenOnSub(arm, ArmProfiledPID, intake, swerveSubsystem, shooter);
       break;
 
-      
-      // case ShootAndLeave:
-      // autoRoutine = new SequentialCommandGroup(
-      //   new ParallelCommandGroup(
-      //     new PIDMoveArm(arm,ArmProfiledPID, Units.degreesToRadians(CommandConstants.Arm.closeSpeaker)),
-      //     new SequentialCommandGroup(
-      //       new DoNothing().withTimeout(2), //Wait a for robot to drive back to shooting position
-      //       new RunShooter(shooter, intake, () -> 1.0, false,true, true)
-      //     )
-      //   )
-      //   // new GeneralTrajectories().Back(swerveSubsystem)
-      //   // TODO: Add logic
-      // );
-      // break;
 
       case Side2Note:
 
