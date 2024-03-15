@@ -9,15 +9,14 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
+import frc.robot.Constants;
 
 public class ArmProfiledPID extends ProfiledPIDSubsystem{
     private final Arm arm;
 
-    // OLD ARM CONSTANTS - 20lbs - 28 COM
-    private final ArmFeedforward m_feedforward = new ArmFeedforward(1,0.45,2.49,0.03);
-    
-    //New - 21lbs - 24 COM
-    // private final ArmFeedforward m_feedforward = new ArmFeedforward(1,0.81,2.51,0.05);
+    // ARM CONSTANTS
+    private final ArmFeedforward m_feedforward = new ArmFeedforward(Constants.CommandConstants.Arm.kSVolts,
+    Constants.CommandConstants.Arm.kGVolts,Constants.CommandConstants.Arm.kVVoltSecondPerRad,Constants.CommandConstants.Arm.kAVoltSecondSquaredPerRad);
 
     public ArmProfiledPID(
         Arm arm

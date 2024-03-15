@@ -186,10 +186,16 @@ public final class Constants {
             // public static final double kAVoltSecondSquaredPerRad = 0.03;
 
             // 20lbs Config
+            // public static final double kSVolts = 1;
+            // public static final double kGVolts = 0.90;
+            // public static final double kVVoltSecondPerRad = 2.49;
+            // public static final double kAVoltSecondSquaredPerRad = 0.03;
+
+            // 23lbs, 130.5 gear ratio Config
             public static final double kSVolts = 1;
-            public static final double kGVolts = 0.90;
-            public static final double kVVoltSecondPerRad = 2.49;
-            public static final double kAVoltSecondSquaredPerRad = 0.03;
+            public static final double kGVolts = 1.02;
+            public static final double kVVoltSecondPerRad = 2.54;
+            public static final double kAVoltSecondSquaredPerRad = 0.07;
 
             // OTHER CONSTANTS - Unkown Values
             public static final double kMaxVelocityRadPerSecond = 3;
