@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.util.Units;
@@ -86,11 +87,16 @@ public class RobotContainer {
 
 
 
+        // ----------------------- SHOOTER COMMANDS ---------------------------------
+        // Menu Button - Run Shooter at set velocity
+        new JoystickButton(operatorJoystick, InputDevices.btn_select).whileTrue(new RunShooter(shooter, intake,()->SmartDashboard.getNumber("Set Shooter Speed", 0), true, false, false));
+
+
         // ----------------------- INTAKE & Shooter COMMANDS ---------------------------------
         // Basic Operator Intake Control
         // Y - Run Intake
-        new JoystickButton(operatorJoystick, InputDevices.btn_y).whileTrue(new RunIntake(intake, true, .7, true));
-        new JoystickButton(operatorJoystick, InputDevices.btn_a).whileTrue(new RunIntake(intake, true, -.7, true));
+        new JoystickButton(operatorJoystick, InputDevices.btn_y).whileTrue(new RunIntake(intake, true, .8, true));
+        new JoystickButton(operatorJoystick, InputDevices.btn_a).whileTrue(new RunIntake(intake, true, -.8, true));
         // Testing Auto Speaker Scoring System
         // new JoystickButton(operatorJoystick, InputDevices.btn_b).onTrue(new PointToSpeaker2(limelight, swerve));
         // new JoystickButton(operatorJoystick, InputDevices.btn_b).onTrue(new ArmToShootingH(limelight, swerve));
@@ -106,8 +112,8 @@ public class RobotContainer {
         
         // Basic Operator Arm Control
         // Bumper Left & Right (Left- Move arm twoards the intake, Right- Move arm away from intake)
-        new JoystickButton(operatorJoystick ,InputDevices.btn_leftBumper).whileTrue(new MoveArm(arm, .20));
-        new JoystickButton(operatorJoystick, InputDevices.btn_rightBumper).whileTrue(new MoveArm(arm, -5.0));
+        new JoystickButton(operatorJoystick ,InputDevices.btn_leftBumper).whileTrue(new MoveArm(arm, -.25)); //Move arm down
+        new JoystickButton(operatorJoystick, InputDevices.btn_rightBumper).whileTrue(new MoveArm(arm, .50)); //Move arm
 
         // ----------------------- ARM PID COMMANDS ---------------------------------
 

@@ -46,6 +46,7 @@ public class Robot extends TimedRobot {
         Lights.LEDSegment.Panel.fullClear();
         RobotContainer.leds.robotInit();
         // SmartDashboard.putString("Alliance Color", (RobotContainer.getAllianceColor()!=null) ? RobotContainer.getAllianceColor() : "None");
+        SmartDashboard.putNumber("Set Shooter Speed", 0);
     }
 
     /**
