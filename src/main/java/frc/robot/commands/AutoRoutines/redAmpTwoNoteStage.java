@@ -22,21 +22,19 @@ import frc.robot.subsystems.drivetrain.FollowTrajectory;
 
 
 
-public class redAmpTwoNoteSide extends ParallelCommandGroup {
+public class redAmpTwoNoteStage extends ParallelCommandGroup {
   /** Creates a new PlaceAndStation. */
-  public redAmpTwoNoteSide(Arm arm, ArmProfiledPID armProfiledPID, Intake intake, SwerveSubsystem swerve, frc.robot.subsystems.Shooter shooter) {
+  public redAmpTwoNoteStage(Arm arm, ArmProfiledPID armProfiledPID, Intake intake, SwerveSubsystem swerve, frc.robot.subsystems.Shooter shooter) {
     new SequentialCommandGroup(
           new shootNoteWhenOnSub(arm, armProfiledPID, intake, swerve, shooter),    
           new ParallelCommandGroup(
             new PIDMoveArm(arm, armProfiledPID, Units.degreesToRadians(CommandConstants.Arm.intake)),
-            new FollowTrajectory(swerve, AutoTrajectories.redAmpNote, true),
+            new FollowTrajectory(swerve, AutoTrajectories.redStageNote, true),
             new RunIntake(intake, true, .7, true)
           ),
           new ParallelCommandGroup(
-            new RotateByDegrees(swerve, -28.2685),
+            new RotateByDegrees(swerve, + 28.2685),
             new shootNoteWhenOnNote(arm, armProfiledPID, intake, swerve, shooter)
-          )
-          );
   }
 
 }
