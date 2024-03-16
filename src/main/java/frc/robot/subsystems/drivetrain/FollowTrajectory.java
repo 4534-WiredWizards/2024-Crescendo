@@ -90,6 +90,7 @@ public class FollowTrajectory extends SwerveControllerCommand {
         timer.start();
         super.initialize();
         SmartDashboard.putNumber("Initialized", 1);
+        System.out.println("Command '" + this.getName() + "' initialized at " + Timer.getFPGATimestamp());
     } 
 
     @Override
@@ -117,6 +118,7 @@ public class FollowTrajectory extends SwerveControllerCommand {
 
     @Override public void end(boolean isInterrupted){
         System.out.println("End FollowTrajectory/Interrupted: "+isInterrupted);
+        System.out.println("Command '" + this.getName() + "' ended at " + Timer.getFPGATimestamp());
         if (stopLocal == true){
             drive.stopModules();
         }

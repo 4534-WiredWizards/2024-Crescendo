@@ -6,16 +6,12 @@ package frc.robot.commands;
 
 import java.util.function.Supplier;
 
-import com.revrobotics.SparkPIDController;
-
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Shooter;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Intake;
-import frc.robot.commands.RunIntake;
+import frc.robot.subsystems.Shooter;
 
 public class RunShooter extends Command {
   Shooter shooter;
@@ -29,7 +25,7 @@ public class RunShooter extends Command {
   private boolean PIDControl;
 
   /** Creates a new runShooter. */
-  public  RunShooter(Shooter shooter, Intake Intake, Supplier<Double> speed, boolean PIDControl, boolean autoStop, boolean autoIntake) {
+  public RunShooter(Shooter shooter, Intake Intake, Supplier<Double> speed, boolean PIDControl, boolean autoStop, boolean autoIntake) {
     this.shooter = shooter;
     this.speed = speed;
     this.Intake = Intake;
@@ -46,6 +42,7 @@ public class RunShooter extends Command {
     isPressed = false;
     presses = 0;
     SmartDashboard.putNumber("Intake Velocity",0);
+    System.out.println("Command '" + this.getName() + "' initialized at " + Timer.getFPGATimestamp());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -86,6 +83,7 @@ public class RunShooter extends Command {
     System.out.println("Exited Shooter");
     shooter.move(0);
     Intake.move(0);
+    System.out.println("Command '" + this.getName() + "' ended at " + Timer.getFPGATimestamp());
     // RobotContainer.leds.shooterStop();
   }
 
