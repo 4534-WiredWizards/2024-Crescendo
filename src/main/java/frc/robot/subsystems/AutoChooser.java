@@ -4,35 +4,15 @@
 
 package frc.robot.subsystems;
 
-import java.util.List;
-
-import org.opencv.aruco.Aruco;
-
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.proto.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.AutoConstants;
-import frc.robot.Constants.CommandConstants;
 import frc.robot.Constants.TrajectoryConstants;
 import frc.robot.GeneralTrajectories;
-import frc.robot.RobotContainer;
-import frc.robot.autonomous.AutoTrajectories;
 import frc.robot.commands.DoNothing;
-import frc.robot.commands.PIDMoveArm;
-import frc.robot.commands.PointToSpeaker2;
-import frc.robot.commands.RotateByDegrees;
-import frc.robot.commands.RunIntake;
-import frc.robot.commands.RunShooter;
-import frc.robot.commands.AutoRoutines.redAmpTwoNoteStage;
 import frc.robot.commands.AutoRoutines.shootNoteWhenOnSub;
+import frc.robot.commands.AutoRoutines.centerFourNote.blueFourNoteCenter;
 import frc.robot.commands.AutoRoutines.centerFourNote.redFourNoteCenter;
 import frc.robot.commands.AutoRoutines.centerTwoNote.blueTwoNoteCenter;
 import frc.robot.commands.AutoRoutines.centerTwoNote.redTwoNoteCenter;
@@ -40,8 +20,6 @@ import frc.robot.commands.AutoRoutines.sideTwoNote.blueAmpTwoNoteSide;
 import frc.robot.commands.AutoRoutines.sideTwoNote.blueStageTwoNoteSide;
 import frc.robot.commands.AutoRoutines.sideTwoNote.redAmpTwoNoteSide;
 import frc.robot.commands.AutoRoutines.sideTwoNote.redStageTwoNoteSide;
-import frc.robot.subsystems.Limelight.Botpose;
-import frc.robot.subsystems.drivetrain.FollowTrajectory;
 
 public class AutoChooser extends SubsystemBase {
 
@@ -214,7 +192,7 @@ public class AutoChooser extends SubsystemBase {
         // new PIDMoveArm(arm, ArmProfiledPID, 0.0)
       if (selectedAllianceColor == AllianceColor.Blue && fourNoteResetOdom){
         System.out.println("Blue Two Note Auto");
-        autoRoutine = new  blueFourNoteCenter(arm, ArmProfiledPID, intake, swerveSubsystem, shooter);
+        autoRoutine = new blueFourNoteCenter(arm, ArmProfiledPID, intake, swerveSubsystem, shooter);
       } else if (selectedAllianceColor == AllianceColor.Red && fourNoteResetOdom){
         System.out.println("Red Two Note Auto");
         autoRoutine = new redFourNoteCenter(arm, ArmProfiledPID, intake, swerveSubsystem, shooter);
