@@ -21,7 +21,7 @@ public class shootNoteWhenOnNote extends ParallelCommandGroup {
   /** Creates a new PlaceAndStation. */
   public shootNoteWhenOnNote(Arm arm, ArmProfiledPID armProfiledPID, Intake intake, SwerveSubsystem swerve, Shooter shooter) {
     addCommands(
-      new PIDMoveArm(arm,armProfiledPID, Units.degreesToRadians(CommandConstants.Arm.noteShot)),
+      new PIDMoveArm(arm,armProfiledPID, Units.degreesToRadians(CommandConstants.Arm.noteShot),true),
       new SequentialCommandGroup(
         new DoNothing().withTimeout(1.2), //Wait a for robot to drive back to shooting position
         new RunShooter(shooter, intake, () -> 1.0, false,true, true)

@@ -172,8 +172,8 @@ public final class Constants {
             public static final double amp = 97.0;
             public static final double intake = 0;
             public static final double traversal = 66;
-            public static final double closeSpeaker = 12;
-            //Test and tune noteShot
+            public static final double closeSpeaker = 20;
+            public static final double farSpeaker = 36.5;            //Test and tune noteShot
             public static final double noteShot = 30;
             // Arm Feedforward Constants
             public static final double kP = 1;

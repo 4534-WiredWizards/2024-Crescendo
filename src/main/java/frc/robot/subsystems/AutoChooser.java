@@ -70,10 +70,10 @@ public class AutoChooser extends SubsystemBase {
     this.intake = intake;
     this.limelight = Limelight;
     autoChooser = new SendableChooser<AutoMode>();
-    autoChooser.addOption("Two Note Middle(TAG)", AutoMode.TwoNoteMiddle);
-    autoChooser.addOption("Pre Loaded", AutoMode.PreLoaded);
-    autoChooser.addOption("Side 2 Note", AutoMode.Side2Note);
-    autoChooser.addOption("Four Note Auto", AutoMode.FourNoteCenter);
+    autoChooser.addOption("Mid 2N", AutoMode.TwoNoteMiddle);
+    autoChooser.addOption("Pre 1N", AutoMode.PreLoaded);
+    autoChooser.addOption("Side 2N", AutoMode.Side2Note);
+    autoChooser.addOption("Mid 4N", AutoMode.FourNoteCenter);
     autoChooser.addOption("Do Nothing", AutoMode.DoNothing);
     // autoChooser.addOption("Leave Zone(NO TAG)", AutoMode.LeaveZone);
     autoChooser.setDefaultOption("Do Nothing", AutoMode.DoNothing);
@@ -142,7 +142,7 @@ public class AutoChooser extends SubsystemBase {
           // new PIDMoveArm(arm, ArmProfiledPID, 0.0)
         if (selectedAllianceColor == AllianceColor.Blue && twoNoteResetOdom){
           System.out.println("Blue Two Note Auto");
-          autoRoutine = new blueTwoNoteCenter(arm, ArmProfiledPID, intake, swerveSubsystem, shooter)  ;
+          autoRoutine = new blueTwoNoteCenter(arm, ArmProfiledPID, intake, swerveSubsystem, shooter);
         } else if (selectedAllianceColor == AllianceColor.Red && twoNoteResetOdom){
           System.out.println("Red Two Note Auto");
           autoRoutine = new redTwoNoteCenter(swerveSubsystem, arm, ArmProfiledPID, intake, shooter);

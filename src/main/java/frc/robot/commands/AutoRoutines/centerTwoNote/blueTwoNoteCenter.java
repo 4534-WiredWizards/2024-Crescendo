@@ -29,7 +29,7 @@ public class blueTwoNoteCenter extends SequentialCommandGroup {
         new shootNoteWhenOnSub(arm, armProfiledPID, intake, swerve, shooter)
       ),
       new ParallelCommandGroup(
-        new PIDMoveArm(arm,armProfiledPID, Units.degreesToRadians(CommandConstants.Arm.intake)),
+        new PIDMoveArm(arm,armProfiledPID, Units.degreesToRadians(CommandConstants.Arm.intake),true),
         new FollowTrajectory(swerve, AutoTrajectories.blueSpeakerNote, true),
         new RunIntake(intake, true, .7, true)
       ),

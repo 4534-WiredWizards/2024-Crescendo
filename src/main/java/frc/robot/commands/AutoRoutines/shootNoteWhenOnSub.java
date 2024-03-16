@@ -20,8 +20,8 @@ public class shootNoteWhenOnSub extends SequentialCommandGroup {
   public shootNoteWhenOnSub(Arm arm, ArmProfiledPID armProfiledPID, Intake intake, SwerveSubsystem swerve, Shooter shooter) {
 
     addCommands(
-      new shootNoteLowerArm(arm, armProfiledPID, intake, swerve, shooter),
-      new RunShooter(shooter, intake, () -> 1.0, false,true, true)
+      new spinShooterLowerArm(arm, armProfiledPID, intake, swerve, shooter),
+      new RunShooter(shooter, intake, () -> 1.0, false,true, true).withTimeout(1)
     );
   }
 }
