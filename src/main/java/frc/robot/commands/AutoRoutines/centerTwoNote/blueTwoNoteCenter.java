@@ -11,8 +11,11 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.CommandConstants;
 import frc.robot.autonomous.AutoTrajectories;
 import frc.robot.commands.AutoRoutines.shootNoteWhenOnSub;
+import frc.robot.commands.AutoRoutines.spinShooterLowerArm;
 import frc.robot.commands.PIDMoveArm;
+import frc.robot.commands.RotateByDegrees;
 import frc.robot.commands.RunIntake;
+import frc.robot.commands.RunShooter;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.ArmProfiledPID;
 import frc.robot.subsystems.Intake;
@@ -45,9 +48,19 @@ public class blueTwoNoteCenter extends SequentialCommandGroup {
         new FollowTrajectory(swerve, AutoTrajectories.blueSpeakerNote, true),
         new RunIntake(intake, true, .7, true)
       ),
-      new ParallelCommandGroup(
-        new FollowTrajectory(swerve, AutoTrajectories.blueSpeakerShoot, true),
-        new shootNoteWhenOnSub(arm, armProfiledPID, intake, swerve, shooter)
+      new SequentialCommandGroup(
+        new ParallelDeadlineGroup(
+          new PIDMoveArm(
+            arm,
+            armProfiledPID,
+            Units.degreesToRadians(CommandConstants.Arm.farSpeaker),
+            true
+          ),
+          new RotateByDegrees(swerve, 5.0),
+          new RunShooter(shooter, intake, () -> 1.0, false, true, false)
+        ),
+        new RunShooter(shooter, intake, () -> 1.0, false, true, true)
+          .withTimeout(1)
       )
     );
   }

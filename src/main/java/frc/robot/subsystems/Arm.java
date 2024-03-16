@@ -4,17 +4,17 @@
 
 package frc.robot.subsystems;
 
-import javax.swing.plaf.TreeUI;
-import frc.robot.Constants;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkLimitSwitch;
-import com.revrobotics.CANSparkBase.IdleMode;
-
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import javax.swing.plaf.TreeUI;
 
 public class Arm extends SubsystemBase {
+
   private CANSparkMax rightmotor;
   private CANSparkMax leftmotor;
   private DutyCycleEncoder absEncoder;
@@ -23,10 +23,18 @@ public class Arm extends SubsystemBase {
 
   /** Creates a new ShooterArm. */
   public Arm() {
-    absEncoder =  new DutyCycleEncoder(1);
-    
-    rightmotor = new CANSparkMax(Constants.SubsystemConstants.ArmRIghtCANid, CANSparkLowLevel.MotorType.kBrushless);
-    leftmotor = new CANSparkMax(Constants.SubsystemConstants.ArmLeftCANid, CANSparkLowLevel.MotorType.kBrushless);
+    absEncoder = new DutyCycleEncoder(1);
+
+    rightmotor =
+      new CANSparkMax(
+        Constants.SubsystemConstants.ArmRIghtCANid,
+        CANSparkLowLevel.MotorType.kBrushless
+      );
+    leftmotor =
+      new CANSparkMax(
+        Constants.SubsystemConstants.ArmLeftCANid,
+        CANSparkLowLevel.MotorType.kBrushless
+      );
 
     rightmotor.restoreFactoryDefaults();
     leftmotor.restoreFactoryDefaults();
@@ -38,12 +46,12 @@ public class Arm extends SubsystemBase {
     rightmotor.setSmartCurrentLimit(80);
     leftmotor.setSmartCurrentLimit(80);
 
-
     rightmotor.follow(leftmotor, true);
-    
-    leftForwardLimitSwitch = leftmotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
-    leftReverseLimitSwitch = leftmotor.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
-    
+
+    leftForwardLimitSwitch =
+      leftmotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
+    leftReverseLimitSwitch =
+      leftmotor.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
 
     leftForwardLimitSwitch.enableLimitSwitch(true);
     leftReverseLimitSwitch.enableLimitSwitch(true);
@@ -54,31 +62,37 @@ public class Arm extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void move(double speed){
-
+  public void move(double speed) {
     leftmotor.set(speed);
   }
 
-  public void setVoltage(double voltage){
+  public void setVoltage(double voltage) {
     leftmotor.setVoltage(voltage);
   }
 
   public double getAbsolutePosition() {
-    return(((-1*absEncoder.getAbsolutePosition())+Constants.CommandConstants.Arm.AbsEncoderOffset+1)%1.0)*(2*Math.PI);
-
+    return (
+      (
+        (
+          (-1 * absEncoder.getAbsolutePosition()) +
+          Constants.CommandConstants.Arm.AbsEncoderOffset +
+          1
+        ) %
+        1.0
+      ) *
+      (2 * Math.PI)
+    );
     //((-1*absEncoder.getAbsolutePosition())+Constants.CommandConstants.Arm.AbsEncoderOffset)*2*Math.PI;
     // return((-1*absEncoder.getAbsolutePosition())+Constants.CommandConstants.Arm.AbsEncoderOffset);
 
-    
     // return absEncoder.getAbsolutePosition();
   }
 
-  public boolean getArmStatusFw(){
+  public boolean getArmStatusFw() {
     return leftForwardLimitSwitch.isPressed();
-   }
+  }
 
-  public boolean getArmStatusRv(){
+  public boolean getArmStatusRv() {
     return leftReverseLimitSwitch.isPressed();
-    }
+  }
 }
-

@@ -11,51 +11,57 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 import frc.robot.Constants;
 
-public class ArmProfiledPID extends ProfiledPIDSubsystem{
-    private final Arm arm;
+public class ArmProfiledPID extends ProfiledPIDSubsystem {
 
-    // ARM CONSTANTS
-    private final ArmFeedforward m_feedforward = new ArmFeedforward(Constants.CommandConstants.Arm.kSVolts,
-    Constants.CommandConstants.Arm.kGVolts,Constants.CommandConstants.Arm.kVVoltSecondPerRad,Constants.CommandConstants.Arm.kAVoltSecondSquaredPerRad);
+  private final Arm arm;
 
-    public ArmProfiledPID(
-        Arm arm
-        ){
-        // Input parameters from Constants
-        // Start arm at rest in neutral position.
-        super(
-            new ProfiledPIDController(
-                6,//3.1 // Down from 6
-                4.1,//3.4 // Down from 4.1
-                0,
-            new TrapezoidProfile.Constraints(9, 1))
-        );
-        this.getController().setTolerance(Units.degreesToRadians(2), 1);
-        this.arm = arm;
-        // arm.getAbsolutePosition();
-        // Input goal, rather self explanatory: Constants.kArmOffsetRads
-        setGoal(0);
-    }
+  // ARM CONSTANTS
+  private final ArmFeedforward m_feedforward = new ArmFeedforward(
+    Constants.CommandConstants.Arm.kSVolts,
+    Constants.CommandConstants.Arm.kGVolts,
+    Constants.CommandConstants.Arm.kVVoltSecondPerRad,
+    Constants.CommandConstants.Arm.kAVoltSecondSquaredPerRad
+  );
 
-     @Override
-    public void useOutput(double output, TrapezoidProfile.State setpoint) {
-        // Calculate the feedforward from the sepoint
-        double feedforward = m_feedforward.calculate(setpoint.position, setpoint.velocity);
-        // Add the feedforward to the PID output to get the motor output
-        arm.setVoltage(output + feedforward);
-    }   
+  public ArmProfiledPID(Arm arm) {
+    // Input parameters from Constants
+    // Start arm at rest in neutral position.
+    super(
+      new ProfiledPIDController(
+        6, //3.1 // Down from 6
+        5.1, //3.4 // Down from 4.1
+        0,
+        new TrapezoidProfile.Constraints(20, 2.5)
+      )
+    );
+    this.getController().setTolerance(Units.degreesToRadians(2), 1);
+    this.arm = arm;
+    // arm.getAbsolutePosition();
+    // Input goal, rather self explanatory: Constants.kArmOffsetRads
+    setGoal(0);
+  }
 
   @Override
-    public double getMeasurement() {
-        // abs_Encoder.getDistance() + ArmConstants.kArmOffsetRads
-        // Debug
-        // System.out.println("getMeasurement:"+arm.getAbsolutePosition());
-        return arm.getAbsolutePosition();
-    }
+  public void useOutput(double output, TrapezoidProfile.State setpoint) {
+    // Calculate the feedforward from the sepoint
+    double feedforward = m_feedforward.calculate(
+      setpoint.position,
+      setpoint.velocity
+    );
+    // Add the feedforward to the PID output to get the motor output
+    arm.setVoltage(output + feedforward);
+  }
 
+  @Override
+  public double getMeasurement() {
+    // abs_Encoder.getDistance() + ArmConstants.kArmOffsetRads
+    // Debug
+    // System.out.println("getMeasurement:"+arm.getAbsolutePosition());
+    return arm.getAbsolutePosition();
+  }
 
-    // At goal from ProfilePIDSubsystem
-    public boolean atPIDGoal(){
-        return this.getController().atGoal();
-    }
+  // At goal from ProfilePIDSubsystem
+  public boolean atPIDGoal() {
+    return this.getController().atGoal();
+  }
 }
