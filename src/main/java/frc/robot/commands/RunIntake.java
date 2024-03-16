@@ -18,6 +18,7 @@ public class RunIntake extends Command {
   Intake intake;
   boolean autostop;
   double mspeed;
+  int backupCounter;
 
   public RunIntake(
     Intake intake,
@@ -38,18 +39,36 @@ public class RunIntake extends Command {
   public void initialize() {
     init_state = intake.getIntakeStatus();
     RobotContainer.leds.intakeStart();
+
+    if (init_state==true) {
+      backupCounter = 0;
+    } else {
+      backupCounter = 5;
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
       if(m_fwdDir) {
           if(Math.abs(mspeed) < .1){
-          intake.move(0);
+            intake.move(0);
           }
           else{
             intake.move(Math.pow(mspeed, 3));
+            // If note detected back up motor quickly to center note in intake
+            if (intake.getIntakeStatus() && autostop && backupCounter > 0) {
+
+              // if (backupCounter > 0) {
+              System.out.println("Touching up intake to center note;");
+              intake.move(-.5);
+              backupCounter--;
+              // } else {
+                // intake.move(0);
+              // }
+
+         
+            }
           }
       } 
       else {
@@ -71,9 +90,12 @@ public class RunIntake extends Command {
     if(autostop){ //Automaticly stops the intake if a note is detected and if the intake is running
       // INIT_STATE set to the current state of the note detector when the command is initialized
       // !intake.getIntakeStatus() returns the current state of the note detector
-      // if (init_state && !intake.getIntakeStatus()){
-      //   RobotContainer.leds.noteCollected();
+      // if (!(init_state || !intake.getIntakeStatus())&& backupCounter <= 0){
+      // //   RobotContainer.leds.noteCollected();
+        
       //   return true;
+      // } else {
+      //   return false;
       // }
       // else{
       //   return false;
@@ -81,7 +103,7 @@ public class RunIntake extends Command {
       // if (!(init_state || !intake.getIntakeStatus())) {
       //   // Note Intake
       // }
-      return !(init_state || !intake.getIntakeStatus());
+      return (!(init_state || !intake.getIntakeStatus())&& backupCounter <= 0);
     }
     else{
       return false;

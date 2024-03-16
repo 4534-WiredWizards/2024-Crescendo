@@ -19,12 +19,12 @@ import frc.robot.subsystems.SwerveSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class shootNoteLowerArm extends ParallelDeadlineGroup {
+public class spinShooterLowerArm extends ParallelDeadlineGroup {
   /** Creates a new shootNoteLowerArm. */
-  public shootNoteLowerArm(Arm arm, ArmProfiledPID armProfiledPID, Intake intake, SwerveSubsystem swerve, Shooter shooter) {
+  public spinShooterLowerArm(Arm arm, ArmProfiledPID armProfiledPID, Intake intake, SwerveSubsystem swerve, Shooter shooter) {
     // Add the deadline command in the super() call. Add other commands using
     // addCommands().
-    super(new PIDMoveArm(arm,armProfiledPID, Units.degreesToRadians(CommandConstants.Arm.closeSpeaker)));
+    super(new PIDMoveArm(arm,armProfiledPID, Units.degreesToRadians(CommandConstants.Arm.closeSpeaker),true));
     addCommands(new RunShooter(shooter, intake, () -> 1.0, false,true, false));
   }
 }

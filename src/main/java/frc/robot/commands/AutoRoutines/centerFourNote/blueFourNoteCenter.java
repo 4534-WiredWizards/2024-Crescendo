@@ -31,7 +31,7 @@ public class blueFourNoteCenter extends ParallelCommandGroup {
     new SequentialCommandGroup(
           new shootNoteWhenOnSub(arm, armProfiledPID, intake, swerve, shooter),    
           new ParallelCommandGroup(
-            new PIDMoveArm(arm, armProfiledPID, Units.degreesToRadians(CommandConstants.Arm.intake)),
+            new PIDMoveArm(arm, armProfiledPID, Units.degreesToRadians(CommandConstants.Arm.intake),true),
             new FollowTrajectory(swerve, AutoTrajectories.blueAmpFourNote, true),
             new RunIntake(intake, true, .7, true)
           ),
@@ -41,7 +41,7 @@ public class blueFourNoteCenter extends ParallelCommandGroup {
             new RotateByDegrees(swerve, -118.2685)
           ),
             new ParallelCommandGroup(
-            new PIDMoveArm(arm, armProfiledPID, Units.degreesToRadians(CommandConstants.Arm.intake)),
+            new PIDMoveArm(arm, armProfiledPID, Units.degreesToRadians(CommandConstants.Arm.intake),true),
             new FollowTrajectory(swerve, AutoTrajectories.blueSpeakerFourNote, true),
             new RunIntake(intake, true, .7, true)
             ),
@@ -51,7 +51,7 @@ public class blueFourNoteCenter extends ParallelCommandGroup {
               new RotateByDegrees(swerve, -90)
             ),
             new ParallelCommandGroup(
-              new PIDMoveArm(arm, armProfiledPID, Units.degreesToRadians(CommandConstants.Arm.intake)),
+              new PIDMoveArm(arm, armProfiledPID, Units.degreesToRadians(CommandConstants.Arm.intake),true),
               new FollowTrajectory(swerve, AutoTrajectories.blueStageFourNote, true),
               new RunIntake(intake, true, .7, true)
             ),
