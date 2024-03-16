@@ -127,7 +127,7 @@ public class RobotContainer {
         new POVButton(operatorJoystick, 180).onTrue(new SequentialCommandGroup(
                 // Move arm down, run intake, move arm back up (once intake is full)
                 new PIDMoveArm(arm, ArmProfiledPID,  Units.degreesToRadians(CommandConstants.Arm.intake)), 
-                new RunIntake(intake, true,.7, true), 
+                new RunIntake(intake, true,.8, true), 
                 new PIDMoveArm(arm, ArmProfiledPID,  Units.degreesToRadians(CommandConstants.Arm.traversal))
         ));
         
