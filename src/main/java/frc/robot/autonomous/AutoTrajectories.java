@@ -209,19 +209,19 @@ public class AutoTrajectories {
     RobotContainer.autoTrajectoryConfig
   );
 
-  public static Trajectory blueStageFourNote = TrajectoryGenerator.generateTrajectory(
+  public static Trajectory blueStageNoteFour = TrajectoryGenerator.generateTrajectory(
     new Pose2d(
-      (TrajectoryConstants.blue.stageNote[0] - 0.1),
-      (TrajectoryConstants.blue.stageNote[1] + 0.5),
-      new Rotation2d(Math.toRadians(-90))
+      (TrajectoryConstants.blue.stageNote[0] - 0.1), //X
+      (TrajectoryConstants.blue.stageNote[1] + 1), //Y
+      new Rotation2d(TrajectoryConstants.angleToSubwoofer)
     ),
     List.of(
       // new Translation2d(Units.inchesToMeters(40), Units.inchesToMeters(0))
     ),
     new Pose2d(
-      (TrajectoryConstants.blue.stageNote[0] + 0.0),
-      (TrajectoryConstants.blue.stageNote[1] + 0.0),
-      new Rotation2d(Math.toRadians(-90))
+      (TrajectoryConstants.blue.stageNote[0] + 0.4),
+      (TrajectoryConstants.blue.stageNote[1] - .1),
+      new Rotation2d(TrajectoryConstants.angleToSubwoofer)
     ),
     RobotContainer.autoTrajectoryConfig
   );

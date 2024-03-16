@@ -254,6 +254,7 @@ public final class Constants {
     // ----------- Blue Alliance -----------
     // Object Structure: X (In Meters), Y (In Meters), Angle (In Degrees)
     public static final Double centerOfSubwoofer = 1.4478;
+    public static final Double angleToSubwoofer = 28.2685;
 
     public static final class blue {
 

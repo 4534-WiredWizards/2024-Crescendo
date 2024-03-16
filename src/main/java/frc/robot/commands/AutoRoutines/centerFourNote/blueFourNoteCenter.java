@@ -6,6 +6,7 @@ package frc.robot.commands.AutoRoutines.centerFourNote;
 
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.CommandConstants;
 import frc.robot.autonomous.AutoTrajectories;
@@ -23,7 +24,7 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.drivetrain.FollowTrajectory;
 
-public class blueFourNoteCenter extends ParallelCommandGroup {
+public class blueFourNoteCenter extends SequentialCommandGroup {
 
   /** Creates a new PlaceAndStation. */
   public blueFourNoteCenter(
@@ -33,52 +34,21 @@ public class blueFourNoteCenter extends ParallelCommandGroup {
     SwerveSubsystem swerve,
     Shooter shooter
   ) {
-    new SequentialCommandGroup(
+    addCommands(
       new shootNoteWhenOnSub(arm, armProfiledPID, intake, swerve, shooter),
-      new ParallelCommandGroup(
+      new RunShooter(shooter, intake, () -> 1.0, false, true, true)
+        .withTimeout(1),
+      new ParallelCommandGroup( // Arm Down - Angle back
         new PIDMoveArm(
           arm,
           armProfiledPID,
           Units.degreesToRadians(CommandConstants.Arm.intake),
           true
         ),
-        new FollowTrajectory(swerve, AutoTrajectories.blueAmpNote, true),
+        new FollowTrajectory(swerve, AutoTrajectories.blueStageNoteFour, true),
         new RunIntake(intake, true, .7, true)
       ),
-      new ParallelCommandGroup(
-        new RotateByDegrees(swerve, 28.2685),
-        new shootNoteWhenOnNote(arm, armProfiledPID, intake, swerve, shooter),
-        new RotateByDegrees(swerve, -118.2685)
-      ),
-      new ParallelCommandGroup(
-        new PIDMoveArm(
-          arm,
-          armProfiledPID,
-          Units.degreesToRadians(CommandConstants.Arm.intake),
-          true
-        ),
-        new FollowTrajectory(swerve, AutoTrajectories.blueSpeakerNote, true),
-        new RunIntake(intake, true, .7, true)
-      ),
-      new ParallelCommandGroup(
-        new RotateByDegrees(swerve, 90),
-        new shootNoteWhenOnNote(arm, armProfiledPID, intake, swerve, shooter),
-        new RotateByDegrees(swerve, -90)
-      ),
-      new ParallelCommandGroup(
-        new PIDMoveArm(
-          arm,
-          armProfiledPID,
-          Units.degreesToRadians(CommandConstants.Arm.intake),
-          true
-        ),
-        new FollowTrajectory(swerve, AutoTrajectories.blueStageNote, true),
-        new RunIntake(intake, true, .7, true)
-      ),
-      new ParallelCommandGroup(
-        new RotateByDegrees(swerve, 90),
-        new shootNoteWhenOnNote(arm, armProfiledPID, intake, swerve, shooter)
-      )
+      new shootNoteWhenOnNote(arm, armProfiledPID, intake, swerve, shooter)
     );
   }
 }

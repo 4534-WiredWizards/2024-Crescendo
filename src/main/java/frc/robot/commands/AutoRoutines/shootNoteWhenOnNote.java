@@ -18,7 +18,7 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwerveSubsystem;
 
-public class shootNoteWhenOnNote extends ParallelCommandGroup {
+public class shootNoteWhenOnNote extends SequentialCommandGroup {
 
   /** Creates a new PlaceAndStation. */
   public shootNoteWhenOnNote(
@@ -41,23 +41,5 @@ public class shootNoteWhenOnNote extends ParallelCommandGroup {
       new RunShooter(shooter, intake, () -> 1.0, false, true, true)
         .withTimeout(1)
     );
-  }
-
-  public class shootNoteWhenOnSub extends SequentialCommandGroup {
-
-    /** Creates a new shootNoteWhenOnSub. */
-    public shootNoteWhenOnSub(
-      Arm arm,
-      ArmProfiledPID armProfiledPID,
-      Intake intake,
-      SwerveSubsystem swerve,
-      Shooter shooter
-    ) {
-      addCommands(
-        new spinShooterLowerArm(arm, armProfiledPID, intake, swerve, shooter),
-        new RunShooter(shooter, intake, () -> 1.0, false, true, true)
-          .withTimeout(1)
-      );
-    }
   }
 }
