@@ -37,12 +37,29 @@ public class redFourNoteCenter extends ParallelCommandGroup {
           ),
           new ParallelCommandGroup(
             new RotateByDegrees(swerve, -28.2685),
-            new shootNoteWhenOnNote(arm, armProfiledPID, intake, swerve, shooter)
-          )
+            new shootNoteWhenOnNote(arm, armProfiledPID, intake, swerve, shooter),
+            new RotateByDegrees(swerve, 118.2685)
+          ),
+            new ParallelCommandGroup(
+            new PIDMoveArm(arm, armProfiledPID, Units.degreesToRadians(CommandConstants.Arm.intake)),
+            new FollowTrajectory(swerve, AutoTrajectories.redSpeakerNote, true),
+            new RunIntake(intake, true, .7, true)
+            ),
+            new ParallelCommandGroup(
+              new RotateByDegrees(swerve, -90),
+              new shootNoteWhenOnNote(arm, armProfiledPID, intake, swerve, shooter),
+              new RotateByDegrees(swerve, 90)
+            ),
+            new ParallelCommandGroup(
+              new PIDMoveArm(arm, armProfiledPID, Units.degreesToRadians(CommandConstants.Arm.intake)),
+              new FollowTrajectory(swerve, AutoTrajectories.redStageNote, true),
+              new RunIntake(intake, true, .7, true)
+            ),
+            new ParallelCommandGroup(
+              new RotateByDegrees(swerve, -90),
+              new shootNoteWhenOnNote(arm, armProfiledPID, intake, swerve, shooter)
+            )
           );
   }
 
 }
-
-
-
