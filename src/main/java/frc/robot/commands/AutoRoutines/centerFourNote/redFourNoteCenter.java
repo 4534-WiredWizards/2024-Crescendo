@@ -7,6 +7,7 @@ package frc.robot.commands.AutoRoutines.centerFourNote;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants;
 import frc.robot.Constants.CommandConstants;
 import frc.robot.autonomous.AutoTrajectories;
 import frc.robot.commands.AutoRoutines.shootNoteWhenOnNote;
@@ -41,7 +42,12 @@ public class redFourNoteCenter extends ParallelCommandGroup {
           true
         ),
         new FollowTrajectory(swerve, AutoTrajectories.redAmpFourNote, true),
-        new RunIntake(intake, true, .7, true)
+        new RunIntake(
+          intake,
+          true,
+          Constants.CommandConstants.Intake.autoIntakeSpeed,
+          true
+        )
       ),
       new ParallelCommandGroup(
         new RotateByDegrees(swerve, -28.2685),
@@ -56,7 +62,12 @@ public class redFourNoteCenter extends ParallelCommandGroup {
           true
         ),
         new FollowTrajectory(swerve, AutoTrajectories.redSpeakerFourNote, true),
-        new RunIntake(intake, true, .7, true)
+        new RunIntake(
+          intake,
+          true,
+          Constants.CommandConstants.Intake.autoIntakeSpeed,
+          true
+        )
       ),
       new ParallelCommandGroup(
         new RotateByDegrees(swerve, -90),
@@ -71,7 +82,12 @@ public class redFourNoteCenter extends ParallelCommandGroup {
           true
         ),
         new FollowTrajectory(swerve, AutoTrajectories.redStageFourNote, true),
-        new RunIntake(intake, true, .7, true)
+        new RunIntake(
+          intake,
+          true,
+          Constants.CommandConstants.Intake.autoIntakeSpeed,
+          true
+        )
       ),
       new ParallelCommandGroup(
         new RotateByDegrees(swerve, -61.7315),

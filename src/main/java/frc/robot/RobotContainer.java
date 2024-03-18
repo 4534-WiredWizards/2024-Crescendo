@@ -126,9 +126,23 @@ public class RobotContainer {
     // Basic Operator Intake Control
     // Y - Run Intake
     new JoystickButton(operatorJoystick, InputDevices.btn_y)
-      .whileTrue(new RunIntake(intake, true, .8, true));
+      .whileTrue(
+        new RunIntake(
+          intake,
+          true,
+          Constants.CommandConstants.Intake.intakeSpeed,
+          true
+        )
+      );
     new JoystickButton(operatorJoystick, InputDevices.btn_a)
-      .whileTrue(new RunIntake(intake, true, -.5, true));
+      .whileTrue(
+        new RunIntake(
+          intake,
+          true,
+          Constants.CommandConstants.Intake.outtakeSpeed,
+          true
+        )
+      );
     // Testing Auto Speaker Scoring System
     // new JoystickButton(operatorJoystick, InputDevices.btn_b).onTrue(new PointToSpeaker2(limelight, swerve));
     // new JoystickButton(operatorJoystick, InputDevices.btn_b).onTrue(new ArmToShootingH(limelight, swerve));
@@ -218,7 +232,12 @@ public class RobotContainer {
             Units.degreesToRadians(CommandConstants.Arm.intake),
             true
           ),
-          new RunIntake(intake, true, .8, true),
+          new RunIntake(
+            intake,
+            true,
+            Constants.CommandConstants.Intake.intakeSpeed,
+            true
+          ),
           new PIDMoveArm(
             arm,
             ArmProfiledPID,

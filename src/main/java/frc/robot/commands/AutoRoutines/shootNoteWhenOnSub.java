@@ -16,12 +16,19 @@ import frc.robot.subsystems.SwerveSubsystem;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class shootNoteWhenOnSub extends SequentialCommandGroup {
-  /** Creates a new shootNoteWhenOnSub. */
-  public shootNoteWhenOnSub(Arm arm, ArmProfiledPID armProfiledPID, Intake intake, SwerveSubsystem swerve, Shooter shooter) {
 
+  /** Creates a new shootNoteWhenOnSub. */
+  public shootNoteWhenOnSub(
+    Arm arm,
+    ArmProfiledPID armProfiledPID,
+    Intake intake,
+    SwerveSubsystem swerve,
+    Shooter shooter
+  ) {
     addCommands(
       new spinShooterLowerArm(arm, armProfiledPID, intake, swerve, shooter),
-      new RunShooter(shooter, intake, () -> 1.0, false,true, true).withTimeout(1)
+      new RunShooter(shooter, intake, () -> 1.0, false, true, true)
+        .withTimeout(1)
     );
   }
 }

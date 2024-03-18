@@ -180,6 +180,14 @@ public final class Constants {
       public static final double unwindSpeed = -windSpeed;
     }
 
+    public static final class Intake {
+
+      public static final double intakeSpeed = .8;
+      public static final double outtakeSpeed = -.5;
+      public static final double shootingSpeed = 1.0;
+      public static final double autoIntakeSpeed = .7;
+    }
+
     //Arm Commands
     public static final class Arm {
 

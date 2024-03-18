@@ -7,6 +7,7 @@ package frc.robot.commands.AutoRoutines.sideTwoNote;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants;
 import frc.robot.Constants.CommandConstants;
 import frc.robot.autonomous.AutoTrajectories;
 import frc.robot.commands.AutoRoutines.shootNoteWhenOnSub;
@@ -40,7 +41,12 @@ public class blueAmpTwoNoteSide extends ParallelCommandGroup {
           true
         ),
         new FollowTrajectory(swerve, AutoTrajectories.blueAmpNote, true),
-        new RunIntake(intake, true, .7, true)
+        new RunIntake(
+          intake,
+          true,
+          Constants.CommandConstants.Intake.autoIntakeSpeed,
+          true
+        )
       ),
       new ParallelCommandGroup(
         new RotateByDegrees(swerve, +27.6066),

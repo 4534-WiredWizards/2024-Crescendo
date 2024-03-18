@@ -8,6 +8,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants;
 import frc.robot.Constants.CommandConstants;
 import frc.robot.autonomous.AutoTrajectories;
 import frc.robot.commands.AutoRoutines.shootNoteWhenOnSub;
@@ -46,7 +47,12 @@ public class blueTwoNoteCenter extends SequentialCommandGroup {
           true
         ),
         new FollowTrajectory(swerve, AutoTrajectories.blueSpeakerNote, true),
-        new RunIntake(intake, true, .7, true)
+        new RunIntake(
+          intake,
+          true,
+          Constants.CommandConstants.Intake.autoIntakeSpeed,
+          true
+        )
       ),
       new SequentialCommandGroup(
         new ParallelDeadlineGroup(
