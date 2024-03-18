@@ -28,5 +28,8 @@
   "java.test.defaultConfig": "WPIlibUnitTests",
   "conventionalCommits.scopes": [
     "LED"
+  ],
+  "cSpell.words": [
+    "Subwoofer"
   ]
 }
