@@ -49,7 +49,7 @@ public class RobotContainer {
   public final Arm arm = new Arm();
   public final ArmProfiledPID ArmProfiledPID = new ArmProfiledPID(arm);
   public final SwerveSubsystem swerve = new SwerveSubsystem();
-  private final Limelight limelight = new Limelight(swerve);
+  public final Limelight limelight = new Limelight(swerve);
   public static final Lights leds = new Lights();
   public final AutoChooser autoChooser = new AutoChooser(
     swerve,
@@ -130,7 +130,7 @@ public class RobotContainer {
         new RunIntake(
           intake,
           true,
-          Constants.CommandConstants.Intake.intakeSpeed,
+          Constants.CommandConstants.Intake.shootingSpeed,
           true
         )
       );

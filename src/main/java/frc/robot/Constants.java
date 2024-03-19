@@ -125,9 +125,9 @@ public final class Constants {
       196.4
     );
 
-    // in m/s, based on MK4 L2 speed of 14.5 ft/s
+    // in m/s, based on MK4 L2 speed of 15.1 ft/s
     public static final double kPhysicalMaxSpeedMetersPerSecond = Units.feetToMeters(
-      14.5
+      15.1
     );
     // Robot turning speed
     public static final double kPhysicalMaxAngularSpeedRadiansPerSecond =
@@ -138,7 +138,7 @@ public final class Constants {
       kPhysicalMaxSpeedMetersPerSecond;
     public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond =
       kPhysicalMaxAngularSpeedRadiansPerSecond / 4; // Slowed down for testing
-    public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3;
+    public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 4;
     public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond =
       3;
   }
@@ -182,10 +182,10 @@ public final class Constants {
 
     public static final class Intake {
 
-      public static final double intakeSpeed = .8;
-      public static final double outtakeSpeed = -.5;
+      public static final double intakeSpeed = .3;
+      public static final double outtakeSpeed = -.7;
       public static final double shootingSpeed = 1.0;
-      public static final double autoIntakeSpeed = .7;
+      public static final double autoIntakeSpeed = .3;
     }
 
     //Arm Commands
@@ -236,9 +236,9 @@ public final class Constants {
 
     // If you want to slow down the robot during Autonomous, adjust these values
     public static final double kMaxSpeedMetersPerSecond =
-      DriveConstants.kPhysicalMaxSpeedMetersPerSecond / 10;
+      DriveConstants.kPhysicalMaxSpeedMetersPerSecond / 2;
     public static final double kMaxAngularSpeedRadiansPerSecond =
-      DriveConstants.kPhysicalMaxAngularSpeedRadiansPerSecond / 2;
+      DriveConstants.kPhysicalMaxAngularSpeedRadiansPerSecond;
     public static final double kMaxAccelerationMetersPerSecondSquared = 5;
     public static final double kMaxRotationalVelocityMetersPerSecond = 3;
     public static final double kMaxAngularAccelerationRadiansPerSecondSquared =
@@ -312,7 +312,7 @@ public final class Constants {
     // Deadband for the controller
     public static final double kDeadband = 0.05;
     // Button used to enable robot orientation driving
-    public static final int kDriverFieldOrientedButtonIdx = 5;
+    public static final int kDriverFieldOrientedButtonIdx = 4;
     // Button used to enable slow turning
     public static final int kDriverSlowTurnButtonIdx = 1;
     // Button used to reset the gyro to 0

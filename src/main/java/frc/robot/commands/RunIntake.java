@@ -60,7 +60,7 @@ public class RunIntake extends Command {
       if (Math.abs(mspeed) < .1) {
         intake.move(0);
       } else {
-        intake.move(Math.pow(mspeed, 3));
+        intake.move(mspeed);
         // If note detected back up motor quickly to center note in intake
         if (intake.getIntakeStatus() && autostop && backupCounter > 0) {
           // if (backupCounter > 0) {

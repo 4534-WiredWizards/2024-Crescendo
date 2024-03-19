@@ -13,6 +13,7 @@ import frc.robot.autonomous.AutoTrajectories;
 import frc.robot.commands.AutoRoutines.shootNoteWhenOnNote;
 import frc.robot.commands.AutoRoutines.shootNoteWhenOnSub;
 import frc.robot.commands.PIDMoveArm;
+import frc.robot.commands.RotateByDegrees;
 import frc.robot.commands.RunIntake;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.ArmProfiledPID;
@@ -48,26 +49,30 @@ public class blueFourNoteCenter extends SequentialCommandGroup {
           true
         ) // Start intake
       ),
-      new shootNoteWhenOnNote(arm, armProfiledPID, intake, swerve, shooter)
-      // new ParallelCommandGroup( // In Parallel - Arm Down - Drive to second note - Start intake
-      //   new PIDMoveArm( // Arm Down to intake position
-      //     arm,
-      //     armProfiledPID,
-      //     Units.degreesToRadians(CommandConstants.Arm.intake),
-      //     true
-      //   ),
-      //   new FollowTrajectory( //Drive in arc from stage note to speaker note
-      //     swerve,
-      //     AutoTrajectories.blueSpeakerFourNote,
-      //     true
-      //   ),
-      //   new RunIntake( // Start intake
-      //     intake,
-      //     true,
-      //     Constants.CommandConstants.Intake.autoIntakeSpeed,
-      //     true
-      //   )
-      // )
+      new shootNoteWhenOnNote(arm, armProfiledPID, intake, swerve, shooter),
+      new ParallelCommandGroup( // In Parallel - Arm Down - Drive to second note - Start intake
+        new PIDMoveArm( // Arm Down to intake position
+          arm,
+          armProfiledPID,
+          Units.degreesToRadians(CommandConstants.Arm.intake),
+          true
+        ),
+        new FollowTrajectory( //Drive in arc from stage note to speaker note
+          swerve,
+          AutoTrajectories.blueSpeakerNoteFour,
+          true
+        ),
+        new RunIntake( // Start intake
+          intake,
+          true,
+          Constants.CommandConstants.Intake.autoIntakeSpeed,
+          true
+        )
+      ),
+      new ParallelCommandGroup(
+        new shootNoteWhenOnNote(arm, armProfiledPID, intake, swerve, shooter),
+        new RotateByDegrees(swerve, 5.0)
+      )
     );
   }
 }

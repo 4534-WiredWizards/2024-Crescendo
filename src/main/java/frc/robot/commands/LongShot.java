@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.ArmProfiledPID;
 import frc.robot.subsystems.CalcMap;
@@ -14,9 +15,12 @@ public class LongShot extends Command {
 
   private final Arm arm;
   private final ArmProfiledPID armProfiledPID;
+  private final Limelight limelight;
   private final CalcMap calcMap;
   // Values for current distance to target
   private double currentDistance = 0.0;
+  private double FrontBackDistance = 0.0;
+  private double LeftRightDistance = 0.0;
 
   private final double maxDistance = 9999.0;
   private final double[] shooterDistance = {
@@ -31,10 +35,16 @@ public class LongShot extends Command {
   private final double[] shooterSpeed = { 1.00, 1.00, 1.00, 1.00, 1.00, 1.00 };
 
   /** Creates a new LongShot command. */
-  public LongShot(Arm arm, ArmProfiledPID armProfiledPID, CalcMap calcMap) {
+  public LongShot(
+    Arm arm,
+    ArmProfiledPID armProfiledPID,
+    Limelight limelight,
+    CalcMap calcMap
+  ) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.arm = arm;
     this.armProfiledPID = armProfiledPID;
+    this.limelight = limelight;
     this.calcMap = calcMap;
     addRequirements(this.arm);
   }
@@ -53,8 +63,8 @@ public class LongShot extends Command {
 
     // Set intial values for current distance to target
     double currentDistance = Math.sqrt(
-      Math.pow(Limelight.targetpose.getFrontBackDistance(), 2) +
-      Math.pow(Limelight.getLeftRightDistance(), 2)
+      // Math.pow(limelight.getFrontBackDistance(), 2) +
+      Math.pow(limelight.getLeftRightDistance(), 2)
     );
   }
 
