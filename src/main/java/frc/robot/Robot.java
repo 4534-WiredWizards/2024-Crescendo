@@ -101,6 +101,16 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("NavX", m_robotContainer.swerve.getHeading());
     // SmartDashboard.putString("Alliance", DriverStation.getAlliance().get().toString());
     // SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
+
+    // Limelight debug
+    SmartDashboard.putBoolean(
+      "Tag Has Target",
+      m_robotContainer.limelight.getHasValidTarget()
+    );
+    SmartDashboard.putNumber(
+      "FrontBack Distance",
+      m_robotContainer.limelight.targetpose.getFrontBackDistance()
+    );
   }
 
   /** This function is called once each time the robot enters Disabled mode. */

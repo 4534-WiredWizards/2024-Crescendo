@@ -190,6 +190,11 @@ public class Limelight extends SubsystemBase {
     return table.getEntry("tx").getDouble(0.0);
   }
 
+  public boolean getHasValidTarget() {
+    table = NetworkTableInstance.getDefault().getTable("limelight");
+    return table.getEntry("tv").getDouble(0.0) == 1;
+  }
+
   public double getLeftRightDistance() {
     // April tag on the left is negitve
     // April tag on the right is positve
