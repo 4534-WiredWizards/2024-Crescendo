@@ -11,12 +11,11 @@ import frc.robot.subsystems.ArmProfiledPID;
 import frc.robot.subsystems.CalcMap;
 import frc.robot.subsystems.Limelight;
 
-public class LongShot extends Command {
+public class CalculateArmAngle extends Command {
 
   private final Arm arm;
   private final ArmProfiledPID armProfiledPID;
   private final Limelight limelight;
-  private final CalcMap calcMap;
   // Values for current distance to target
   private double currentDistance = 0.0;
   private double FrontBackDistance = 0.0;
@@ -35,17 +34,15 @@ public class LongShot extends Command {
   private final double[] shooterSpeed = { 1.00, 1.00, 1.00, 1.00, 1.00, 1.00 };
 
   /** Creates a new LongShot command. */
-  public LongShot(
+  public CalculateArmAngle(
     Arm arm,
     ArmProfiledPID armProfiledPID,
-    Limelight limelight,
-    CalcMap calcMap
+    Limelight limelight
   ) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.arm = arm;
     this.armProfiledPID = armProfiledPID;
     this.limelight = limelight;
-    this.calcMap = calcMap;
     addRequirements(this.arm);
   }
 
@@ -67,13 +64,13 @@ public class LongShot extends Command {
         // Math.pow(limelight.getFrontBackDistance(), 2) +
         Math.pow(limelight.getLeftRightDistance(), 2)
       );
+    armProfiledPID.setGoal(ShooterAngleAndSpeed()[0]);
+    armProfiledPID.enable();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override

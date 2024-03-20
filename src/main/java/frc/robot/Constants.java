@@ -46,6 +46,8 @@ public final class Constants {
     public static final int btn_rightBumper = 6;
     public static final int btn_select = 7;
     public static final int btn_start = 8;
+    //change later
+    public static final int btn_xboxbutton = 10;
 
     // Axises
     public static final int rightTriggerAxis = 3;
