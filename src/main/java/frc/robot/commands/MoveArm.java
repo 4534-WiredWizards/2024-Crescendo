@@ -3,35 +3,34 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
-
-import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Arm;
+import edu.wpi.first.wpilibj2.command.Command;
+
 
 public class MoveArm extends Command {
-
   /** Creates a new ControlShooterArm. */
   Arm Arm;
   Double speed;
-
-  public MoveArm(Arm Arm, Double speed) {
+  public 
+  MoveArm(Arm Arm, Double speed) {
     this.Arm = Arm;
     this.speed = speed;
-
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(this.Arm);
   }
+  
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     System.out.println("Move Arm Called");
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     Arm.move(speed);
-
     // System.out.println("Moving Arm Spd:"+speed);
 
     // Test Low and high limits then implement limit switch logic
@@ -53,7 +52,6 @@ public class MoveArm extends Command {
     //   }
     // }
   }
-
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
