@@ -16,7 +16,6 @@ public class CalculateArmAngle extends Command {
   private final Arm arm;
   private final ArmProfiledPID armProfiledPID;
   private final Limelight limelight;
-  private final CalcMap calcMap;
   // Values for current distance to target
   private double currentDistance = 0.0;
   private double FrontBackDistance = 0.0;
@@ -38,14 +37,12 @@ public class CalculateArmAngle extends Command {
   public CalculateArmAngle(
     Arm arm,
     ArmProfiledPID armProfiledPID,
-    Limelight limelight,
-    CalcMap calcMap
+    Limelight limelight
   ) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.arm = arm;
     this.armProfiledPID = armProfiledPID;
     this.limelight = limelight;
-    this.calcMap = calcMap;
     addRequirements(this.arm);
   }
 
@@ -67,6 +64,8 @@ public class CalculateArmAngle extends Command {
         // Math.pow(limelight.getFrontBackDistance(), 2) +
         Math.pow(limelight.getLeftRightDistance(), 2)
       );
+    armProfiledPID.setGoal(ShooterAngleAndSpeed()[0]);
+    armProfiledPID.enable();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

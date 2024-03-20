@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -17,6 +18,7 @@ import frc.robot.Constants.CommandConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.InputDevices;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.CalculateArmAngle;
 import frc.robot.commands.MoveArm;
 import frc.robot.commands.PIDMoveArm;
 import frc.robot.commands.PointToSpeaker2;
@@ -28,6 +30,7 @@ import frc.robot.commands.runClimb;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.ArmProfiledPID;
 import frc.robot.subsystems.AutoChooser;
+import frc.robot.subsystems.CalcMap;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Lights;
@@ -110,16 +113,27 @@ public class RobotContainer {
 
     // ----------------------- SHOOTER COMMANDS ---------------------------------
     // Menu Button - Run Shooter at set velocity
+    // new JoystickButton(operatorJoystick, InputDevices.btn_select)
+    //   .whileTrue(
+    //     new RunShooter(
+    //       shooter,
+    //       intake,
+    //       () -> SmartDashboard.getNumber("Set Shooter Speed", 0),
+    //       true,
+    //       false,
+    //       false
+    //     )
+    //   );
+
     new JoystickButton(operatorJoystick, InputDevices.btn_select)
-      .whileTrue(
-        new RunShooter(
-          shooter,
-          intake,
-          () -> SmartDashboard.getNumber("Set Shooter Speed", 0),
-          true,
-          false,
-          false
-        )
+      .onTrue(
+        new SequentialCommandGroup(
+          new ParallelCommandGroup(
+            new PointToSpeaker2(limelight, swerve),
+            new CalculateArmAngle(arm, ArmProfiledPID, limelight)
+          ),
+          new RunShooter(shooter, intake, () -> 1.0, true, true, true)
+        ).until(()->operatorJoystick.getRawButtonPressed(InputDevices.btn_xboxbutton))
       );
 
     // ----------------------- INTAKE & Shooter COMMANDS ---------------------------------
