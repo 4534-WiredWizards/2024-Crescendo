@@ -62,16 +62,17 @@ public class LongShot extends Command {
     System.out.println("Start LongShot");
 
     // Set intial values for current distance to target
-    double currentDistance = Math.sqrt(
-      // Math.pow(limelight.getFrontBackDistance(), 2) +
-      Math.pow(limelight.getLeftRightDistance(), 2)
-    );
+    currentDistance =
+      Math.sqrt(
+        // Math.pow(limelight.getFrontBackDistance(), 2) +
+        Math.pow(limelight.getLeftRightDistance(), 2)
+      );
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // Add your execution logic here
+    
   }
 
   // Called once the command ends or is interrupted.

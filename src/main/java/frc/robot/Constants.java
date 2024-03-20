@@ -182,10 +182,10 @@ public final class Constants {
 
     public static final class Intake {
 
-      public static final double intakeSpeed = .3;
+      public static final double intakeSpeed = .5;
       public static final double outtakeSpeed = -.7;
       public static final double shootingSpeed = 1.0;
-      public static final double autoIntakeSpeed = .3;
+      public static final double autoIntakeSpeed = .4;
     }
 
     //Arm Commands
@@ -196,8 +196,8 @@ public final class Constants {
       public static final double intake = 0;
       public static final double traversal = 66;
       public static final double closeSpeaker = 20;
-      public static final double farSpeaker = 36.5; //Test and tune noteShot
-      public static final double noteShot = 36.5;
+      public static final double farSpeaker = 37; //Test and tune noteShot
+      public static final double noteShot = 38;
       // Arm Feedforward Constants
       public static final double kP = 1;
       // Values Obtained from Characterization via reca.lc/arm

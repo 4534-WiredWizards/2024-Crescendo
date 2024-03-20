@@ -72,7 +72,27 @@ public class blueFourNoteCenter extends SequentialCommandGroup {
       new ParallelCommandGroup(
         new shootNoteWhenOnNote(arm, armProfiledPID, intake, swerve, shooter),
         new RotateByDegrees(swerve, 5.0)
-      )
+      ),
+      new ParallelCommandGroup( // In Parallel - Arm Down - Drive to second note - Start intake
+        new PIDMoveArm( // Arm Down to intake position
+          arm,
+          armProfiledPID,
+          Units.degreesToRadians(CommandConstants.Arm.intake),
+          true
+        ),
+        new FollowTrajectory( //Drive in arc from stage note to speaker note
+          swerve,
+          AutoTrajectories.blueAmpNoteFour,
+          true
+        ),
+        new RunIntake( // Start intake
+          intake,
+          true,
+          Constants.CommandConstants.Intake.autoIntakeSpeed,
+          true
+        )
+      ),
+      new shootNoteWhenOnNote(arm, armProfiledPID, intake, swerve, shooter)
     );
   }
 }
