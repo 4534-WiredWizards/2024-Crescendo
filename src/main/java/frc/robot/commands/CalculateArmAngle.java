@@ -11,7 +11,7 @@ import frc.robot.subsystems.ArmProfiledPID;
 import frc.robot.subsystems.CalcMap;
 import frc.robot.subsystems.Limelight;
 
-public class LongShot extends Command {
+public class CalculateArmAngle extends Command {
 
   private final Arm arm;
   private final ArmProfiledPID armProfiledPID;
@@ -35,7 +35,7 @@ public class LongShot extends Command {
   private final double[] shooterSpeed = { 1.00, 1.00, 1.00, 1.00, 1.00, 1.00 };
 
   /** Creates a new LongShot command. */
-  public LongShot(
+  public CalculateArmAngle(
     Arm arm,
     ArmProfiledPID armProfiledPID,
     Limelight limelight,
