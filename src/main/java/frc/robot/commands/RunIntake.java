@@ -65,7 +65,7 @@ public class RunIntake extends Command {
         if (intake.getIntakeStatus() && autostop && backupCounter > 0) {
           // if (backupCounter > 0) {
           System.out.println("Touching up intake to center note;");
-          // intake.move(-.5);
+          intake.move(-.5);
           backupCounter--;
           // } else {
           // intake.move(0);
