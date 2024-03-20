@@ -4,25 +4,30 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkLimitSwitch;
-import com.revrobotics.CANSparkBase.IdleMode;
-
 import edu.wpi.first.wpilibj.CAN;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Climb extends SubsystemBase {
-  private final CANSparkMax leftClimbMotor = new CANSparkMax(Constants.SubsystemConstants.ClimbLeftCANid,CANSparkLowLevel.MotorType.kBrushless);
-  private final CANSparkMax rightClimbMotor = new CANSparkMax(Constants.SubsystemConstants.ClimbRightCANid,CANSparkLowLevel.MotorType.kBrushless);
+
+  private final CANSparkMax leftClimbMotor = new CANSparkMax(
+    Constants.SubsystemConstants.ClimbLeftCANid,
+    CANSparkLowLevel.MotorType.kBrushless
+  );
+  private final CANSparkMax rightClimbMotor = new CANSparkMax(
+    Constants.SubsystemConstants.ClimbRightCANid,
+    CANSparkLowLevel.MotorType.kBrushless
+  );
   private final SparkLimitSwitch reverseLimitSwitch;
   public final RelativeEncoder climbEncoder;
 
   /** Creates a new Climb. */
   public Climb() {
-
     leftClimbMotor.restoreFactoryDefaults();
     rightClimbMotor.restoreFactoryDefaults();
 
@@ -33,16 +38,15 @@ public class Climb extends SubsystemBase {
     leftClimbMotor.setSmartCurrentLimit(60);
     rightClimbMotor.setSmartCurrentLimit(60);
 
-    
     rightClimbMotor.follow(leftClimbMotor, true);
-    
-    
-    reverseLimitSwitch = leftClimbMotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
+
+    reverseLimitSwitch =
+      leftClimbMotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
     reverseLimitSwitch.enableLimitSwitch(true);
     climbEncoder = leftClimbMotor.getEncoder();
 
-
-
+    rightClimbMotor.burnFlash();
+    leftClimbMotor.burnFlash();
   }
 
   @Override
@@ -50,14 +54,14 @@ public class Climb extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void move(double speed){
+  public void move(double speed) {
     // Positive is winding?
-    leftClimbMotor.set(-1*speed);
+    leftClimbMotor.set(-1 * speed);
   }
 
   public double getPosition() {
     // return encoder value (in rotations)
-    return climbEncoder.getPosition()*-1;
+    return climbEncoder.getPosition() * -1;
   }
 
   public void EncoderReset() {
@@ -65,8 +69,7 @@ public class Climb extends SubsystemBase {
     climbEncoder.setPosition(0);
   }
 
-
-  public boolean getClimbStatus(){
+  public boolean getClimbStatus() {
     return reverseLimitSwitch.isPressed();
   }
 }

@@ -4,22 +4,29 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.SparkLimitSwitch;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkLimitSwitch;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Intake extends SubsystemBase {
+
   private final SparkLimitSwitch IntakeLimitSwitch;
-  private final CANSparkMax intakeMotor = new CANSparkMax(Constants.SubsystemConstants.IntakeCANid, CANSparkLowLevel.MotorType.kBrushless);
+  private final CANSparkMax intakeMotor = new CANSparkMax(
+    Constants.SubsystemConstants.IntakeCANid,
+    CANSparkLowLevel.MotorType.kBrushless
+  );
+
   /** Creates a new Intake. */
   public Intake() {
     intakeMotor.setIdleMode(IdleMode.kBrake);
     intakeMotor.setSmartCurrentLimit(60);
-    IntakeLimitSwitch = intakeMotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
+    IntakeLimitSwitch =
+      intakeMotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
     IntakeLimitSwitch.enableLimitSwitch(false);
+    intakeMotor.burnFlash();
   }
 
   @Override
@@ -27,10 +34,11 @@ public class Intake extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void move(double speed){
+  public void move(double speed) {
     intakeMotor.set(speed);
   }
-  public boolean getIntakeStatus(){
-   return IntakeLimitSwitch.isPressed();
+
+  public boolean getIntakeStatus() {
+    return IntakeLimitSwitch.isPressed();
   }
 }
