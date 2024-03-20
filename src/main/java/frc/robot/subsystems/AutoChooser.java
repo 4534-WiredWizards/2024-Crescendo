@@ -84,6 +84,7 @@ public class AutoChooser extends SubsystemBase {
     allianceColorChooser = new SendableChooser<AllianceColor>();
     allianceColorChooser.addOption("Red", AllianceColor.Red);
     allianceColorChooser.addOption("Blue", AllianceColor.Blue);
+    allianceColorChooser.setDefaultOption("Blue", AllianceColor.Blue);
     SmartDashboard.putData("Alliance Color", allianceColorChooser);
     // Constants for auto
 
