@@ -59,7 +59,7 @@ public class CalculateArmAngle extends Command {
     // Enable arm's profiled PID control
     armProfiledPID.enable();
     // Print debug message
-    System.out.println("Start LongShot");
+    System.out.println("Start CaclulateArmAngle");
 
     // Set intial values for current distance to target
     currentDistance =
@@ -71,15 +71,13 @@ public class CalculateArmAngle extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     // Print debug message
-    System.out.println("LongShot Ended");
+    System.out.println("CaclulateArmAngle Ended");
     // Stop arm movement
     arm.move(0);
     // Disable arm's profiled PID control
