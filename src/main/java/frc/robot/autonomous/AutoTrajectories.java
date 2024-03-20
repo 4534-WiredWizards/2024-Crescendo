@@ -246,9 +246,7 @@ public class AutoTrajectories {
     new Pose2d(
       (TrajectoryConstants.blue.speakerNote[0] + 0.3),
       (TrajectoryConstants.blue.speakerNote[1] + .2),
-      new Rotation2d(
-        Math.toRadians(TrajectoryConstants.blue.speakerNote[2] - 4)
-      )
+      new Rotation2d(Math.toRadians(TrajectoryConstants.blue.speakerNote[2]))
     ),
     RobotContainer.autoTrajectoryConfig
   );
@@ -264,13 +262,13 @@ public class AutoTrajectories {
       // 1st note
       new Translation2d(
         (TrajectoryConstants.blue.ampNote[0] - .6), //Halfway between 1st and 2nd note
-        (TrajectoryConstants.blue.ampNote[1] - .5) //Move out towards the subwoofer to allow backing into the 2nd note
+        (TrajectoryConstants.blue.ampNote[1] - .2) //Move out towards the subwoofer to allow backing into the 2nd note
       )
     ),
     new Pose2d(
       (TrajectoryConstants.blue.ampNote[0] + 0.2),
       (TrajectoryConstants.blue.ampNote[1] + 0.1),
-      new Rotation2d(Math.toRadians(32))
+      new Rotation2d(Math.toRadians(24))
     ),
     RobotContainer.autoTrajectoryConfig
   );
