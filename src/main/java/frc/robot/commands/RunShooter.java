@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.math.controller.BangBangController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -22,24 +23,26 @@ public class RunShooter extends Command {
   int presses;
   boolean autostop;
   boolean autoIntake;
-  private boolean PIDControl;
+  private boolean bangBangControl;
+  BangBangController controller = new BangBangController();
 
   /** Creates a new runShooter. */
   public RunShooter(
     Shooter shooter,
     Intake Intake,
     Supplier<Double> speed,
-    boolean PIDControl,
+    boolean bangbangControl,
     boolean autoStop,
     boolean autoIntake
   ) {
     this.shooter = shooter;
     this.speed = speed;
     this.Intake = Intake;
-    this.PIDControl = PIDControl;
+    this.bangBangControl = bangBangControl;
     this.autostop = autoStop;
     this.autoIntake = autoIntake;
     // Use addRequirements() here to declare subsystem dependencies.
+
     addRequirements(this.shooter);
   }
 
@@ -64,14 +67,14 @@ public class RunShooter extends Command {
     if (shooter.getSpeed() > 4500) {
       RobotContainer.leds.shooterStart();
     }
-    if (PIDControl) {
-      shooter.velocityPID(speed.get());
+    if (bangBangControl) {
+      shooter.move(controller.calculate(shooter.getSpeed(), 5000));
     } else {
       shooter.move(speed.get());
     }
 
     // System.out.println(speed.get() * 5000);
-    // TODO: Add logic for a parameter to not always auto run intake after reached velocity
+    //TODO: Add logic for a parameter to not always auto run intake after reached velocity
     if (shooter.getSpeed() > 4500 && autoIntake) {
       System.out.println("Running Intake From Shooter");
       // Run RunShooter commmand from command
