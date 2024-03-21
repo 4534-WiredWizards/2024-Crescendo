@@ -195,7 +195,7 @@ public final class Constants {
 
       public static final double AbsEncoderOffset = .85166;
       public static final double amp = 97.0;
-      public static final double intake = 0;
+      public static final double intake = .5;
       public static final double traversal = 66;
       public static final double closeSpeaker = 20;
       public static final double farSpeaker = 36.2; //Test and tune noteShot

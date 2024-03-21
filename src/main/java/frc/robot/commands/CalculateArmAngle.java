@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Arm;
@@ -18,20 +19,21 @@ public class CalculateArmAngle extends Command {
   private final Limelight limelight;
   // Values for current distance to target
   private double currentDistance = 0.0;
-  private double FrontBackDistance = 0.0;
-  private double LeftRightDistance = 0.0;
+  // No longer using since calls are made to Limelight
+  // private double FrontBackDistance = 0.0;
+  // private double LeftRightDistance = 0.0;
 
-  private final double maxDistance = 9999.0;
+  private final double maxDistance = 8;
   private final double[] shooterDistance = {
     0.00,
-    5.00,
-    10.00,
-    20.00,
-    30.00,
+    1.00,
+    2.00,
+    3.00,
+    4.00,
     maxDistance + 1.0,
   };
-  private final double[] shooterAngle = { 0.30, 0.25, 0.20, 0.15, 0.10, 0.10 };
-  private final double[] shooterSpeed = { 1.00, 1.00, 1.00, 1.00, 1.00, 1.00 };
+  private final double[] shooterAngle = { 20, 20, 35.11, 40.21, 43.63, 43.63 };
+  private final double[] shooterSpeed = { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 };
 
   /** Creates a new LongShot command. */
   public CalculateArmAngle(
@@ -56,15 +58,17 @@ public class CalculateArmAngle extends Command {
     // Enable arm's profiled PID control
     armProfiledPID.enable();
     // Print debug message
-    System.out.println("Start CaclulateArmAngle");
+    System.out.println("------------Started CaclulateArmAngle-------------");
 
     // Set intial values for current distance to target
     currentDistance =
       Math.sqrt(
-        // Math.pow(limelight.getFrontBackDistance(), 2) +
+        Math.pow(Math.abs(limelight.targetpose.getDiagonalDistance()), 2) +
         Math.pow(limelight.getLeftRightDistance(), 2)
       );
-    armProfiledPID.setGoal(ShooterAngleAndSpeed()[0]);
+    Double calcuatedArmADouble = ShooterAngleAndSpeed()[0];
+    armProfiledPID.setGoal(Units.degreesToRadians(calcuatedArmADouble));
+    System.out.println("Caclculated Arm Angle = " + calcuatedArmADouble);
     armProfiledPID.enable();
   }
 
@@ -78,9 +82,9 @@ public class CalculateArmAngle extends Command {
     // Print debug message
     System.out.println("CaclulateArmAngle Ended");
     // Stop arm movement
-    arm.move(0);
     // Disable arm's profiled PID control
     armProfiledPID.disable();
+    arm.move(0);
   }
 
   // Returns true when the command should end.
@@ -98,26 +102,33 @@ public class CalculateArmAngle extends Command {
     double[] results = new double[2];
 
     // Pin current distance to valid range
+    System.out.println("Current Distance -> " + currentDistance);
     currentDistance = (currentDistance < 0) ? 0.0 : currentDistance;
     currentDistance =
       (currentDistance >= maxDistance) ? maxDistance : currentDistance;
 
     // Find the last distance in the table that is <= the current distance
-    while (currentDistance > shooterDistance[index]) {
+    while (currentDistance >= shooterDistance[index]) {
       index++;
     }
 
     // Calculate blend factor between two closest distances
     blend =
-      (currentDistance - shooterDistance[index]) /
-      (shooterDistance[index + 1] - shooterDistance[index]);
+      (currentDistance - shooterDistance[index - 1]) /
+      (shooterDistance[index] - shooterDistance[index - 1]);
 
     // Blend angle and speed values between two closest distances
     results[0] =
-      shooterAngle[index] * (1.0 - blend) + shooterAngle[index + 1] * blend;
+      shooterAngle[index-1] * (1.0 - blend) + shooterAngle[index] * blend;
     results[1] =
-      shooterSpeed[index] * (1.0 - blend) + shooterSpeed[index + 1] * blend;
+      shooterSpeed[index-1] * (1.0 - blend) + shooterSpeed[index] * blend;
 
+    // Debug for logs
+    System.out.println("Closest Distance = " + shooterDistance[index-1]);
+    System.out.println("Next Closest Distance = " + shooterDistance[index]);
+    System.out.println("Blend = " + blend);
+    System.out.println("Angle = " + results[0]);
+    System.out.println("Speed = " + results[1]);
     return results;
   }
 }

@@ -104,12 +104,31 @@ public class Robot extends TimedRobot {
 
     // Limelight debug
     SmartDashboard.putBoolean(
-      "Tag Has Target",
+      "TAG Has Target",
       m_robotContainer.limelight.getHasValidTarget()
     );
     SmartDashboard.putNumber(
-      "FrontBack Distance",
-      m_robotContainer.limelight.targetpose.getFrontBackDistance()
+      "TAG FrontBack Distance",
+      Math.abs(m_robotContainer.limelight.targetpose.getDiagonalDistance())
+    );
+    SmartDashboard.putBoolean(
+      "TAG In Range",
+      (
+        Math.abs(m_robotContainer.limelight.targetpose.getDiagonalDistance()) <=
+        4
+      )
+    );
+    SmartDashboard.putBoolean(
+      "Tag Valid Shot",
+      (
+        (
+          Math.abs(
+            m_robotContainer.limelight.targetpose.getDiagonalDistance()
+          ) <=
+          4
+        ) &&
+        m_robotContainer.limelight.getHasValidTarget()
+      )
     );
   }
 

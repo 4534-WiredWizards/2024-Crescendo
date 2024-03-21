@@ -72,6 +72,10 @@ public class SwerveModule {
     driveMotor.setClosedLoopRampRate(0.5); //0.15
     turningMotor.setClosedLoopRampRate(0.15); //0.08
 
+    // Open loop ramp rate
+    // driveMotor.setOpenLoopRampRate(0.15);
+    // turningMotor.setOpenLoopRampRate(0.15);
+
     driveMotor.setInverted(driveMotorReversed);
     turningMotor.setInverted(turningMotorReversed);
 

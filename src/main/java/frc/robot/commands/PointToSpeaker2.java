@@ -7,14 +7,16 @@ package frc.robot.commands;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.subsystems.Limelight;
-import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.Limelight.Targetpose;
+import frc.robot.subsystems.SwerveSubsystem;
 
 public class PointToSpeaker2 extends Command {
+
   Limelight limelight;
   SwerveSubsystem swerve;
   PIDController PIDController;
@@ -27,7 +29,7 @@ public class PointToSpeaker2 extends Command {
     this.limelight = limelight;
     this.swerve = swerve;
     PIDController = new PIDController(0.3, .75, 0.02);
-    PIDController.setTolerance(2,1);
+    PIDController.setTolerance(2, 1);
     addRequirements(swerve);
   }
 
@@ -35,6 +37,12 @@ public class PointToSpeaker2 extends Command {
   @Override
   public void initialize() {
     distance = swerve.getHeading() - (limelight.gettx() + 5);
+    System.out.println(
+      "Command '" +
+      this.getName() +
+      "' initialized at " +
+      Timer.getFPGATimestamp()
+    );
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -43,8 +51,14 @@ public class PointToSpeaker2 extends Command {
     rotationSpeed = PIDController.calculate(swerve.getHeading(), distance);
     // System.out.println(limelight.gettx());
     ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-    0, 0, rotationSpeed*.5, swerve.getRotation2d());
-    SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
+      0,
+      0,
+      rotationSpeed * .5,
+      swerve.getRotation2d()
+    );
+    SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
+      chassisSpeeds
+    );
     swerve.setModuleStates(moduleStates);
   }
 
@@ -52,11 +66,14 @@ public class PointToSpeaker2 extends Command {
   @Override
   public void end(boolean interrupted) {
     swerve.stopModules();
+    System.out.println(
+      "Command '" + this.getName() + "' ended at " + Timer.getFPGATimestamp()
+    );
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return PIDController.atSetpoint() && (limelight.gettx() == 0);
+    return PIDController.atSetpoint() && (limelight.gettx() < 5);
   }
 }

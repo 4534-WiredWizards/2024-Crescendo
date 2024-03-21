@@ -48,6 +48,7 @@ public class RunShooter extends Command {
   public void initialize() {
     isPressed = false;
     presses = 0;
+
     SmartDashboard.putNumber("Intake Velocity", 0);
     System.out.println(
       "Command '" +
@@ -67,7 +68,12 @@ public class RunShooter extends Command {
     if (PIDControl) {
       shooter.velocityPID(speed.get());
     } else {
-      shooter.move(speed.get());
+      if (speed.get() > .1) {
+        shooter.move(1.0);
+      } else {
+        shooter.move(0);
+      }
+      // shooter.move(speed.get());
     }
 
     // System.out.println(speed.get() * 5000);

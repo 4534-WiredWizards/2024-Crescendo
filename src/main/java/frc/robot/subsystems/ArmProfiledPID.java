@@ -34,7 +34,7 @@ public class ArmProfiledPID extends ProfiledPIDSubsystem {
         new TrapezoidProfile.Constraints(20, 2.5)
       )
     );
-    this.getController().setTolerance(Units.degreesToRadians(2), 1);
+    this.getController().setTolerance(Units.degreesToRadians(1), 1);
     this.arm = arm;
     // arm.getAbsolutePosition();
     // Input goal, rather self explanatory: Constants.kArmOffsetRads

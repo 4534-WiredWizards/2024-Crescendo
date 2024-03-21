@@ -116,61 +116,61 @@ public class SwerveSubsystem extends SubsystemBase {
   public void periodic() {
     odometer.update(getRotation2d(), getModulePositions());
     SmartDashboard.putNumber("Robot Heading", getHeading());
-    SmartDashboard.putString(
-      "Robot Location",
-      getPose().getTranslation().toString()
-    );
-    SmartDashboard.putNumber(
-      "Back Right angle",
-      (Units.radiansToDegrees(backRight.getAbsoluteEncoderRad()))
-    );
-    SmartDashboard.putNumber(
-      "Back Left angle",
-      (Units.radiansToDegrees(backLeft.getAbsoluteEncoderRad()))
-    );
-    SmartDashboard.putNumber(
-      "Front Right angle",
-      (Units.radiansToDegrees(frontRight.getAbsoluteEncoderRad()))
-    );
-    SmartDashboard.putNumber(
-      "Front Left angle",
-      (Units.radiansToDegrees(frontLeft.getAbsoluteEncoderRad()))
-    );
+    // SmartDashboard.putString(
+    //   "Robot Location",
+    //   getPose().getTranslation().toString()
+    // );
+    // SmartDashboard.putNumber(
+    //   "Back Right angle",
+    //   (Units.radiansToDegrees(backRight.getAbsoluteEncoderRad()))
+    // );
+    // SmartDashboard.putNumber(
+    //   "Back Left angle",
+    //   (Units.radiansToDegrees(backLeft.getAbsoluteEncoderRad()))
+    // );
+    // SmartDashboard.putNumber(
+    //   "Front Right angle",
+    //   (Units.radiansToDegrees(frontRight.getAbsoluteEncoderRad()))
+    // );
+    // SmartDashboard.putNumber(
+    //   "Front Left angle",
+    //   (Units.radiansToDegrees(frontLeft.getAbsoluteEncoderRad()))
+    // );
 
-    SmartDashboard.putString(
-      "Back Right position",
-      (backRight.getPosition().toString())
-    );
-    SmartDashboard.putString(
-      "Back Left position",
-      (backLeft.getPosition().toString())
-    );
-    SmartDashboard.putString(
-      "Front Right position",
-      (frontRight.getPosition().toString())
-    );
-    SmartDashboard.putString(
-      "Front Left position",
-      (frontLeft.getPosition().toString())
-    );
+    // SmartDashboard.putString(
+    //   "Back Right position",
+    //   (backRight.getPosition().toString())
+    // );
+    // SmartDashboard.putString(
+    //   "Back Left position",
+    //   (backLeft.getPosition().toString())
+    // );
+    // SmartDashboard.putString(
+    //   "Front Right position",
+    //   (frontRight.getPosition().toString())
+    // );
+    // SmartDashboard.putString(
+    //   "Front Left position",
+    //   (frontLeft.getPosition().toString())
+    // );
 
-    // Raw encoder values with no offset
-    SmartDashboard.putNumber(
-      "Raw Back Right angle",
-      (Units.radiansToDegrees(backRight.getRawEncoderValue()))
-    );
-    SmartDashboard.putNumber(
-      "Raw Back Left angle",
-      (Units.radiansToDegrees(backLeft.getRawEncoderValue()))
-    );
-    SmartDashboard.putNumber(
-      "Raw Front Right angle",
-      (Units.radiansToDegrees(frontRight.getRawEncoderValue()))
-    );
-    SmartDashboard.putNumber(
-      "Raw Front Left angle",
-      (Units.radiansToDegrees(frontLeft.getRawEncoderValue()))
-    );
+    // // Raw encoder values with no offset
+    // SmartDashboard.putNumber(
+    //   "Raw Back Right angle",
+    //   (Units.radiansToDegrees(backRight.getRawEncoderValue()))
+    // );
+    // SmartDashboard.putNumber(
+    //   "Raw Back Left angle",
+    //   (Units.radiansToDegrees(backLeft.getRawEncoderValue()))
+    // );
+    // SmartDashboard.putNumber(
+    //   "Raw Front Right angle",
+    //   (Units.radiansToDegrees(frontRight.getRawEncoderValue()))
+    // );
+    // SmartDashboard.putNumber(
+    //   "Raw Front Left angle",
+    //   (Units.radiansToDegrees(frontLeft.getRawEncoderValue()))
+    // );
   }
 
   public void stopModules() {

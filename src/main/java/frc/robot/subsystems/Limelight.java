@@ -99,6 +99,15 @@ public class Limelight extends SubsystemBase {
       return cameraPose[kZ];
     }
 
+    // Get diagonal distance from the camera to the target
+    // Based on the the frontBack and left right distances
+    public double getDiagonalDistance() {
+      return Math.sqrt(
+        Math.pow(getFrontBackDistance(), 2) +
+        Math.pow(getLeftRightDistance(), 2)
+      );
+    }
+
     public double getThetaDegrees() {
       cameraPose =
         NetworkTableInstance

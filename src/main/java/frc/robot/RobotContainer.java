@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -128,12 +129,19 @@ public class RobotContainer {
     new JoystickButton(operatorJoystick, InputDevices.btn_select)
       .onTrue(
         new SequentialCommandGroup(
-          new ParallelCommandGroup(
-            new PointToSpeaker2(limelight, swerve),
-            new CalculateArmAngle(arm, ArmProfiledPID, limelight)
+          new ParallelDeadlineGroup(
+            new ParallelCommandGroup(
+              new PointToSpeaker2(limelight, swerve),
+              new CalculateArmAngle(arm, ArmProfiledPID, limelight)
+            ),
+            new RunShooter(shooter, intake, () -> 1.0, false, true, false)
           ),
-          new RunShooter(shooter, intake, () -> 1.0, true, true, true)
-        ).until(()->operatorJoystick.getRawButtonPressed(InputDevices.btn_xboxbutton))
+          new RunShooter(shooter, intake, () -> 1.0, false, true, true)
+            .withTimeout(1)
+        )
+          .until(() ->
+            operatorJoystick.getRawButtonPressed(InputDevices.btn_xboxbutton)
+          )
       );
 
     // ----------------------- INTAKE & Shooter COMMANDS ---------------------------------
@@ -186,7 +194,7 @@ public class RobotContainer {
         new PIDMoveArm(
           arm,
           ArmProfiledPID,
-          Units.degreesToRadians(CommandConstants.Arm.traversal),
+          Units.degreesToRadians(CommandConstants.Arm.farSpeaker),
           false
         )
           .until(() -> operatorJoystick.getRawButtonPressed(7))
@@ -215,22 +223,22 @@ public class RobotContainer {
       );
 
     // Select Button - Move arm to close speaker position
-    new JoystickButton(operatorJoystick, InputDevices.btn_select)
-      .onTrue(
-        new PIDMoveArm(
-          arm,
-          ArmProfiledPID,
-          Units.degreesToRadians(CommandConstants.Arm.closeSpeaker),
-          false
-        )
-      );
+    // new JoystickButton(operatorJoystick, InputDevices.btn_select)
+    //   .onTrue(
+    //     new PIDMoveArm(
+    //       arm,
+    //       ArmProfiledPID,
+    //       Units.degreesToRadians(CommandConstants.Arm.closeSpeaker),
+    //       false
+    //     )
+    //   );
     // Start Button - Move arm to long shot position
     new JoystickButton(operatorJoystick, InputDevices.btn_start)
       .onTrue(
         new PIDMoveArm(
           arm,
           ArmProfiledPID,
-          Units.degreesToRadians(CommandConstants.Arm.farSpeaker),
+          Units.degreesToRadians(CommandConstants.Arm.traversal),
           false
         )
       );
