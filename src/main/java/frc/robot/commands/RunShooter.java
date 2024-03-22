@@ -103,7 +103,9 @@ public class RunShooter extends Command {
   public void end(boolean interrupted) {
     System.out.println("Exited Shooter");
     shooter.move(0);
-    Intake.move(0);
+    if (autoIntake) {
+      Intake.move(0);
+    }
     System.out.println(
       "Command '" + this.getName() + "' ended at " + Timer.getFPGATimestamp()
     );
