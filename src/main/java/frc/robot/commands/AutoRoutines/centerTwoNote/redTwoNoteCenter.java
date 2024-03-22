@@ -10,12 +10,14 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.Constants.CommandConstants;
 import frc.robot.autonomous.AutoTrajectories;
+import frc.robot.commands.AutoRoutines.autoShoot;
 import frc.robot.commands.AutoRoutines.shootNoteWhenOnSub;
 import frc.robot.commands.PIDMoveArm;
 import frc.robot.commands.RunIntake;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.ArmProfiledPID;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.drivetrain.FollowTrajectory;
@@ -24,6 +26,7 @@ public class redTwoNoteCenter extends SequentialCommandGroup {
 
   /** Creates a new redTwoNoteAuto. */
   public redTwoNoteCenter(
+    Limelight limelight,
     SwerveSubsystem swerve,
     Arm arm,
     ArmProfiledPID armProfiledPID,
@@ -50,10 +53,7 @@ public class redTwoNoteCenter extends SequentialCommandGroup {
           true
         )
       ),
-      new ParallelCommandGroup(
-        new FollowTrajectory(swerve, AutoTrajectories.redSpeakerShoot, true),
-        new shootNoteWhenOnSub(arm, armProfiledPID, intake, swerve, shooter)
-      )
+      new autoShoot(limelight, swerve, arm, armProfiledPID, intake, shooter)
     );
   }
 }

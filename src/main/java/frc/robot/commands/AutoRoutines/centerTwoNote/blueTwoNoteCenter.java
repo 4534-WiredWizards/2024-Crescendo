@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.Constants.CommandConstants;
 import frc.robot.autonomous.AutoTrajectories;
+import frc.robot.commands.AutoRoutines.autoShoot;
 import frc.robot.commands.AutoRoutines.shootNoteWhenOnSub;
 import frc.robot.commands.AutoRoutines.spinShooterLowerArm;
 import frc.robot.commands.PIDMoveArm;
@@ -20,6 +21,7 @@ import frc.robot.commands.RunShooter;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.ArmProfiledPID;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.drivetrain.FollowTrajectory;
@@ -28,6 +30,7 @@ public class blueTwoNoteCenter extends SequentialCommandGroup {
 
   /** Creates a new PlaceAndStation. */
   public blueTwoNoteCenter(
+    Limelight limelight,
     Arm arm,
     ArmProfiledPID armProfiledPID,
     Intake intake,
@@ -54,20 +57,7 @@ public class blueTwoNoteCenter extends SequentialCommandGroup {
           true
         )
       ),
-      new SequentialCommandGroup(
-        new ParallelDeadlineGroup(
-          new PIDMoveArm(
-            arm,
-            armProfiledPID,
-            Units.degreesToRadians(CommandConstants.Arm.farSpeaker),
-            true
-          ),
-          new RotateByDegrees(swerve, 5.0),
-          new RunShooter(shooter, intake, () -> 1.0, false, true, false)
-        ),
-        new RunShooter(shooter, intake, () -> 1.0, false, true, true)
-          .withTimeout(1)
-      )
+      new autoShoot(limelight, swerve, arm, armProfiledPID, intake, shooter)
     );
   }
 }
