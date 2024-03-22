@@ -113,19 +113,10 @@ public class RobotContainer {
       .onTrue(new InstantCommand(() -> swerve.zeroHeading()));
 
     // ----------------------- SHOOTER COMMANDS ---------------------------------
-    // Menu Button - Run Shooter at set velocity
-    // new JoystickButton(operatorJoystick, InputDevices.btn_select)
-    //   .whileTrue(
-    //     new RunShooter(
-    //       shooter,
-    //       intake,
-    //       () -> SmartDashboard.getNumber("Set Shooter Speed", 0),
-    //       true,
-    //       false,
-    //       false
-    //     )
-    //   );
-
+    // Select Button - AUTO SHOOT - Face the speaker, calculate arm angle, spin up shooter, run intake, take shot
+    // Highly recommend using this button for shooting over PID close speaker shooting
+    // Will take over robot rotation and arm angle
+    // Can be cancelled by pressing the Start button
     new JoystickButton(operatorJoystick, InputDevices.btn_select)
       .onTrue(
         new SequentialCommandGroup(
@@ -134,19 +125,18 @@ public class RobotContainer {
               new PointToSpeaker2(limelight, swerve),
               new CalculateArmAngle(arm, ArmProfiledPID, limelight)
             ),
-            new RunShooter(shooter, intake, () -> 1.0, false, true, false)
+            new RunShooter(shooter, intake, () -> 1.0, false, false, false)
           ),
           new RunShooter(shooter, intake, () -> 1.0, false, true, true)
-            .withTimeout(1)
         )
           .until(() ->
-            operatorJoystick.getRawButtonPressed(InputDevices.btn_xboxbutton)
+            operatorJoystick.getRawButtonPressed(InputDevices.btn_start) // Btn to cancel all autoshoot commands
           )
       );
 
     // ----------------------- INTAKE & Shooter COMMANDS ---------------------------------
     // Basic Operator Intake Control
-    // Y - Run Intake
+    // Y - Run Intake in
     new JoystickButton(operatorJoystick, InputDevices.btn_y)
       .whileTrue(
         new RunIntake(
@@ -156,6 +146,8 @@ public class RobotContainer {
           true
         )
       );
+
+    // A - Run Intake out
     new JoystickButton(operatorJoystick, InputDevices.btn_a)
       .whileTrue(
         new RunIntake(
@@ -165,9 +157,6 @@ public class RobotContainer {
           true
         )
       );
-    // Testing Auto Speaker Scoring System
-    // new JoystickButton(operatorJoystick, InputDevices.btn_b).onTrue(new PointToSpeaker2(limelight, swerve));
-    // new JoystickButton(operatorJoystick, InputDevices.btn_b).onTrue(new ArmToShootingH(limelight, swerve));
 
     // ----------------------- CLIMB COMMANDS ---------------------------------
     new JoystickButton(operatorJoystick, InputDevices.btn_x)
@@ -194,11 +183,12 @@ public class RobotContainer {
         new PIDMoveArm(
           arm,
           ArmProfiledPID,
-          Units.degreesToRadians(CommandConstants.Arm.farSpeaker),
+          Units.degreesToRadians(CommandConstants.Arm.traversal), //Changed back from far speaker
           false
         )
           .until(() -> operatorJoystick.getRawButtonPressed(7))
       );
+
     // Up D Pad - Move arm to amp position
     new POVButton(operatorJoystick, 0)
       .onTrue(
@@ -232,16 +222,17 @@ public class RobotContainer {
     //       false
     //     )
     //   );
+
     // Start Button - Move arm to long shot position
-    new JoystickButton(operatorJoystick, InputDevices.btn_start)
-      .onTrue(
-        new PIDMoveArm(
-          arm,
-          ArmProfiledPID,
-          Units.degreesToRadians(CommandConstants.Arm.traversal),
-          false
-        )
-      );
+    // new JoystickButton(operatorJoystick, InputDevices.btn_start)
+    //   .onTrue(
+    //     new PIDMoveArm(
+    //       arm,
+    //       ArmProfiledPID,
+    //       Units.degreesToRadians(CommandConstants.Arm.traversal),
+    //       false
+    //     )
+    //   );
 
     // Down D Pad - Move arm to intake position
     new POVButton(operatorJoystick, 180)
