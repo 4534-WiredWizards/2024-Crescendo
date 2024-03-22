@@ -45,7 +45,6 @@ public class Robot extends TimedRobot {
     fisheye.setResolution(320, 240);
     fisheye.setPixelFormat(PixelFormat.kMJPEG);
     fisheye.setFPS(60);
-    Lights.LEDSegment.Panel.fullClear();
     RobotContainer.leds.robotInit();
     // SmartDashboard.putString("Alliance Color", (RobotContainer.getAllianceColor()!=null) ? RobotContainer.getAllianceColor() : "None");
     SmartDashboard.putNumber("Set Shooter Speed", 0);
@@ -130,6 +129,16 @@ public class Robot extends TimedRobot {
         m_robotContainer.limelight.getHasValidTarget()
       )
     );
+
+    if (
+      (
+        Math.abs(m_robotContainer.limelight.targetpose.getDiagonalDistance()) <=
+        4
+      ) &&
+      m_robotContainer.limelight.getHasValidTarget()
+    ) {
+      RobotContainer.leds.hasValidShot();
+    }
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
