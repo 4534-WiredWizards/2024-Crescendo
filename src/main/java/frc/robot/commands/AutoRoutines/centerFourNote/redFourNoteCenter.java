@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.Constants.CommandConstants;
 import frc.robot.autonomous.AutoTrajectories;
+import frc.robot.commands.AutoRoutines.autoShoot;
 import frc.robot.commands.AutoRoutines.shootNoteWhenOnNote;
 import frc.robot.commands.AutoRoutines.shootNoteWhenOnSub;
 import frc.robot.commands.PIDMoveArm;
@@ -18,6 +19,7 @@ import frc.robot.commands.RunIntake;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.ArmProfiledPID;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.drivetrain.FollowTrajectory;
@@ -26,6 +28,7 @@ public class redFourNoteCenter extends ParallelCommandGroup {
 
   /** Creates a new PlaceAndStation. */
   public redFourNoteCenter(
+    Limelight limelight,
     Arm arm,
     ArmProfiledPID armProfiledPID,
     Intake intake,
@@ -41,7 +44,7 @@ public class redFourNoteCenter extends ParallelCommandGroup {
           Units.degreesToRadians(CommandConstants.Arm.intake),
           true
         ),
-        new FollowTrajectory(swerve, AutoTrajectories.redAmpFourNote, true),
+        new FollowTrajectory(swerve, AutoTrajectories.redStageNoteFour, true),
         new RunIntake(
           intake,
           true,
@@ -49,11 +52,7 @@ public class redFourNoteCenter extends ParallelCommandGroup {
           true
         )
       ),
-      new ParallelCommandGroup(
-        new RotateByDegrees(swerve, -28.2685),
-        new shootNoteWhenOnNote(arm, armProfiledPID, intake, swerve, shooter),
-        new RotateByDegrees(swerve, 118.2685)
-      ),
+      new autoShoot(limelight, swerve, arm, armProfiledPID, intake, shooter), // Fix the constructor cal
       new ParallelCommandGroup(
         new PIDMoveArm(
           arm,
@@ -61,7 +60,7 @@ public class redFourNoteCenter extends ParallelCommandGroup {
           Units.degreesToRadians(CommandConstants.Arm.intake),
           true
         ),
-        new FollowTrajectory(swerve, AutoTrajectories.redSpeakerFourNote, true),
+        new FollowTrajectory(swerve, AutoTrajectories.redSpeakerNoteFour, true),
         new RunIntake(
           intake,
           true,
@@ -69,11 +68,7 @@ public class redFourNoteCenter extends ParallelCommandGroup {
           true
         )
       ),
-      new ParallelCommandGroup(
-        new RotateByDegrees(swerve, -90),
-        new shootNoteWhenOnNote(arm, armProfiledPID, intake, swerve, shooter),
-        new RotateByDegrees(swerve, 90)
-      ),
+      new autoShoot(limelight, swerve, arm, armProfiledPID, intake, shooter),
       new ParallelCommandGroup(
         new PIDMoveArm(
           arm,
@@ -81,7 +76,7 @@ public class redFourNoteCenter extends ParallelCommandGroup {
           Units.degreesToRadians(CommandConstants.Arm.intake),
           true
         ),
-        new FollowTrajectory(swerve, AutoTrajectories.redStageFourNote, true),
+        new FollowTrajectory(swerve, AutoTrajectories.redAmpNoteFour, true),
         new RunIntake(
           intake,
           true,
@@ -89,10 +84,7 @@ public class redFourNoteCenter extends ParallelCommandGroup {
           true
         )
       ),
-      new ParallelCommandGroup(
-        new RotateByDegrees(swerve, -61.7315),
-        new shootNoteWhenOnNote(arm, armProfiledPID, intake, swerve, shooter)
-      )
+      new autoShoot(limelight, swerve, arm, armProfiledPID, intake, shooter) // Fix the constructor call
     );
   }
 }
