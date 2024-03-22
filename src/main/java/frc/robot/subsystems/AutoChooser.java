@@ -153,6 +153,7 @@ public class AutoChooser extends SubsystemBase {
           System.out.println("Blue Two Note Auto");
           autoRoutine =
             new blueTwoNoteCenter(
+              limelight,
               arm,
               ArmProfiledPID,
               intake,
@@ -165,6 +166,7 @@ public class AutoChooser extends SubsystemBase {
           System.out.println("Red Two Note Auto");
           autoRoutine =
             new redTwoNoteCenter(
+              limelight,
               swerveSubsystem,
               arm,
               ArmProfiledPID,
@@ -203,6 +205,7 @@ public class AutoChooser extends SubsystemBase {
         if (subWooferSide == SubWooferSide.RedAmp && Side2NoteResetOdom) {
           autoRoutine =
             new redAmpTwoNoteSide(
+              limelight,
               arm,
               ArmProfiledPID,
               intake,
@@ -214,6 +217,7 @@ public class AutoChooser extends SubsystemBase {
         ) {
           autoRoutine =
             new redStageTwoNoteSide(
+              limelight,
               arm,
               ArmProfiledPID,
               intake,
@@ -225,6 +229,7 @@ public class AutoChooser extends SubsystemBase {
         ) {
           autoRoutine =
             new blueAmpTwoNoteSide(
+              limelight,
               arm,
               ArmProfiledPID,
               intake,
@@ -236,6 +241,7 @@ public class AutoChooser extends SubsystemBase {
         ) {
           autoRoutine =
             new blueStageTwoNoteSide(
+              limelight,
               arm,
               ArmProfiledPID,
               intake,
@@ -283,6 +289,7 @@ public class AutoChooser extends SubsystemBase {
           System.out.println("Red Four Note Auto");
           autoRoutine =
             new redFourNoteCenter(
+              limelight,
               arm,
               ArmProfiledPID,
               intake,

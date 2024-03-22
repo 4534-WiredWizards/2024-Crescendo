@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.Constants.CommandConstants;
 import frc.robot.autonomous.AutoTrajectories;
+import frc.robot.commands.AutoRoutines.autoShoot;
 import frc.robot.commands.AutoRoutines.shootNoteWhenOnNote;
 import frc.robot.commands.AutoRoutines.shootNoteWhenOnSub;
 import frc.robot.commands.DoNothing;
@@ -20,6 +21,7 @@ import frc.robot.commands.RunShooter;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.ArmProfiledPID;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.drivetrain.FollowTrajectory;
@@ -28,6 +30,7 @@ public class redAmpTwoNoteSide extends ParallelCommandGroup {
 
   /** Creates a new PlaceAndStation. */
   public redAmpTwoNoteSide(
+    Limelight limelight,
     Arm arm,
     ArmProfiledPID armProfiledPID,
     Intake intake,
@@ -51,10 +54,7 @@ public class redAmpTwoNoteSide extends ParallelCommandGroup {
           true
         )
       ),
-      new ParallelCommandGroup(
-        new RotateByDegrees(swerve, -28.2685),
-        new shootNoteWhenOnNote(arm, armProfiledPID, intake, swerve, shooter)
-      )
+      new autoShoot(limelight, swerve, arm, armProfiledPID, intake, shooter)
     );
   }
 }
