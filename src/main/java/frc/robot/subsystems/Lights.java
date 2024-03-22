@@ -4,36 +4,38 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
-
 import com.ctre.phoenix.led.Animation;
 import com.ctre.phoenix.led.CANdle;
+import com.ctre.phoenix.led.CANdle.LEDStripType;
+import com.ctre.phoenix.led.CANdle.VBatOutputMode;
 import com.ctre.phoenix.led.CANdleConfiguration;
 import com.ctre.phoenix.led.ColorFlowAnimation;
+import com.ctre.phoenix.led.ColorFlowAnimation.Direction;
 import com.ctre.phoenix.led.FireAnimation;
 import com.ctre.phoenix.led.LarsonAnimation;
 import com.ctre.phoenix.led.LarsonAnimation.BounceMode;
-import com.ctre.phoenix.led.TwinkleAnimation.TwinklePercent;
 import com.ctre.phoenix.led.RainbowAnimation;
 import com.ctre.phoenix.led.SingleFadeAnimation;
 import com.ctre.phoenix.led.StrobeAnimation;
 import com.ctre.phoenix.led.TwinkleAnimation;
-import com.ctre.phoenix.led.CANdle.LEDStripType;
-import com.ctre.phoenix.led.CANdle.VBatOutputMode;
-import com.ctre.phoenix.led.ColorFlowAnimation.Direction;
-
+import com.ctre.phoenix.led.TwinkleAnimation.TwinklePercent;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.LightsConstants;
 import frc.robot.RobotContainer;
+import javax.swing.text.AbstractDocument.LeafElement;
 
 public class Lights extends SubsystemBase {
+
   // private final CANdle Candle = new CANdle(26, "rio");
   // private RainbowAnimation rainbow = new RainbowAnimation(1,.05,264);
 
-  public static final CANdle Candle = new CANdle(LightsConstants.candlePort, "rio");
+  public static final CANdle Candle = new CANdle(
+    LightsConstants.candlePort,
+    "rio"
+  );
 
-
-  // DESIGN COLOR ARE NOT STORED HERE ---- SEE RGBColors BELOW 
+  // DESIGN COLOR ARE NOT STORED HERE ---- SEE RGBColors BELOW
   // Team & Default Colors
   public static final Color red = new Color(255, 0, 0);
   public static final Color black = new Color(0, 0, 0);
@@ -48,13 +50,15 @@ public class Lights extends SubsystemBase {
   public static final Color green = new Color(56, 209, 0);
   public static final Color blue = new Color(8, 32, 255);
   public static final Color magenta = new Color(255, 0, 255);
-  public static final Color darkOrange =  new Color(255, 20, 0);
-  public static final Color yellow = new Color(255,251,0);
+  public static final Color darkOrange = new Color(255, 20, 0);
+  public static final Color yellow = new Color(255, 251, 0);
 
   public static class Color {
+
     public int red;
     public int green;
     public int blue;
+
     public Color(int red, int green, int blue) {
       this.red = red;
       this.green = green;
@@ -84,12 +88,17 @@ public class Lights extends SubsystemBase {
   //   LEDSegment.CandleLEDs.setColor(darkOrange);
   // }
 
-  
- // ------------------------- Subsytem Lights -------------------------
+  public void teleopStart() {
+    LEDSegment.CandleLEDs.setFadeAnimation(Lights.white, .000001);
+    LEDSegment.Panel.setFadeAnimation(Lights.white, .000001);
+  }
+
+  // ------------------------- Subsytem Lights -------------------------
   // Intake Start
   public void intakeStart() {
     LEDSegment.Panel.setFadeAnimation(blue, 0.05);
   }
+
   // Intake Stop
   public void intakeStop() {
     LEDSegment.Panel.clearAnimation();
@@ -99,6 +108,12 @@ public class Lights extends SubsystemBase {
   // Shooter Start
   public void shooterStart() {
     LEDSegment.Panel.setFadeAnimation(red, 0.7);
+  }
+
+  public void hasValidShot() {
+    // Animation when the robot has a valid shot
+    LEDSegment.Panel.setFadeAnimation(magenta, 1);
+    // LEDSegment.Panel.setStrobeAnimation(magenta, .05);
   }
 
   // Shooter Stop
@@ -127,23 +142,17 @@ public class Lights extends SubsystemBase {
   public void disabledStart() {
     LEDSegment.CandleLEDs.setFadeAnimation(Lights.orange, .000001);
     LEDSegment.Panel.fullClear();
-    robotInit();
-  }
-
-  public void teleopStart() {
-    LEDSegment.CandleLEDs.setFadeAnimation(Lights.green, .000001);
-    LEDSegment.Panel.setFadeAnimation(Lights.green, .000001);
+    drawImage(Constants.LightDesign.WIRED_WIZARDS);
   }
 
   public void clearSegmentCommand(LEDSegment segment) {
-      segment.clearAnimation();
-      segment.disableLEDs();
+    segment.clearAnimation();
+    segment.disableLEDs();
   }
 
   public static enum LEDSegment {
-    CandleLEDs(0,8,0),
-    Panel(8,256,1);
-
+    CandleLEDs(0, 8, 0),
+    Panel(8, 256, 1);
 
     public final int startIndex;
     public final int segmentSize;
@@ -155,24 +164,29 @@ public class Lights extends SubsystemBase {
       this.animationSlot = animationSlot;
     }
 
-
     public void fullClear() {
       clearAnimation();
       disableLEDs();
     }
 
-
     public void clearAnimation() {
-        Candle.clearAnimation(animationSlot);
+      Candle.clearAnimation(animationSlot);
     }
 
     public void disableLEDs() {
-        setColor(black);
+      setColor(black);
     }
 
     public void setColor(Color color) {
       Candle.clearAnimation(animationSlot);
-      Candle.setLEDs(color.red, color.green, color.blue, 100, startIndex, segmentSize);
+      Candle.setLEDs(
+        color.red,
+        color.green,
+        color.blue,
+        100,
+        startIndex,
+        segmentSize
+      );
     }
 
     private void setAnimation(Animation animation) {
@@ -181,104 +195,157 @@ public class Lights extends SubsystemBase {
 
     public void setFlowAnimation(Color color, double speed) {
       // Animation that gradually lights the entire LED strip one LED at a time.
-        setAnimation(new ColorFlowAnimation(
-                color.red, 
-                color.green, 
-                color.blue, 
-                0, 
-                speed, 
-                segmentSize, 
-                Direction.Forward, 
-                startIndex
-        ));
+      setAnimation(
+        new ColorFlowAnimation(
+          color.red,
+          color.green,
+          color.blue,
+          0,
+          speed,
+          segmentSize,
+          Direction.Forward,
+          startIndex
+        )
+      );
     }
 
     public void setFadeAnimation(Color color, double speed) {
       //Animation that fades into and out of a specified color
-        setAnimation(
-                new SingleFadeAnimation(color.red, color.green, color.blue, 0, speed, segmentSize, startIndex));
+      setAnimation(
+        new SingleFadeAnimation(
+          color.red,
+          color.green,
+          color.blue,
+          0,
+          speed,
+          segmentSize,
+          startIndex
+        )
+      );
     }
 
     public void setBandAnimation(Color color, double speed) {
       //Animation that sends a pocket of light across the LED strip.
-        setAnimation(new LarsonAnimation(
-                color.red, color.green, color.blue, 0, speed, segmentSize, BounceMode.Front, 3, startIndex));
+      setAnimation(
+        new LarsonAnimation(
+          color.red,
+          color.green,
+          color.blue,
+          0,
+          speed,
+          segmentSize,
+          BounceMode.Front,
+          3,
+          startIndex
+        )
+      );
     }
 
     public void setStrobeAnimation(Color color, double speed) {
       //Animation that strobes the LEDs a specified color
-        setAnimation(new StrobeAnimation(color.red, color.green, color.blue, 0, speed, segmentSize, startIndex));
+      setAnimation(
+        new StrobeAnimation(
+          color.red,
+          color.green,
+          color.blue,
+          0,
+          speed,
+          segmentSize,
+          startIndex
+        )
+      );
     }
 
     // Random fun stuff - not practical
     public void setRainbowAnimation(double speed) {
-        setAnimation(new RainbowAnimation(1, speed, segmentSize, false, startIndex));
+      setAnimation(
+        new RainbowAnimation(1, speed, segmentSize, false, startIndex)
+      );
     }
 
     public void setTwinkleAnimation(Color color, double speed) {
-      setAnimation(new TwinkleAnimation(color.red, color.green, color.blue, 0, speed, segmentSize, TwinklePercent.Percent42));
+      setAnimation(
+        new TwinkleAnimation(
+          color.red,
+          color.green,
+          color.blue,
+          0,
+          speed,
+          segmentSize,
+          TwinklePercent.Percent42
+        )
+      );
     }
 
     public void setFireAnimation(double brightness, double speed) {
-      setAnimation(new FireAnimation(1, speed, segmentSize, 1,0));
+      setAnimation(new FireAnimation(1, speed, segmentSize, 1, 0));
     }
 
     public void setColorFlowAnimation(Color color, double speed) {
-      setAnimation(new ColorFlowAnimation(color.red, color.green, color.blue, 0, speed, segmentSize, Direction.Forward));
+      setAnimation(
+        new ColorFlowAnimation(
+          color.red,
+          color.green,
+          color.blue,
+          0,
+          speed,
+          segmentSize,
+          Direction.Forward
+        )
+      );
     }
-
-    
-
-
-
   }
-
-
 
   // OLD CODE
 
   public static void setColor(Color color) {
     Candle.clearAnimation(0);
     Candle.setLEDs(color.red, color.green, color.blue);
-
     // Candle.setLEDs(0, 0, 255, 0, 1, 1);
 
   }
 
   public static void setColorOld(int r, int g, int b) {
     Candle.clearAnimation(0);
-    Candle.setLEDs(r,g,b);
+    Candle.setLEDs(r, g, b);
     // Candle.setLEDs(0, 0, 255, 0, 1, 1);
 
   }
 
   public static final class RGBColors {
+
     public static final int[] DARKGRAY = { 15, 15, 15, 15 };
     public static final int[] LIGHTGRAY = { 102, 102, 102, 100 };
     public static final int[] RED = { 255, 0, 0, 100 };
-    public static final int[] BLACK = {0,0,0,0};
-    
+    public static final int[] BLACK = { 0, 0, 0, 0 };
+
     public static final class ww {
+
       public static final int[] DARKGRAY = RGBColors.DARKGRAY;
       public static final int[] LIGHTGRAY = RGBColors.LIGHTGRAY;
       public static final int[] RED = RGBColors.RED;
     }
-    public static final class nCino { 
-        public static final int[] RED = {207,16,19,100};
-        public static final int[] YELLOW = {253,188,1,100};
-        public static final int[] GREEN = {92,182,77,100};
-        public static final int[] BLUE = {23,170,220,100};
-        public static final int[] TEXT = {255,255,255,20};
+
+    public static final class nCino {
+
+      public static final int[] RED = { 207, 16, 19, 100 };
+      public static final int[] YELLOW = { 253, 188, 1, 100 };
+      public static final int[] GREEN = { 92, 182, 77, 100 };
+      public static final int[] BLUE = { 23, 170, 220, 100 };
+      public static final int[] TEXT = { 255, 255, 255, 20 };
     }
+
     public static final class Corning {
-        public static final int[] TEXT = {0,93,150,20};
+
+      public static final int[] TEXT = { 0, 93, 150, 20 };
     }
+
     public static final class CFCC {
-        public static final int[] TEXT = {255,255,255,100};
+
+      public static final int[] TEXT = { 255, 255, 255, 100 };
     }
   }
 
- 
   public void setRowAndColumn(int row, int col, int r, int g, int b, int w) {
     // Row 0-7
     // Column 0-31
@@ -306,12 +373,14 @@ public class Lights extends SubsystemBase {
       int b = (values[i][1][2]);
       int w = values[i][1][3];
       // setRowAndColumn(row, col, r, g, b, w);
-      Thread setPix = new Thread(new Runnable() {
-        @Override
-        public void run() {
-          setRowAndColumn(row, col, r, g, b, w);
+      Thread setPix = new Thread(
+        new Runnable() {
+          @Override
+          public void run() {
+            setRowAndColumn(row, col, r, g, b, w);
+          }
         }
-      });
+      );
       setPix.start();
     }
   }
@@ -322,18 +391,14 @@ public class Lights extends SubsystemBase {
 
   // Scrolling animation
   public void scrollAnimation(int[][][] values, int msDelay, int loops) {
-
-
-    for (int i = 0; i < 32*loops; i++) {
+    for (int i = 0; i < 32 * loops; i++) {
       // final int index = i;
       // Thread addPix = new Thread(new Runnable() {
-   
+
       setArrayOfValues(values, 0, i);
-      try {Thread.sleep(msDelay);}catch(InterruptedException e){}
+      try {
+        Thread.sleep(msDelay);
+      } catch (InterruptedException e) {}
     }
   }
-
- 
-
-
 }
