@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.Constants.CommandConstants;
 import frc.robot.autonomous.AutoTrajectories;
+import frc.robot.commands.AutoRoutines.autoShoot;
 import frc.robot.commands.AutoRoutines.shootNoteWhenOnNote;
 import frc.robot.commands.AutoRoutines.shootNoteWhenOnSub;
 import frc.robot.commands.PIDMoveArm;
@@ -18,6 +19,7 @@ import frc.robot.commands.RunIntake;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.ArmProfiledPID;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.drivetrain.FollowTrajectory;
@@ -26,6 +28,7 @@ public class blueFourNoteCenter extends SequentialCommandGroup {
 
   /** Creates a new PlaceAndStation. */
   public blueFourNoteCenter(
+    Limelight limelight,
     Arm arm,
     ArmProfiledPID armProfiledPID,
     Intake intake,
@@ -49,7 +52,7 @@ public class blueFourNoteCenter extends SequentialCommandGroup {
           true
         ) // Start intake
       ),
-      new shootNoteWhenOnNote(arm, armProfiledPID, intake, swerve, shooter),
+      new autoShoot(limelight, swerve, arm, armProfiledPID, intake, shooter), // Fix the constructor call
       new ParallelCommandGroup( // In Parallel - Arm Down - Drive to second note - Start intake
         new PIDMoveArm( // Arm Down to intake position
           arm,
@@ -69,10 +72,7 @@ public class blueFourNoteCenter extends SequentialCommandGroup {
           true
         )
       ),
-      new ParallelCommandGroup(
-        new shootNoteWhenOnNote(arm, armProfiledPID, intake, swerve, shooter),
-        new RotateByDegrees(swerve, 5.0)
-      ),
+      new autoShoot(limelight, swerve, arm, armProfiledPID, intake, shooter),
       new ParallelCommandGroup( // In Parallel - Arm Down - Drive to second note - Start intake
         new PIDMoveArm( // Arm Down to intake position
           arm,
@@ -92,7 +92,7 @@ public class blueFourNoteCenter extends SequentialCommandGroup {
           true
         )
       ),
-      new shootNoteWhenOnNote(arm, armProfiledPID, intake, swerve, shooter)
+      new autoShoot(limelight, swerve, arm, armProfiledPID, intake, shooter) // Fix the constructor call
     );
   }
 }
