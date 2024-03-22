@@ -270,6 +270,7 @@ public class AutoChooser extends SubsystemBase {
           System.out.println("Blue Four Note Auto");
           autoRoutine =
             new blueFourNoteCenter(
+              limelight,
               arm,
               ArmProfiledPID,
               intake,
