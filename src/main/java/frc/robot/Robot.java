@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.util.PixelFormat;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -48,6 +49,11 @@ public class Robot extends TimedRobot {
     RobotContainer.leds.robotInit();
     // SmartDashboard.putString("Alliance Color", (RobotContainer.getAllianceColor()!=null) ? RobotContainer.getAllianceColor() : "None");
     SmartDashboard.putNumber("Set Shooter Speed", 0);
+    NetworkTableInstance
+      .getDefault()
+      .getTable("limelight")
+      .getEntry("pipeline")
+      .setNumber(1);
   }
 
   /**

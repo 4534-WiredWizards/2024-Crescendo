@@ -23,7 +23,7 @@ public class Climb extends SubsystemBase {
     Constants.SubsystemConstants.ClimbRightCANid,
     CANSparkLowLevel.MotorType.kBrushless
   );
-  private final SparkLimitSwitch reverseLimitSwitch;
+  private final SparkLimitSwitch forwardLimitSwitch;
   public final RelativeEncoder climbEncoder;
 
   /** Creates a new Climb. */
@@ -40,9 +40,9 @@ public class Climb extends SubsystemBase {
 
     rightClimbMotor.follow(leftClimbMotor, true);
 
-    reverseLimitSwitch =
-      leftClimbMotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
-    reverseLimitSwitch.enableLimitSwitch(true);
+    forwardLimitSwitch =
+      leftClimbMotor.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
+    forwardLimitSwitch.enableLimitSwitch(false);
     climbEncoder = leftClimbMotor.getEncoder();
 
     rightClimbMotor.burnFlash();
@@ -70,6 +70,6 @@ public class Climb extends SubsystemBase {
   }
 
   public boolean getClimbStatus() {
-    return reverseLimitSwitch.isPressed();
+    return forwardLimitSwitch.isPressed();
   }
 }

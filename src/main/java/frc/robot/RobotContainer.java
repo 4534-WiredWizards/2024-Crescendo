@@ -72,11 +72,6 @@ public class RobotContainer {
 
   public RobotContainer() {
     // set pipeline
-    NetworkTableInstance
-      .getDefault()
-      .getTable("limelight")
-      .getEntry("pipeline")
-      .setNumber(1);
 
     shooter.setDefaultCommand(
       new RunShooter(
