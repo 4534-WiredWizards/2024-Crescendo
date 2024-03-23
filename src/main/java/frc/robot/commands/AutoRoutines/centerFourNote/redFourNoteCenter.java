@@ -24,7 +24,7 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.drivetrain.FollowTrajectory;
 
-public class redFourNoteCenter extends ParallelCommandGroup {
+public class redFourNoteCenter extends SequentialCommandGroup {
 
   /** Creates a new PlaceAndStation. */
   public redFourNoteCenter(
@@ -35,7 +35,7 @@ public class redFourNoteCenter extends ParallelCommandGroup {
     SwerveSubsystem swerve,
     Shooter shooter
   ) {
-    new SequentialCommandGroup(
+    addCommands(
       new shootNoteWhenOnSub(arm, armProfiledPID, intake, swerve, shooter),
       new ParallelCommandGroup(
         new PIDMoveArm(
@@ -51,6 +51,7 @@ public class redFourNoteCenter extends ParallelCommandGroup {
           Constants.CommandConstants.Intake.autoIntakeSpeed,
           true
         )
+          .withTimeout(3)
       ),
       new autoShoot(limelight, swerve, arm, armProfiledPID, intake, shooter), // Fix the constructor cal
       new ParallelCommandGroup(

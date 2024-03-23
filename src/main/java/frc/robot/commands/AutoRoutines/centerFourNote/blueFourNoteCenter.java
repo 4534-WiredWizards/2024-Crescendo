@@ -44,13 +44,14 @@ public class blueFourNoteCenter extends SequentialCommandGroup {
           Units.degreesToRadians(CommandConstants.Arm.intake),
           true
         ),
-        new FollowTrajectory(swerve, AutoTrajectories.blueStageNoteFour, true), // Drive to first note on back left for stage note
+        new FollowTrajectory(swerve, AutoTrajectories.blueSpeakerNote, true), // Drive to first note on back left for stage note
         new RunIntake(
           intake,
           true,
           Constants.CommandConstants.Intake.autoIntakeSpeed,
           true
-        ) // Start intake
+        )
+          .withTimeout(3) // Start intake
       ),
       new autoShoot(limelight, swerve, arm, armProfiledPID, intake, shooter), // Fix the constructor call
       new ParallelCommandGroup( // In Parallel - Arm Down - Drive to second note - Start intake
@@ -62,7 +63,7 @@ public class blueFourNoteCenter extends SequentialCommandGroup {
         ),
         new FollowTrajectory( //Drive in arc from stage note to speaker note
           swerve,
-          AutoTrajectories.blueSpeakerNoteFour,
+          AutoTrajectories.blueAmpNoteFour,
           true
         ),
         new RunIntake( // Start intake
@@ -82,7 +83,7 @@ public class blueFourNoteCenter extends SequentialCommandGroup {
         ),
         new FollowTrajectory( //Drive in arc from stage note to speaker note
           swerve,
-          AutoTrajectories.blueAmpNoteFour,
+          AutoTrajectories.blueStageNoteFour,
           true
         ),
         new RunIntake( // Start intake

@@ -115,6 +115,7 @@ public class RobotContainer {
     new JoystickButton(operatorJoystick, InputDevices.btn_select)
       .onTrue(
         new SequentialCommandGroup(
+          new InstantCommand(() -> System.out.println("Auto Shoot")),
           new ParallelDeadlineGroup(
             new ParallelCommandGroup(
               new PointToSpeaker2(limelight, swerve),
@@ -123,6 +124,7 @@ public class RobotContainer {
             new RunShooter(shooter, intake, () -> 1.0, false, false, false)
           ),
           new RunShooter(shooter, intake, () -> 1.0, false, true, true)
+            .withTimeout(.7)
         )
           .until(() ->
             operatorJoystick.getRawButtonPressed(InputDevices.btn_start) // Btn to cancel all autoshoot commands

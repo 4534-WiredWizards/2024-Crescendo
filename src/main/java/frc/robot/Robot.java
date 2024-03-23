@@ -135,22 +135,6 @@ public class Robot extends TimedRobot {
         m_robotContainer.limelight.getHasValidTarget()
       )
     );
-
-    if (
-      (
-        Math.abs(m_robotContainer.limelight.targetpose.getDiagonalDistance()) <=
-        4
-      ) &&
-      m_robotContainer.limelight.getHasValidTarget()
-    ) {
-      RobotContainer.leds.hasValidShot();
-    } else {
-      double noShot = false;
-      if (!noShot) {
-        noShot=true;
-        RobotContainer.leds.hasValidShotStop();
-      }
-    }
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -189,6 +173,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+    NetworkTableInstance
+      .getDefault()
+      .getTable("limelight")
+      .getEntry("pipeline")
+      .setNumber(1);
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
@@ -203,6 +192,11 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    NetworkTableInstance
+      .getDefault()
+      .getTable("limelight")
+      .getEntry("pipeline")
+      .setNumber(1);
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
@@ -213,9 +207,26 @@ public class Robot extends TimedRobot {
     RobotContainer.leds.teleopStart();
   }
 
+  Boolean noShot = false;
+
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    if (
+      (
+        Math.abs(m_robotContainer.limelight.targetpose.getDiagonalDistance()) <=
+        4
+      ) &&
+      m_robotContainer.limelight.getHasValidTarget()
+    ) {
+      noShot = false;
+      RobotContainer.leds.hasValidShot();
+    } else if (noShot == false) {
+      noShot = true;
+      System.out.println("End of april tag");
+      RobotContainer.leds.hasValidShotStop();
+    }
+  }
 
   @Override
   public void testInit() {

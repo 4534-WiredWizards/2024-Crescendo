@@ -41,6 +41,7 @@ public class autoShoot extends SequentialCommandGroup {
         new RunShooter(shooter, intake, () -> 1.0, false, false, false)
       ),
       new RunShooter(shooter, intake, () -> 1.0, false, true, true)
+        .withTimeout(1)
     );
   }
 }

@@ -103,7 +103,7 @@ public class AutoTrajectories {
     ),
     new Pose2d(
       (TrajectoryConstants.red.stageNote[0]), //X
-      (TrajectoryConstants.red.stageNote[1]), //Y
+      (TrajectoryConstants.red.stageNote[1] - .1), //Y
       new Rotation2d(Math.toRadians(32))
     ),
     RobotContainer.autoTrajectoryConfig
@@ -222,19 +222,14 @@ public class AutoTrajectories {
 
   public static Trajectory blueStageNoteFour = TrajectoryGenerator.generateTrajectory(
     new Pose2d(
-      (TrajectoryConstants.blue.speakerShoot[0]), //X
-      (TrajectoryConstants.blue.speakerShoot[1]), //Y
-      new Rotation2d(Math.toRadians(-28))
+      (TrajectoryConstants.blue.stageNote[0] + .15),
+      (TrajectoryConstants.blue.stageNote[1] - .1),
+      new Rotation2d(Math.toRadians(-32))
     ),
-    List.of(
-      new Translation2d(
-        (TrajectoryConstants.blue.speakerShoot[0] + .9),
-        (TrajectoryConstants.blue.speakerShoot[1] - .9)
-      )
-    ),
+    List.of(),
     new Pose2d(
-      (TrajectoryConstants.blue.stageNote[0]),
-      (TrajectoryConstants.blue.stageNote[1]),
+      (TrajectoryConstants.blue.stageNote[0] - 1.1),
+      (TrajectoryConstants.blue.stageNote[1] + .3),
       new Rotation2d(Math.toRadians(-32))
     ),
     RobotContainer.autoTrajectoryConfig
@@ -255,7 +250,7 @@ public class AutoTrajectories {
       )
     ),
     new Pose2d(
-      (TrajectoryConstants.blue.speakerNote[0] + 0.3),
+      (TrajectoryConstants.blue.speakerNote[0] + 0.2),
       (TrajectoryConstants.blue.speakerNote[1] + .2),
       new Rotation2d(Math.toRadians(TrajectoryConstants.blue.speakerNote[2]))
     ),

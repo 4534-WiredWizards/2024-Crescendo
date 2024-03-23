@@ -26,7 +26,7 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.drivetrain.FollowTrajectory;
 
-public class redAmpTwoNoteSide extends ParallelCommandGroup {
+public class redAmpTwoNoteSide extends SequentialCommandGroup {
 
   /** Creates a new PlaceAndStation. */
   public redAmpTwoNoteSide(
@@ -37,7 +37,7 @@ public class redAmpTwoNoteSide extends ParallelCommandGroup {
     SwerveSubsystem swerve,
     Shooter shooter
   ) {
-    new SequentialCommandGroup(
+    addCommands(
       new shootNoteWhenOnSub(arm, armProfiledPID, intake, swerve, shooter),
       new ParallelCommandGroup(
         new PIDMoveArm(

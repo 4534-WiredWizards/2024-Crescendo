@@ -116,7 +116,7 @@ public class Lights extends SubsystemBase {
     // LEDSegment.Panel.setStrobeAnimation(magenta, .05);
   }
 
-  public void hasValidShotStop(){
+  public void hasValidShotStop() {
     LEDSegment.Panel.clearAnimation();
     teleopStart();
   }

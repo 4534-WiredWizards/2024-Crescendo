@@ -76,9 +76,8 @@ public class AutoChooser extends SubsystemBase {
     autoChooser.addOption("Pre 1N", AutoMode.PreLoaded);
     autoChooser.addOption("Side 2N", AutoMode.Side2Note);
     autoChooser.addOption("Mid 4N", AutoMode.FourNoteCenter);
-    autoChooser.addOption("Do Nothing", AutoMode.DoNothing);
     // autoChooser.addOption("Leave Zone(NO TAG)", AutoMode.LeaveZone);
-    autoChooser.setDefaultOption("Do Nothing", AutoMode.DoNothing);
+    autoChooser.setDefaultOption("Pre 1N", AutoMode.PreLoaded);
     SmartDashboard.putData("Auto Chooser", autoChooser);
     // Drop Down Menu For Alliance Selection
     allianceColorChooser = new SendableChooser<AllianceColor>();
@@ -142,7 +141,7 @@ public class AutoChooser extends SubsystemBase {
           botYPose,
           botRotation
         );
-        System.out.println("Starting Middle Note");
+        System.out.println("Starting Two Middle Note");
 
         //Resets the swerve odometry pose based on whatever april tag is in view
         // System.out.println("After Odom Reset");
@@ -195,7 +194,8 @@ public class AutoChooser extends SubsystemBase {
           );
         break;
       case Side2Note:
-        System.out.println("Starting Middle Note");
+        System.out.println("Starting Two Side Note");
+        System.out.println("SubWooferSide =" + subWooferSide);
         Boolean Side2NoteResetOdom = limelight.resetLimelightBotPose(
           botXPose,
           botYPose,
@@ -203,6 +203,7 @@ public class AutoChooser extends SubsystemBase {
         );
 
         if (subWooferSide == SubWooferSide.RedAmp && Side2NoteResetOdom) {
+          System.out.println("Red Amp Side 2 Note Auto");
           autoRoutine =
             new redAmpTwoNoteSide(
               limelight,
@@ -215,6 +216,7 @@ public class AutoChooser extends SubsystemBase {
         } else if (
           subWooferSide == SubWooferSide.RedStage && Side2NoteResetOdom
         ) {
+          System.out.println("Red Stage Side 2 Note Auto");
           autoRoutine =
             new redStageTwoNoteSide(
               limelight,
@@ -227,6 +229,7 @@ public class AutoChooser extends SubsystemBase {
         } else if (
           subWooferSide == SubWooferSide.BlueAmp && Side2NoteResetOdom
         ) {
+          System.out.println("Blue Amp Side 2 Note Auto");
           autoRoutine =
             new blueAmpTwoNoteSide(
               limelight,
@@ -239,6 +242,7 @@ public class AutoChooser extends SubsystemBase {
         } else if (
           subWooferSide == SubWooferSide.BlueStage && Side2NoteResetOdom
         ) {
+          System.out.println("Blue Stage Side 2 Note Auto");
           autoRoutine =
             new blueStageTwoNoteSide(
               limelight,
