@@ -144,6 +144,12 @@ public class Robot extends TimedRobot {
       m_robotContainer.limelight.getHasValidTarget()
     ) {
       RobotContainer.leds.hasValidShot();
+    } else {
+      double noShot = false;
+      if (!noShot) {
+        noShot=true;
+        RobotContainer.leds.hasValidShotStop();
+      }
     }
   }
 

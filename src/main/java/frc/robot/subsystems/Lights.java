@@ -75,7 +75,7 @@ public class Lights extends SubsystemBase {
     config.statusLedOffWhenActive = false;
     config.disableWhenLOS = false;
     config.stripType = LEDStripType.RGB;
-    config.brightnessScalar = .5;
+    config.brightnessScalar = .4;
     config.vBatOutputMode = VBatOutputMode.Modulated;
     Candle.configAllSettings(config, 100);
     // RobotInit();
@@ -89,8 +89,8 @@ public class Lights extends SubsystemBase {
   // }
 
   public void teleopStart() {
-    LEDSegment.CandleLEDs.setFadeAnimation(Lights.white, .000001);
-    LEDSegment.Panel.setFadeAnimation(Lights.white, .000001);
+    LEDSegment.CandleLEDs.setFadeAnimation(Lights.lightGray, .000001);
+    LEDSegment.Panel.setFadeAnimation(Lights.lightGray, .000001);
   }
 
   // ------------------------- Subsytem Lights -------------------------
@@ -114,6 +114,11 @@ public class Lights extends SubsystemBase {
     // Animation when the robot has a valid shot
     LEDSegment.Panel.setFadeAnimation(magenta, 1);
     // LEDSegment.Panel.setStrobeAnimation(magenta, .05);
+  }
+
+  public void hasValidShotStop(){
+    LEDSegment.Panel.clearAnimation();
+    teleopStart();
   }
 
   // Shooter Stop
