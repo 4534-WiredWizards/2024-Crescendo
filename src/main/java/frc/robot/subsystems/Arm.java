@@ -21,6 +21,9 @@ public class Arm extends SubsystemBase {
   private SparkLimitSwitch leftForwardLimitSwitch;
   private SparkLimitSwitch leftReverseLimitSwitch;
 
+  // private SparkLimitSwitch rightReverseLimitSwitch;
+  // private SparkLimitSwitch rightForwardLimitSwitch;
+
   /** Creates a new ShooterArm. */
   public Arm() {
     absEncoder = new DutyCycleEncoder(1);
@@ -52,9 +55,17 @@ public class Arm extends SubsystemBase {
       leftmotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
     leftReverseLimitSwitch =
       leftmotor.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
+    // rightForwardLimitSwitch =
+    //   rightmotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
+    // rightReverseLimitSwitch =
+    //   rightmotor.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
 
     leftForwardLimitSwitch.enableLimitSwitch(true);
     leftReverseLimitSwitch.enableLimitSwitch(true);
+    // rightForwardLimitSwitch.enableLimitSwitch(false);
+    // rightReverseLimitSwitch.enableLimitSwitch(false);
+    rightmotor.burnFlash();
+    leftmotor.burnFlash();
   }
 
   @Override

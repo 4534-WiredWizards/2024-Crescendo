@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.TrajectoryConstants;
 import frc.robot.GeneralTrajectories;
+import frc.robot.commands.AutoRoutines.ShootAndTaxiSource.blueShootTaxi;
+import frc.robot.commands.AutoRoutines.ShootAndTaxiSource.redShootTaxi;
 import frc.robot.commands.AutoRoutines.centerFourNote.blueFourNoteCenter;
 import frc.robot.commands.AutoRoutines.centerFourNote.redFourNoteCenter;
 import frc.robot.commands.AutoRoutines.centerTwoNote.blueTwoNoteCenter;
@@ -30,6 +32,7 @@ public class AutoChooser extends SubsystemBase {
     ShootAndLeave,
     Side2Note,
     FourNoteCenter,
+    ShootTakiSource,
     DoNothing,
   }
 
@@ -76,6 +79,7 @@ public class AutoChooser extends SubsystemBase {
     autoChooser.addOption("Pre 1N", AutoMode.PreLoaded);
     autoChooser.addOption("Side 2N", AutoMode.Side2Note);
     autoChooser.addOption("Mid 4N", AutoMode.FourNoteCenter);
+    autoChooser.addOption("Shoot Taki - Source Side", AutoMode.ShootTakiSource);
     // autoChooser.addOption("Leave Zone(NO TAG)", AutoMode.LeaveZone);
     autoChooser.setDefaultOption("Pre 1N", AutoMode.PreLoaded);
     SmartDashboard.putData("Auto Chooser", autoChooser);
@@ -135,6 +139,50 @@ public class AutoChooser extends SubsystemBase {
     switch (selectedAutoMode) {
       default:
       // NEW STUFF
+      case ShootTakiSource:
+        Boolean ShootTaxiResetOdom = limelight.resetLimelightBotPose(
+          botXPose,
+          botYPose,
+          botRotation
+        );
+        System.out.println("Starting Shoot And Taxi Source Side");
+
+        if (selectedAllianceColor == AllianceColor.Blue && ShootTaxiResetOdom) {
+          System.out.println("Blue Auto");
+          autoRoutine =
+            new blueShootTaxi(
+              limelight,
+              arm,
+              ArmProfiledPID,
+              intake,
+              swerveSubsystem,
+              shooter
+            );
+        } else if (
+          selectedAllianceColor == AllianceColor.Red && ShootTaxiResetOdom
+        ) {
+          System.out.println("Red Auto");
+          autoRoutine =
+            new redShootTaxi(
+              limelight,
+              arm,
+              ArmProfiledPID,
+              intake,
+              swerveSubsystem,
+              shooter
+            );
+        } else {
+          autoRoutine =
+            new shootNoteWhenOnSub(
+              arm,
+              ArmProfiledPID,
+              intake,
+              swerveSubsystem,
+              shooter
+            );
+        }
+
+        break;
       case TwoNoteMiddle:
         Boolean twoNoteResetOdom = limelight.resetLimelightBotPose(
           botXPose,

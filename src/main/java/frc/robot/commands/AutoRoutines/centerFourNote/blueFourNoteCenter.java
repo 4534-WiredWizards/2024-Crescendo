@@ -13,6 +13,7 @@ import frc.robot.autonomous.AutoTrajectories;
 import frc.robot.commands.AutoRoutines.autoShoot;
 import frc.robot.commands.AutoRoutines.shootNoteWhenOnNote;
 import frc.robot.commands.AutoRoutines.shootNoteWhenOnSub;
+import frc.robot.commands.DoNothing;
 import frc.robot.commands.PIDMoveArm;
 import frc.robot.commands.RotateByDegrees;
 import frc.robot.commands.RunIntake;
@@ -44,7 +45,10 @@ public class blueFourNoteCenter extends SequentialCommandGroup {
           Units.degreesToRadians(CommandConstants.Arm.intake),
           true
         ),
-        new FollowTrajectory(swerve, AutoTrajectories.blueSpeakerNote, true), // Drive to first note on back left for stage note
+        new SequentialCommandGroup(
+          new DoNothing().withTimeout(.2),
+          new FollowTrajectory(swerve, AutoTrajectories.blueSpeakerNote, true)
+        ),
         new RunIntake(
           intake,
           true,
