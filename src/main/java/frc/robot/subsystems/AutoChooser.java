@@ -4,12 +4,14 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.TrajectoryConstants;
 import frc.robot.GeneralTrajectories;
+import frc.robot.RobotContainer;
 import frc.robot.commands.AutoRoutines.ShootAndTaxiSource.blueShootTaxi;
 import frc.robot.commands.AutoRoutines.ShootAndTaxiSource.redShootTaxi;
 import frc.robot.commands.AutoRoutines.centerFourNote.blueFourNoteCenter;
@@ -56,7 +58,6 @@ public class AutoChooser extends SubsystemBase {
   private final Intake intake;
   private final Limelight limelight;
   private SendableChooser<AutoMode> autoChooser;
-  private SendableChooser<AllianceColor> allianceColorChooser;
   private Command autoRoutine;
 
   /** Creates a new AutoChooser. */
@@ -81,14 +82,10 @@ public class AutoChooser extends SubsystemBase {
     autoChooser.addOption("Mid 4N", AutoMode.FourNoteCenter);
     autoChooser.addOption("Shoot Taki - Source Side", AutoMode.ShootTakiSource);
     // autoChooser.addOption("Leave Zone(NO TAG)", AutoMode.LeaveZone);
-    autoChooser.setDefaultOption("Pre 1N", AutoMode.PreLoaded);
-    SmartDashboard.putData("Auto Chooser", autoChooser);
+    // autoChooser.setDefaultOption("Pre 1N", AutoMode.PreLoaded);
+    // SmartDashboard.putData("Auto Chooser", autoChooser);
     // Drop Down Menu For Alliance Selection
-    allianceColorChooser = new SendableChooser<AllianceColor>();
-    allianceColorChooser.addOption("Red", AllianceColor.Red);
-    allianceColorChooser.addOption("Blue", AllianceColor.Blue);
-    allianceColorChooser.setDefaultOption("Blue", AllianceColor.Blue);
-    SmartDashboard.putData("Alliance Color", allianceColorChooser);
+
     // Constants for auto
 
   }
@@ -125,8 +122,9 @@ public class AutoChooser extends SubsystemBase {
   public Command getAuto() {
     AutoMode selectedAutoMode = (AutoMode) (autoChooser.getSelected());
     AllianceColor selectedAllianceColor = (AllianceColor) (
-      allianceColorChooser.getSelected()
+      RobotContainer.allianceColorChooser.getSelected()
     );
+    System.out.println("Selected Alliance Color: " + selectedAllianceColor);
     Double botXPose = limelight.botpose.getXDistance();
     Double botYPose = limelight.botpose.getYDistance();
     Double botRotation = limelight.botpose.getThetaDegreesField();
