@@ -60,7 +60,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "Copy of Str Back"
+                        "pathName": "Str Back"
                       }
                     }
                   ]
@@ -91,6 +91,12 @@
           "type": "path",
           "data": {
             "pathName": "Stage Note"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoShoot"
           }
         }
       ]
