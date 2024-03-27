@@ -1,0 +1,125 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.27,
+        "y": 5.535411299394028
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.2699999999999996,
+        "y": 5.535411299394028
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.6820840989557986,
+        "y": 4.476941215650514
+      },
+      "prevControl": {
+        "x": 1.6463597122757492,
+        "y": 5.00387591918124
+      },
+      "nextControl": {
+        "x": 1.719784656561277,
+        "y": 3.920857990969714
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.46,
+        "y": 4.12
+      },
+      "prevControl": {
+        "x": 2.008559601452363,
+        "y": 4.12
+      },
+      "nextControl": {
+        "x": 2.926520598903582,
+        "y": 4.12
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.6820840989557986,
+        "y": 4.75027025828759
+      },
+      "prevControl": {
+        "x": 1.903574874887979,
+        "y": 4.707857130981427
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "Intake Down",
+      "waypointRelativePos": 0.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "PIDMoveArm-Intake"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "RunIntake-AutoStop"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "AutoShoot",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "AutoShoot"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 2.3,
+    "maxAcceleration": 5.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0.0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": null,
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

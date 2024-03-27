@@ -19,7 +19,7 @@ import frc.robot.Constants.CommandConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.InputDevices;
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.AutoRoutines.shootNoteWhenOnSub;
+import frc.robot.commands.AutoRoutines.autoShoot;
 import frc.robot.commands.CalculateArmAngle;
 import frc.robot.commands.MoveArm;
 import frc.robot.commands.PIDMoveArm;
@@ -31,7 +31,6 @@ import frc.robot.commands.runClimb;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.ArmProfiledPID;
 import frc.robot.subsystems.AutoChooser;
-import frc.robot.subsystems.AutoChooser.AllianceColor;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Lights;
@@ -47,7 +46,7 @@ public class RobotContainer {
   public final Joystick operatorJoystick = new Joystick(1);
 
   public final Intake intake = new Intake();
-  private final Shooter shooter = new Shooter();
+  public final Shooter shooter = new Shooter();
   public final Climb climb = new Climb();
   public final Arm arm = new Arm();
   public final ArmProfiledPID armProfiledPID = new ArmProfiledPID(arm);
@@ -73,7 +72,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Add Named Commands for path planner
     NamedCommands.registerCommand(
-      "ArmPos-Intake",
+      "PIDMoveArm-Intake",
       new PIDMoveArm(
         arm,
         armProfiledPID,
@@ -82,8 +81,44 @@ public class RobotContainer {
       )
     );
     NamedCommands.registerCommand(
-      "ShotOnSub",
-      new shootNoteWhenOnSub(arm, armProfiledPID, intake, swerve, shooter)
+      "PIDMoveArm-Traversal",
+      new PIDMoveArm(
+        arm,
+        armProfiledPID,
+        Units.degreesToRadians(CommandConstants.Arm.traversal),
+        false
+      )
+    );
+    NamedCommands.registerCommand(
+      "PIDMoveArm-Amp",
+      new PIDMoveArm(
+        arm,
+        armProfiledPID,
+        Units.degreesToRadians(CommandConstants.Arm.amp),
+        false
+      )
+    );
+    NamedCommands.registerCommand(
+      "PIDMoveArm-CloseSpeaker",
+      new PIDMoveArm(
+        arm,
+        armProfiledPID,
+        Units.degreesToRadians(CommandConstants.Arm.closeSpeaker),
+        false
+      )
+    );
+    // NamedCommands.registerCommand(
+    //   "ShotOnSub",
+    //   new shootNoteWhenOnSub(arm, armProfiledPID, intake, swerve, shooter)
+    // );
+    NamedCommands.registerCommand("SpinShooter-NoStop", 
+      // Runs the shooter at full speed without stopping before shooting a note
+      new InstantCommand(()->shooter.move(1))
+    );
+    NamedCommands.registerCommand("SpinShooter-AutoShoot", 
+      // Stops the shooter before shooting a note
+      new RunShooter(shooter, intake, () -> 1.0, false, true, true)
+      .withTimeout(1)   
     );
     NamedCommands.registerCommand(
       "RunIntake-AutoStop",
@@ -95,14 +130,10 @@ public class RobotContainer {
       )
     );
     NamedCommands.registerCommand(
-      "ArmPos-Traversal",
-      new PIDMoveArm(
-        arm,
-        armProfiledPID,
-        Units.degreesToRadians(CommandConstants.Arm.traversal),
-        false
-      )
+      "AutoShoot",
+      new autoShoot(limelight, swerve, arm, armProfiledPID, intake, shooter) 
     );
+   
 
     // set pipeline
 
