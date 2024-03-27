@@ -83,6 +83,7 @@ public class RunShooter extends Command {
       // Run RunShooter commmand from command
       // new RunIntake(Intake, true, .7, true);
       Intake.move(1);
+      // TODO: TAKE THIS OUT,  blocks the main thread and the command scheduler
       try {
         Thread.sleep(200);
       } catch (InterruptedException e) {}
