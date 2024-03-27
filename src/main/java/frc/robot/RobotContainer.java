@@ -111,14 +111,16 @@ public class RobotContainer {
     //   "ShotOnSub",
     //   new shootNoteWhenOnSub(arm, armProfiledPID, intake, swerve, shooter)
     // );
-    NamedCommands.registerCommand("SpinShooter-NoStop", 
+    NamedCommands.registerCommand(
+      "SpinShooter-NoStop",
       // Runs the shooter at full speed without stopping before shooting a note
-      new InstantCommand(()->shooter.move(1))
+      new InstantCommand(() -> shooter.move(1))
     );
-    NamedCommands.registerCommand("SpinShooter-AutoShoot", 
+    NamedCommands.registerCommand(
+      "SpinShooter-AutoShoot",
       // Stops the shooter before shooting a note
       new RunShooter(shooter, intake, () -> 1.0, false, true, true)
-      .withTimeout(1)   
+        .withTimeout(1)
     );
     NamedCommands.registerCommand(
       "RunIntake-AutoStop",
@@ -131,9 +133,8 @@ public class RobotContainer {
     );
     NamedCommands.registerCommand(
       "AutoShoot",
-      new autoShoot(limelight, swerve, arm, armProfiledPID, intake, shooter) 
+      new autoShoot(limelight, swerve, arm, armProfiledPID, intake, shooter)
     );
-   
 
     // set pipeline
 
