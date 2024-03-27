@@ -31,7 +31,7 @@ public class ArmProfiledPID extends ProfiledPIDSubsystem {
         6, //3.1 // Down from 6
         5.1, //3.4 // Down from 4.1
         0,
-        new TrapezoidProfile.Constraints(20, 2.5)
+        new TrapezoidProfile.Constraints(20, 3.5)
       )
     );
     this.getController().setTolerance(Units.degreesToRadians(1), 1);

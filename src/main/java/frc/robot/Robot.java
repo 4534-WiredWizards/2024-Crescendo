@@ -220,11 +220,11 @@ public class Robot extends TimedRobot {
       m_robotContainer.limelight.getHasValidTarget()
     ) {
       noShot = false;
-      RobotContainer.leds.hasValidShot();
+      // RobotContainer.leds.hasValidShot();
     } else if (noShot == false) {
       noShot = true;
-      System.out.println("End of april tag");
-      RobotContainer.leds.hasValidShotStop();
+      // System.out.println("End of april tag");
+      // RobotContainer.leds.hasValidShotStop();
     }
   }
 

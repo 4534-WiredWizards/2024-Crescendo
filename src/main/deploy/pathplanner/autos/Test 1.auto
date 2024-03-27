@@ -2,7 +2,7 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3485993243763494,
+      "x": 1.1987549550011976,
       "y": 5.535411299394028
     },
     "rotation": 0
@@ -14,13 +14,51 @@
         {
           "type": "named",
           "data": {
-            "name": "PIDIntake"
+            "name": "ShotOnSub"
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "Back 1"
+            "commands": [
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.5
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Str Back"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "RunIntake-AutoStop"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ArmPos-Intake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShotOnSub"
           }
         }
       ]

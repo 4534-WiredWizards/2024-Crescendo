@@ -19,6 +19,7 @@ import frc.robot.Constants.CommandConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.InputDevices;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.AutoRoutines.shootNoteWhenOnSub;
 import frc.robot.commands.CalculateArmAngle;
 import frc.robot.commands.MoveArm;
 import frc.robot.commands.PIDMoveArm;
@@ -49,7 +50,7 @@ public class RobotContainer {
   private final Shooter shooter = new Shooter();
   public final Climb climb = new Climb();
   public final Arm arm = new Arm();
-  public final ArmProfiledPID ArmProfiledPID = new ArmProfiledPID(arm);
+  public final ArmProfiledPID armProfiledPID = new ArmProfiledPID(arm);
   public final SwerveSubsystem swerve = new SwerveSubsystem();
   public final Limelight limelight = new Limelight(swerve);
   public static final Lights leds = new Lights();
@@ -58,10 +59,9 @@ public class RobotContainer {
     shooter,
     intake,
     arm,
-    ArmProfiledPID,
+    armProfiledPID,
     limelight
   );
-  public static SendableChooser<AllianceColor> allianceColorChooser;
   private final SendableChooser<Command> autoChooserTwo;
 
   public static final TrajectoryConfig autoTrajectoryConfig = new TrajectoryConfig(
@@ -73,11 +73,33 @@ public class RobotContainer {
   public RobotContainer() {
     // Add Named Commands for path planner
     NamedCommands.registerCommand(
-      "PIDIntake",
+      "ArmPos-Intake",
       new PIDMoveArm(
         arm,
-        ArmProfiledPID,
-        Units.degreesToRadians(CommandConstants.Arm.intake), //Changed back from far speaker
+        armProfiledPID,
+        Units.degreesToRadians(CommandConstants.Arm.intake),
+        true
+      )
+    );
+    NamedCommands.registerCommand(
+      "ShotOnSub",
+      new shootNoteWhenOnSub(arm, armProfiledPID, intake, swerve, shooter)
+    );
+    NamedCommands.registerCommand(
+      "RunIntake-AutoStop",
+      new RunIntake(
+        intake,
+        true,
+        Constants.CommandConstants.Intake.autoIntakeSpeed,
+        true
+      )
+    );
+    NamedCommands.registerCommand(
+      "ArmPos-Traversal",
+      new PIDMoveArm(
+        arm,
+        armProfiledPID,
+        Units.degreesToRadians(CommandConstants.Arm.traversal),
         false
       )
     );
@@ -110,12 +132,6 @@ public class RobotContainer {
       )
     );
 
-    allianceColorChooser = new SendableChooser<AllianceColor>();
-    allianceColorChooser.addOption("Red", AllianceColor.Red);
-    allianceColorChooser.addOption("Blue", AllianceColor.Blue);
-    allianceColorChooser.setDefaultOption("Blue", AllianceColor.Blue);
-    SmartDashboard.putData("Alliance Color", allianceColorChooser);
-
     autoChooserTwo = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Path Planner", autoChooserTwo);
 
@@ -139,7 +155,7 @@ public class RobotContainer {
           new ParallelDeadlineGroup(
             new ParallelCommandGroup(
               new PointToSpeaker2(limelight, swerve),
-              new CalculateArmAngle(arm, ArmProfiledPID, limelight)
+              new CalculateArmAngle(arm, armProfiledPID, limelight)
             ),
             new RunShooter(shooter, intake, () -> 1.0, false, false, false)
           ),
@@ -199,7 +215,7 @@ public class RobotContainer {
       .onTrue(
         new PIDMoveArm(
           arm,
-          ArmProfiledPID,
+          armProfiledPID,
           Units.degreesToRadians(CommandConstants.Arm.traversal), //Changed back from far speaker
           false
         )
@@ -211,7 +227,7 @@ public class RobotContainer {
       .onTrue(
         new PIDMoveArm(
           arm,
-          ArmProfiledPID,
+          armProfiledPID,
           Units.degreesToRadians(CommandConstants.Arm.amp),
           false
         )
@@ -222,7 +238,7 @@ public class RobotContainer {
       .onTrue(
         new PIDMoveArm(
           arm,
-          ArmProfiledPID,
+          armProfiledPID,
           Units.degreesToRadians(CommandConstants.Arm.closeSpeaker),
           false
         )
@@ -258,7 +274,7 @@ public class RobotContainer {
           // Move arm down, run intake, move arm back up (once intake is full)
           new PIDMoveArm(
             arm,
-            ArmProfiledPID,
+            armProfiledPID,
             Units.degreesToRadians(CommandConstants.Arm.intake),
             true
           ),
@@ -270,7 +286,7 @@ public class RobotContainer {
           ),
           new PIDMoveArm(
             arm,
-            ArmProfiledPID,
+            armProfiledPID,
             Units.degreesToRadians(CommandConstants.Arm.traversal),
             false
           )

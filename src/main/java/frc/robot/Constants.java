@@ -198,7 +198,7 @@ public final class Constants {
 
       public static final double AbsEncoderOffset = .85166;
       public static final double amp = 97.0;
-      public static final double intake = .5;
+      public static final double intake = .1;
       public static final double traversal = 66;
       public static final double closeSpeaker = 20;
       public static final double farSpeaker = 36.2; //Test and tune noteShot
@@ -263,8 +263,8 @@ public final class Constants {
     public static HolonomicPathFollowerConfig AutoHolonomicPathFollowerConfig = new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
       new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
       new PIDConstants(5.0, 0.0, 0.0), // Rotation PID constants
-      4.5, // Max module speed, in m/s
-      0.4, // Drive base radius in meters. Distance from robot center to furthest module.
+      4.60, // Max module speed, in m/s
+      0.3951, // Drive base radius in meters. Distance from robot center to furthest module.
       new ReplanningConfig() // Default path replanning config. See the API for the options here
     );
   }
