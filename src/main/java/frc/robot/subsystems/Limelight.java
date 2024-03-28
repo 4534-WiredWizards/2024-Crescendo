@@ -82,6 +82,45 @@ public class Limelight extends SubsystemBase {
     }
   }
 
+  public class BotposeBlue {
+
+    public double getXDistance() {
+      cameraPose =
+        NetworkTableInstance
+          .getDefault()
+          .getTable("limelight")
+          .getEntry("botpose_wpiblue")
+          .getDoubleArray(new double[6]);
+      SmartDashboard.putNumber("Limelight Botpose X Distance", cameraPose[kX]);
+      return cameraPose[kX];
+    }
+
+    public double getYDistance() {
+      cameraPose =
+        NetworkTableInstance
+          .getDefault()
+          .getTable("limelight")
+          .getEntry("botpose_wpiblue")
+          .getDoubleArray(new double[6]);
+      SmartDashboard.putNumber("Limelight Botpose Y Distance", cameraPose[kY]);
+      return cameraPose[kY];
+    }
+
+    public double getThetaDegreesField() {
+      cameraPose =
+        NetworkTableInstance
+          .getDefault()
+          .getTable("limelight")
+          .getEntry("botpose_wpiblue")
+          .getDoubleArray(new double[6]);
+      SmartDashboard.putNumber(
+        "Limelight Botpose Theta Degs",
+        cameraPose[kbpYaw]
+      );
+      return cameraPose[kbpYaw];
+    }
+  }
+
   public class Targetpose {
 
     public double getFrontBackDistance() {
@@ -161,6 +200,41 @@ public class Limelight extends SubsystemBase {
   }
 
   public boolean resetLimelightBotPose(
+    Double botX,
+    Double botY,
+    Double rotation
+  ) {
+    NetworkTableInstance
+      .getDefault()
+      .getTable("limelight")
+      .getEntry("pipeline")
+      .setNumber(1);
+    // Double botX = botX;
+    // Double botY = botY;
+    // Double rotation = botpose.getThetaDegreesField();
+    System.out.println("Bp X: " + botX);
+    System.out.println("Bp Y:" + botY);
+    System.out.println("Bp Rotation:" + rotation);
+    if (botX < 0) {
+      // On blue side of field, add 180 to theta
+      rotation -= 180;
+    } else if (botX > 0) {
+      // On red side of field, add 180 to theta
+      rotation += 180;
+    }
+    swerve.resetOdometry(
+      new Pose2d(botX, botY, Rotation2d.fromDegrees(rotation))
+    );
+    if (botX != 0) {
+      return true;
+    } else {
+      System.err.println("NO VALUE FOR TAG'S");
+      return false;
+    }
+  }
+
+
+  public boolean resetLimelightBotPoseBlue(
     Double botX,
     Double botY,
     Double rotation
