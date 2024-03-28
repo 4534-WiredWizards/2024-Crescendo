@@ -3,57 +3,57 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.4829275372836466,
-        "y": 5.55593454044051
+        "x": 1.27,
+        "y": 5.535411299394028
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.4829275372836452,
-        "y": 5.55593454044051
+        "x": 1.4733195932891705,
+        "y": 4.729933095752667
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.6820840989557986,
-        "y": 4.476941215650514
+        "x": 1.939874633362718,
+        "y": 4.104066578580836
       },
       "prevControl": {
-        "x": 1.6463597122757492,
-        "y": 5.00387591918124
+        "x": 1.5643547230596193,
+        "y": 4.104066578580836
       },
       "nextControl": {
-        "x": 1.719784656561277,
-        "y": 3.920857990969714
+        "x": 2.4405678471001844,
+        "y": 4.104066578580836
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.46,
-        "y": 4.12
+        "x": 2.531602976870632,
+        "y": 4.104066578580836
       },
       "prevControl": {
-        "x": 1.9648182275087955,
-        "y": 4.165781267732748
+        "x": 2.338153326108429,
+        "y": 4.104066578580836
       },
       "nextControl": {
-        "x": 2.9245394648597403,
-        "y": 4.077051719601515
+        "x": 2.7822080728189285,
+        "y": 4.104066578580836
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.6820840989557986,
-        "y": 4.75027025828759
+        "x": 1.27,
+        "y": 5.535411299394028
       },
       "prevControl": {
-        "x": 1.903574874887979,
-        "y": 4.707857130981427
+        "x": 1.4914907759321803,
+        "y": 5.492998172087865
       },
       "nextControl": null,
       "isLocked": false,
@@ -67,7 +67,19 @@
       "rotateFast": false
     }
   ],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "Driving back to speaker",
+      "minWaypointRelativePos": 2.35,
+      "maxWaypointRelativePos": 3.0,
+      "constraints": {
+        "maxVelocity": 2.0,
+        "maxAcceleration": 3.0,
+        "maxAngularVelocity": 420.0,
+        "maxAngularAcceleration": 600.0
+      }
+    }
+  ],
   "eventMarkers": [
     {
       "name": "Intake Down",
@@ -101,7 +113,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -21.527842751118403,
+    "rotation": 0.3884490707831928,
     "rotateFast": false
   },
   "reversed": false,
