@@ -71,66 +71,12 @@ public class RobotContainer {
 
   public RobotContainer() {
     // Add Named Commands for path planner
+
     NamedCommands.registerCommand(
-      "PIDMoveArm-Intake",
-      new PIDMoveArm(
-        arm,
-        armProfiledPID,
-        Units.degreesToRadians(CommandConstants.Arm.intake),
-        true
-      )
+      "Intake",
+      new frc.robot.commands.AutoRoutines.intake(arm, armProfiledPID, intake)
     );
-    NamedCommands.registerCommand(
-      "PIDMoveArm-Traversal",
-      new PIDMoveArm(
-        arm,
-        armProfiledPID,
-        Units.degreesToRadians(CommandConstants.Arm.traversal),
-        false
-      )
-    );
-    NamedCommands.registerCommand(
-      "PIDMoveArm-Amp",
-      new PIDMoveArm(
-        arm,
-        armProfiledPID,
-        Units.degreesToRadians(CommandConstants.Arm.amp),
-        false
-      )
-    );
-    NamedCommands.registerCommand(
-      "PIDMoveArm-CloseSpeaker",
-      new PIDMoveArm(
-        arm,
-        armProfiledPID,
-        Units.degreesToRadians(CommandConstants.Arm.closeSpeaker),
-        false
-      )
-    );
-    // NamedCommands.registerCommand(
-    //   "ShotOnSub",
-    //   new shootNoteWhenOnSub(arm, armProfiledPID, intake, swerve, shooter)
-    // );
-    NamedCommands.registerCommand(
-      "SpinShooter-NoStop",
-      // Runs the shooter at full speed without stopping before shooting a note
-      new InstantCommand(() -> shooter.move(1))
-    );
-    NamedCommands.registerCommand(
-      "SpinShooter-AutoShoot",
-      // Stops the shooter before shooting a note
-      new RunShooter(shooter, intake, () -> 1.0, false, true, true)
-        .withTimeout(1)
-    );
-    NamedCommands.registerCommand(
-      "RunIntake-AutoStop",
-      new RunIntake(
-        intake,
-        true,
-        Constants.CommandConstants.Intake.autoIntakeSpeed,
-        true
-      )
-    );
+
     NamedCommands.registerCommand(
       "AutoShoot",
       new autoShoot(limelight, swerve, arm, armProfiledPID, intake, shooter)
@@ -328,6 +274,14 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     // return autoChooser.getAuto(); //Old AutoChooser
+
+    // Reset Botpose basesd on Limelight botpose blue
+    Double botXPose = limelight.botposeblue.getXDistance();
+    Double botYPose = limelight.botposeblue.getYDistance();
+    Double botRotation = limelight.botposeblue.getThetaDegreesField();
+    System.out.println("Reseting Bot Pose In AUTO");
+    limelight.resetLimelightBotPose(botXPose, botYPose, botRotation);
+
     return autoChooserTwo.getSelected(); //New AutoChooser with path planner
   }
   // // Code to get Alliance color

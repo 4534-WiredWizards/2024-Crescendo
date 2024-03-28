@@ -41,6 +41,7 @@ public class Limelight extends SubsystemBase {
   }
 
   public Botpose botpose = new Botpose();
+  public BotposeBlue botposeblue = new BotposeBlue();
   public Targetpose targetpose = new Targetpose();
 
   public class Botpose {
@@ -232,9 +233,6 @@ public class Limelight extends SubsystemBase {
       return false;
     }
   }
-
-
-
 
   public double gettx() {
     table = NetworkTableInstance.getDefault().getTable("limelight");
