@@ -99,6 +99,27 @@ public class RobotContainer {
       new autoShoot(limelight, swerve, arm, armProfiledPID, intake, shooter)
     );
 
+    NamedCommands.registerCommand(
+      "PID-Amp",
+      new PIDMoveArm(
+        arm,
+        armProfiledPID,
+        Units.degreesToRadians(CommandConstants.Arm.amp),
+        true
+      )
+    );
+
+    NamedCommands.registerCommand(
+      "RampUpShooter",
+      new RampUpShooter(shooter)
+    );
+
+    //shoot command
+    NamedCommands.registerCommand(
+      "Shoot",
+      new Shoot(shooter, intake)
+    );
+
     // set pipeline
 
     // shooter.setDefaultCommand(
