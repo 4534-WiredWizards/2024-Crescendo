@@ -163,7 +163,7 @@ public class RobotContainer {
 
     autoChooserTwo = AutoBuilder.buildAutoChooser();
     // Clear Existing entries
-    SmartDashboard.putData("Path Planner", autoChooserTwo);
+    SmartDashboard.putData("Path Planner #1", autoChooserTwo);
 
     configureButtonBindings();
   }

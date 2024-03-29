@@ -4,44 +4,44 @@
     {
       "anchor": {
         "x": 1.34,
-        "y": 5.54
+        "y": 5.57
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.5433195932891706,
-        "y": 4.7345217963586395
+        "x": 1.9111682965256438,
+        "y": 5.006161360347694
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.8640734424325998,
-        "y": 3.9873725461736647
+        "x": 2.09,
+        "y": 3.72
       },
       "prevControl": {
-        "x": 1.4885535321295011,
-        "y": 3.9873725461736647
+        "x": 1.51,
+        "y": 3.72
       },
       "nextControl": {
-        "x": 2.364766656170066,
-        "y": 3.9873725461736647
+        "x": 2.61947536170577,
+        "y": 3.72
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.421132842265685,
-        "y": 3.9873725461736647
+        "x": 2.5,
+        "y": 3.72
       },
       "prevControl": {
-        "x": 2.227683191503482,
-        "y": 3.9873725461736647
+        "x": 2.4,
+        "y": 3.72
       },
       "nextControl": {
-        "x": 2.6717379382139814,
-        "y": 3.9873725461736647
+        "x": 2.602180837376237,
+        "y": 3.72
       },
       "isLocked": false,
       "linkedName": null
@@ -49,11 +49,11 @@
     {
       "anchor": {
         "x": 1.34,
-        "y": 5.54
+        "y": 5.57
       },
       "prevControl": {
-        "x": 1.5614907759321803,
-        "y": 5.497586872693837
+        "x": 1.770306748679828,
+        "y": 5.57
       },
       "nextControl": null,
       "isLocked": false,
@@ -62,15 +62,25 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 2,
-      "rotationDegrees": 0,
+      "waypointRelativePos": 0.75,
+      "rotationDegrees": 0.0,
+      "rotateFast": false
+    },
+    {
+      "waypointRelativePos": 1.3,
+      "rotationDegrees": 0.0,
+      "rotateFast": false
+    },
+    {
+      "waypointRelativePos": 2.5,
+      "rotationDegrees": 0.0,
       "rotateFast": false
     }
   ],
   "constraintZones": [
     {
-      "name": "Driving back to speaker",
-      "minWaypointRelativePos": 2.35,
+      "name": "Slow On Back",
+      "minWaypointRelativePos": 2.2,
       "maxWaypointRelativePos": 3.0,
       "constraints": {
         "maxVelocity": 2.0,
@@ -82,7 +92,7 @@
   ],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 2.3,
+    "maxVelocity": 2.1,
     "maxAcceleration": 5.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
@@ -95,7 +105,7 @@
   "reversed": false,
   "folder": null,
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": 0.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

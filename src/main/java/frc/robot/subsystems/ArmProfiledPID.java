@@ -36,8 +36,8 @@ public class ArmProfiledPID extends ProfiledPIDSubsystem {
       // )
       // NEW
       new ProfiledPIDController(
-        12,
-        7.8,
+        13,
+        8.8,
         0,
         new TrapezoidProfile.Constraints(20, 3.5)
       )
