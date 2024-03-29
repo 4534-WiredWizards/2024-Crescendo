@@ -39,6 +39,7 @@ import frc.robot.subsystems.Lights;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwerveSubsystem;
+import javax.print.attribute.standard.MediaSize.NA;
 
 public class RobotContainer {
 
@@ -118,15 +119,19 @@ public class RobotContainer {
     );
 
     NamedCommands.registerCommand(
-      "RampUpShooter",
-      new RampUpShooter(shooter)
+      "PID-Traversal",
+      new PIDMoveArm(
+        arm,
+        armProfiledPID,
+        Units.degreesToRadians(CommandConstants.Arm.amp),
+        true
+      )
     );
 
+    NamedCommands.registerCommand("RampUpShooter", new RampUpShooter(shooter));
+
     //shoot command
-    NamedCommands.registerCommand(
-      "Shoot",
-      new Shoot(shooter, intake)
-    );
+    NamedCommands.registerCommand("Shoot", new Shoot(shooter, intake));
 
     // set pipeline
 

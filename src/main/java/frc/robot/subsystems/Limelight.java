@@ -8,10 +8,8 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.RobotContainer;
 
 public class Limelight extends SubsystemBase {
 
@@ -265,7 +263,7 @@ public class Limelight extends SubsystemBase {
         .getTable("limelight")
         .getEntry("pipeline")
         .setNumber(1);
-
+      System.out.println("Resetting Limelight Botpose Blue");
       resetLimelightBotPose(
         botposeblue.getXDistance(),
         botposeblue.getYDistance(),

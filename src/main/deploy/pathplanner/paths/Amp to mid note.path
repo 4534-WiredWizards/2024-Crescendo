@@ -123,7 +123,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "2 Note Amp",
+  "folder": null,
   "previewStartingState": {
     "rotation": -90.0,
     "velocity": 0

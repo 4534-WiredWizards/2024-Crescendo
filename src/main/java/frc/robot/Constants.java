@@ -196,7 +196,7 @@ public final class Constants {
     //Arm Commands
     public static final class Arm {
 
-      public static final double AbsEncoderOffset = .85166;
+      public static final double AbsEncoderOffset = .85366;
       public static final double amp = 97.0;
       public static final double intake = .1;
       public static final double traversal = 66;

@@ -39,7 +39,7 @@ public class PIDMoveArm extends Command {
   public void initialize() {
     armProfiledPID.setGoal(setpoint);
     armProfiledPID.enable();
-    System.out.println("Start PIDMoveArm");
+    System.out.println("Started PIDMoveArm");
     System.out.println(
       "Command '" +
       this.getName() +

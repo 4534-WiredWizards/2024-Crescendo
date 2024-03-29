@@ -12,41 +12,21 @@
     "data": {
       "commands": [
         {
-          "type": "sequential",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "deadline",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": null
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": null
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": null
-                }
-              }
-            ]
+            "name": "ShootOnSub"
           }
         },
         {
           "type": "parallel",
           "data": {
             "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              },
               {
                 "type": "sequential",
                 "data": {
@@ -65,18 +45,6 @@
                     }
                   ]
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": null
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": null
-                }
               }
             ]
           }
@@ -84,7 +52,7 @@
         {
           "type": "named",
           "data": {
-            "name": null
+            "name": "ShootOnSub"
           }
         }
       ]

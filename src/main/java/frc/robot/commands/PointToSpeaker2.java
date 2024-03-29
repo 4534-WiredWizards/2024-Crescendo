@@ -36,7 +36,7 @@ public class PointToSpeaker2 extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    distance = swerve.getHeading() - (limelight.gettx() + 5);
+    distance = swerve.getHeading() - (limelight.gettx() + 4);
     System.out.println(
       "Command '" +
       this.getName() +
