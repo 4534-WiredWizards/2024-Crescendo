@@ -24,8 +24,10 @@ import frc.robot.commands.CalculateArmAngle;
 import frc.robot.commands.MoveArm;
 import frc.robot.commands.PIDMoveArm;
 import frc.robot.commands.PointToSpeaker2;
+import frc.robot.commands.RampUpShooter;
 import frc.robot.commands.RunIntake;
 import frc.robot.commands.RunShooter;
+import frc.robot.commands.Shoot;
 import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.commands.runClimb;
 import frc.robot.subsystems.Arm;
@@ -76,7 +78,22 @@ public class RobotContainer {
       "Intake",
       new frc.robot.commands.AutoRoutines.intake(arm, armProfiledPID, intake)
     );
-
+    NamedCommands.registerCommand(
+      "ShootOnSub",
+      new SequentialCommandGroup(
+        new ParallelDeadlineGroup(
+          new PIDMoveArm(
+            arm,
+            armProfiledPID,
+            Units.degreesToRadians(CommandConstants.Arm.closeSpeaker),
+            true
+          ),
+          new RampUpShooter(shooter)
+        ),
+        new Shoot(shooter, intake)
+      )
+    );
+    NamedCommands.registerCommand("StartShooter", new RampUpShooter(shooter));
     NamedCommands.registerCommand(
       "AutoShoot",
       new autoShoot(limelight, swerve, arm, armProfiledPID, intake, shooter)
@@ -84,16 +101,16 @@ public class RobotContainer {
 
     // set pipeline
 
-    shooter.setDefaultCommand(
-      new RunShooter(
-        shooter,
-        intake,
-        () -> operatorJoystick.getRawAxis(3),
-        false,
-        false,
-        operatorJoystick.getRawButton(InputDevices.btn_y)
-      )
-    );
+    // shooter.setDefaultCommand(
+    //   new RunShooter(
+    //     shooter,
+    //     intake,
+    //     () -> operatorJoystick.getRawAxis(3),
+    //     false,
+    //     false,
+    //     operatorJoystick.getRawButton(InputDevices.btn_y)
+    //   )
+    // );
 
     swerve.setDefaultCommand(
       new SwerveJoystickCmd(
@@ -111,6 +128,7 @@ public class RobotContainer {
     );
 
     autoChooserTwo = AutoBuilder.buildAutoChooser();
+    // Clear Existing entries
     SmartDashboard.putData("Path Planner", autoChooserTwo);
 
     configureButtonBindings();
