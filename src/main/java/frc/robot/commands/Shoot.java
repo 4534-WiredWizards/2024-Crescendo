@@ -10,9 +10,11 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
 public class Shoot extends Command {
+
   Shooter shooter;
   Intake Intake;
   Boolean IntakeStatus;
+
   /** Creates a new Shoot. */
   public Shoot(Shooter shooter, Intake Intake) {
     this.shooter = shooter;
@@ -33,8 +35,8 @@ public class Shoot extends Command {
   public void execute() {
     SmartDashboard.putNumber("Intake Velocity", shooter.getSpeed());
     shooter.move(1);
-    if(shooter.getSpeed() > 4500){
-    Intake.move(1.0);
+    if (shooter.getSpeed() > 4500) {
+      Intake.move(1.0);
     }
   }
 

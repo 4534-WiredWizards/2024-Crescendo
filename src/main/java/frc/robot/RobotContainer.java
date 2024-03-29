@@ -78,6 +78,14 @@ public class RobotContainer {
       "Intake",
       new frc.robot.commands.AutoRoutines.intake(arm, armProfiledPID, intake)
     );
+
+    //Reset the botpose
+    NamedCommands.registerCommand(
+      "ResetBotPose",
+      new InstantCommand(() -> limelight.botposeblue.resetLimelightBotPoseBlue()
+      )
+    );
+
     NamedCommands.registerCommand(
       "ShootOnSub",
       new SequentialCommandGroup(

@@ -83,45 +83,6 @@ public class Limelight extends SubsystemBase {
     }
   }
 
-  public class BotposeBlue {
-
-    public double getXDistance() {
-      cameraPose =
-        NetworkTableInstance
-          .getDefault()
-          .getTable("limelight")
-          .getEntry("botpose_wpiblue")
-          .getDoubleArray(new double[6]);
-      SmartDashboard.putNumber("Limelight Botpose X Distance", cameraPose[kX]);
-      return cameraPose[kX];
-    }
-
-    public double getYDistance() {
-      cameraPose =
-        NetworkTableInstance
-          .getDefault()
-          .getTable("limelight")
-          .getEntry("botpose_wpiblue")
-          .getDoubleArray(new double[6]);
-      SmartDashboard.putNumber("Limelight Botpose Y Distance", cameraPose[kY]);
-      return cameraPose[kY];
-    }
-
-    public double getThetaDegreesField() {
-      cameraPose =
-        NetworkTableInstance
-          .getDefault()
-          .getTable("limelight")
-          .getEntry("botpose_wpiblue")
-          .getDoubleArray(new double[6]);
-      SmartDashboard.putNumber(
-        "Limelight Botpose Theta Degs",
-        cameraPose[kbpYaw]
-      );
-      return cameraPose[kbpYaw];
-    }
-  }
-
   public class Targetpose {
 
     public double getFrontBackDistance() {
@@ -257,5 +218,59 @@ public class Limelight extends SubsystemBase {
 
     SmartDashboard.putNumber("Limelight Targetpose X Distance", cameraPose[kX]);
     return cameraPose[kX];
+  }
+
+  public class BotposeBlue {
+
+    public double getXDistance() {
+      cameraPose =
+        NetworkTableInstance
+          .getDefault()
+          .getTable("limelight")
+          .getEntry("botpose_wpiblue")
+          .getDoubleArray(new double[6]);
+      SmartDashboard.putNumber("Limelight Botpose X Distance", cameraPose[kX]);
+      return cameraPose[kX];
+    }
+
+    public double getYDistance() {
+      cameraPose =
+        NetworkTableInstance
+          .getDefault()
+          .getTable("limelight")
+          .getEntry("botpose_wpiblue")
+          .getDoubleArray(new double[6]);
+      SmartDashboard.putNumber("Limelight Botpose Y Distance", cameraPose[kY]);
+      return cameraPose[kY];
+    }
+
+    public double getThetaDegreesField() {
+      cameraPose =
+        NetworkTableInstance
+          .getDefault()
+          .getTable("limelight")
+          .getEntry("botpose_wpiblue")
+          .getDoubleArray(new double[6]);
+      SmartDashboard.putNumber(
+        "Limelight Botpose Theta Degs",
+        cameraPose[kbpYaw]
+      );
+      return cameraPose[kbpYaw];
+    }
+
+    // Command to reset odometry based on the botpose blue
+    public void resetLimelightBotPoseBlue() {
+      NetworkTableInstance
+        .getDefault()
+        .getTable("limelight")
+        .getEntry("pipeline")
+        .setNumber(1);
+
+      resetLimelightBotPose(
+        botposeblue.getXDistance(),
+        botposeblue.getYDistance(),
+        botposeblue.getThetaDegreesField()
+      );
+    }
   }
 }

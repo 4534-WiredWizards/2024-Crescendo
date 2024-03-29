@@ -8,6 +8,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import frc.robot.Constants.CommandConstants;
 import frc.robot.commands.PIDMoveArm;
+import frc.robot.commands.RampUpShooter;
 import frc.robot.commands.RunShooter;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.ArmProfiledPID;
@@ -38,6 +39,6 @@ public class spinShooterLowerArm extends ParallelDeadlineGroup {
         true
       )
     );
-    addCommands(new RunShooter(shooter, intake, () -> 1.0, false, true, false));
+    addCommands(new RampUpShooter(shooter));
   }
 }
