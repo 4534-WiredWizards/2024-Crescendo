@@ -133,7 +133,7 @@ public class RobotContainer {
       new PIDMoveArm(
         arm,
         armProfiledPID,
-        Units.degreesToRadians(CommandConstants.Arm.amp),
+        Units.degreesToRadians(CommandConstants.Arm.traversal),
         true
       )
     );
