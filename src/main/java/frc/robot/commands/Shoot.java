@@ -24,7 +24,11 @@ public class Shoot extends Command {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
-  // Called when the command is initially scheduled.
+  public Shoot(Shooter shooter2, frc.robot.subsystems.Intake intake2, Object object, boolean b, boolean c, boolean d) {
+    //TODO Auto-generated constructor stub
+}
+
+// Called when the command is initially scheduled.
   @Override
   public void initialize() {
     this.IntakeStatus = Intake.getIntakeStatus();

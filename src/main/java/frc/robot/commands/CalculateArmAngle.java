@@ -32,7 +32,7 @@ public class CalculateArmAngle extends Command {
     4.00,
     maxDistance + 1.0,
   };
-  private final double[] shooterAngle = { 20, 20, 35.11, 40.21, 43.63, 43.63 };
+  private final double[] shooterAngle = { 20, 20, 35.11, 40.21, 44.63, 44.63 };
   private final double[] shooterSpeed = { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 };
 
   /** Creates a new LongShot command. */
@@ -119,12 +119,12 @@ public class CalculateArmAngle extends Command {
 
     // Blend angle and speed values between two closest distances
     results[0] =
-      shooterAngle[index-1] * (1.0 - blend) + shooterAngle[index] * blend;
+      shooterAngle[index - 1] * (1.0 - blend) + shooterAngle[index] * blend;
     results[1] =
-      shooterSpeed[index-1] * (1.0 - blend) + shooterSpeed[index] * blend;
+      shooterSpeed[index - 1] * (1.0 - blend) + shooterSpeed[index] * blend;
 
     // Debug for logs
-    System.out.println("Closest Distance = " + shooterDistance[index-1]);
+    System.out.println("Closest Distance = " + shooterDistance[index - 1]);
     System.out.println("Next Closest Distance = " + shooterDistance[index]);
     System.out.println("Blend = " + blend);
     System.out.println("Angle = " + results[0]);
