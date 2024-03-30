@@ -90,7 +90,7 @@
   ],
   "constraintZones": [
     {
-      "name": "New Constraints Zone",
+      "name": "Fast",
       "minWaypointRelativePos": 0.45,
       "maxWaypointRelativePos": 1.45,
       "constraints": {
@@ -101,12 +101,23 @@
       }
     },
     {
-      "name": "New Constraints Zone",
+      "name": "Fast",
       "minWaypointRelativePos": 2.55,
       "maxWaypointRelativePos": 3.35,
       "constraints": {
         "maxVelocity": 4.0,
         "maxAcceleration": 5.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0
+      }
+    },
+    {
+      "name": "Slow PIckup",
+      "minWaypointRelativePos": 1.7,
+      "maxWaypointRelativePos": 2.4,
+      "constraints": {
+        "maxVelocity": 2.0,
+        "maxAcceleration": 2.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0
       }

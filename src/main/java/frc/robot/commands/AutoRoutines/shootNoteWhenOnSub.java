@@ -43,6 +43,7 @@ public class shootNoteWhenOnSub extends SequentialCommandGroup {
         new RampUpShooter(shooter)
       ),
       new Shoot(shooter, intake)
+      // new RunShooter(shooter, intake, () -> 1.0, false, true, true)
     );
   }
 }
