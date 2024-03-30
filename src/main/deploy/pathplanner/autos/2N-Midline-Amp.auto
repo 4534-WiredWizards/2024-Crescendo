@@ -1,12 +1,6 @@
 {
   "version": 1.0,
-  "startingPose": {
-    "position": {
-      "x": 0.7158327706968803,
-      "y": 4.385307915914978
-    },
-    "rotation": -58.781597235653614
-  },
+  "startingPose": null,
   "command": {
     "type": "sequential",
     "data": {
@@ -24,7 +18,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Midline Note"
+                  "pathName": "Midline From Amp"
                 }
               },
               {
@@ -71,6 +65,12 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
           }
         },
         {
