@@ -109,6 +109,16 @@ public class RobotContainer {
     );
 
     NamedCommands.registerCommand(
+      "PID-Speaker",
+      new PIDMoveArm(
+        arm,
+        armProfiledPID,
+        Units.degreesToRadians(CommandConstants.Arm.closeSpeaker),
+        false
+      )
+    );
+
+    NamedCommands.registerCommand(
       "PID-Amp",
       new PIDMoveArm(
         arm,
