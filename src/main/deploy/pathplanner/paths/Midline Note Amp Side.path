@@ -1,0 +1,213 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 0.9068263750520128,
+        "y": 7.124380038234111
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.0881916500632651,
+        "y": 7.205994411989174
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.783956971418469,
+        "y": 7.650339335766742
+      },
+      "prevControl": {
+        "x": 1.4237174088340805,
+        "y": 7.695680654519554
+      },
+      "nextControl": {
+        "x": 4.11776146744509,
+        "y": 7.605879185899189
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 7.100841096269087,
+        "y": 5.800300603450209
+      },
+      "prevControl": {
+        "x": 6.527827528589529,
+        "y": 5.84707722121997
+      },
+      "nextControl": {
+        "x": 7.8122015508549545,
+        "y": 5.742230362259525
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 8.281950694955519,
+        "y": 5.800300603450209
+      },
+      "prevControl": {
+        "x": 8.679551945998478,
+        "y": 5.800300603450209
+      },
+      "nextControl": {
+        "x": 7.733638524648729,
+        "y": 5.800300603450209
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.4953678328409294,
+        "y": 6.534942894447193
+      },
+      "prevControl": {
+        "x": 6.097102662831643,
+        "y": 6.349793715988512
+      },
+      "nextControl": {
+        "x": 5.259592975326302,
+        "y": 6.607489004451693
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.7814659839846,
+        "y": 7.124380038234111
+      },
+      "prevControl": {
+        "x": 4.198606116510479,
+        "y": 7.097175246982073
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.4,
+      "rotationDegrees": 0,
+      "rotateFast": true
+    },
+    {
+      "waypointRelativePos": 3,
+      "rotationDegrees": 0,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [
+    {
+      "name": "Slow Pickup",
+      "minWaypointRelativePos": 2.2,
+      "maxWaypointRelativePos": 3.15,
+      "constraints": {
+        "maxVelocity": 1.0,
+        "maxAcceleration": 5.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0
+      }
+    },
+    {
+      "name": "Slow On Out",
+      "minWaypointRelativePos": 0,
+      "maxWaypointRelativePos": 1.25,
+      "constraints": {
+        "maxVelocity": 1.2,
+        "maxAcceleration": 5.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0
+      }
+    },
+    {
+      "name": "Fast Out",
+      "minWaypointRelativePos": 3.4000000000000004,
+      "maxWaypointRelativePos": 4.5,
+      "constraints": {
+        "maxVelocity": 4.0,
+        "maxAcceleration": 5.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0
+      }
+    },
+    {
+      "name": "Slow End",
+      "minWaypointRelativePos": 4.6000000000000005,
+      "maxWaypointRelativePos": 5.0,
+      "constraints": {
+        "maxVelocity": 1.2,
+        "maxAcceleration": 2.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0
+      }
+    }
+  ],
+  "eventMarkers": [
+    {
+      "name": "Traversal",
+      "waypointRelativePos": 0.0,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "PID-Traversal"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Intake",
+      "waypointRelativePos": 1.55,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Intake"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "PID-Traversal"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 2.1,
+    "maxAcceleration": 5.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 26.003345844467844,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": null,
+  "previewStartingState": {
+    "rotation": 61.03233935393599,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

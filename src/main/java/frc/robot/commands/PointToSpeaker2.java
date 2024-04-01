@@ -53,6 +53,7 @@ public class PointToSpeaker2 extends Command {
     ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
       0,
       0,
+      
       rotationSpeed * .5,
       swerve.getRotation2d()
     );

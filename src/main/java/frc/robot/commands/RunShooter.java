@@ -7,6 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
@@ -63,7 +64,7 @@ public class RunShooter extends Command {
   public void execute() {
     SmartDashboard.putNumber("Intake Velocity", shooter.getSpeed());
     if (shooter.getSpeed() > 4500) {
-      RobotContainer.leds.shooterStart();
+      // RobotContainer.leds.shooterStart();
     }
     if (PIDControl) {
       shooter.velocityPID(speed.get());
@@ -78,7 +79,7 @@ public class RunShooter extends Command {
 
     // System.out.println(speed.get() * 5000);
     // TODO: Add logic for a parameter to not always auto run intake after reached velocity
-    if (shooter.getSpeed() > 4500 && autoIntake) {
+    if (shooter.getSpeed() > 4800 && autoIntake) {
       System.out.println("Running Intake From Shooter");
       // Run RunShooter commmand from command
       // new RunIntake(Intake, true, .7, true);
@@ -87,6 +88,7 @@ public class RunShooter extends Command {
       try {
         Thread.sleep(200);
       } catch (InterruptedException e) {}
+      // new WaitCommand(.2);
     }
     //logic is for isFinished condition, Will check for limit switch being pressed in, then out, twice before stopping.
     if (Intake.getIntakeStatus() && !isPressed) {

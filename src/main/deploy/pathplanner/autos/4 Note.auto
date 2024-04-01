@@ -42,7 +42,7 @@
                                 {
                                   "type": "named",
                                   "data": {
-                                    "name": "ShootOnSub"
+                                    "name": "Shoot"
                                   }
                                 }
                               ]
@@ -119,7 +119,7 @@
                                 {
                                   "type": "named",
                                   "data": {
-                                    "name": "ShootOnSub"
+                                    "name": "Shoot"
                                   }
                                 }
                               ]
@@ -190,13 +190,13 @@
                                 {
                                   "type": "wait",
                                   "data": {
-                                    "waitTime": 1.0
+                                    "waitTime": 1.2
                                   }
                                 },
                                 {
                                   "type": "named",
                                   "data": {
-                                    "name": "ShootOnSub"
+                                    "name": "Shoot"
                                   }
                                 }
                               ]

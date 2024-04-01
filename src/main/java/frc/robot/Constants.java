@@ -190,7 +190,7 @@ public final class Constants {
       public static final double intakeSpeed = .5;
       public static final double outtakeSpeed = -.7;
       public static final double shootingSpeed = 1.0;
-      public static final double autoIntakeSpeed = .3;
+      public static final double autoIntakeSpeed = .4;
     }
 
     //Arm Commands

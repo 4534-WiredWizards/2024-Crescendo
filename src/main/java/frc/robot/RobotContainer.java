@@ -39,7 +39,6 @@ import frc.robot.subsystems.Lights;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwerveSubsystem;
-import javax.print.attribute.standard.MediaSize.NA;
 
 public class RobotContainer {
 
@@ -50,12 +49,12 @@ public class RobotContainer {
 
   public final Intake intake = new Intake();
   public final Shooter shooter = new Shooter();
-  public final Climb climb = new Climb();
   public final Arm arm = new Arm();
   public final ArmProfiledPID armProfiledPID = new ArmProfiledPID(arm);
   public final SwerveSubsystem swerve = new SwerveSubsystem();
   public final Limelight limelight = new Limelight(swerve);
-  public static final Lights leds = new Lights();
+  // public final Climb climb = new Climb();
+  // public static final Lights leds = new Lights();
   public final AutoChooser autoChooser = new AutoChooser(
     swerve,
     shooter,
@@ -78,6 +77,20 @@ public class RobotContainer {
     NamedCommands.registerCommand(
       "Intake",
       new frc.robot.commands.AutoRoutines.intake(arm, armProfiledPID, intake)
+      // new SequentialCommandGroup(
+      //   new PIDMoveArm(
+      //     arm,
+      //     armProfiledPID,
+      //     Units.degreesToRadians(CommandConstants.Arm.intake),
+      //     true
+      //   ),
+      //   new RunIntake(
+      //     intake,
+      //     true,
+      //     Constants.CommandConstants.Intake.intakeSpeed,
+      //     true
+      //   )
+      // )
     );
 
     //Reset the botpose
@@ -141,20 +154,25 @@ public class RobotContainer {
     NamedCommands.registerCommand("RampUpShooter", new RampUpShooter(shooter));
 
     //shoot command
-    NamedCommands.registerCommand("Shoot", new Shoot(shooter, intake));
+    NamedCommands.registerCommand(
+      "Shoot",
+      // new RunShooter(shooter, intake, () -> 1.0, false, true, true)
+      //   .withTimeout(4)
+      new Shoot(shooter, intake).withTimeout(3)
+    );
 
     // set pipeline
 
-    // shooter.setDefaultCommand(
-    //   new RunShooter(
-    //     shooter,
-    //     intake,
-    //     () -> operatorJoystick.getRawAxis(3),
-    //     false,
-    //     false,
-    //     operatorJoystick.getRawButton(InputDevices.btn_y)
-    //   )
-    // );
+    shooter.setDefaultCommand(
+      new RunShooter(
+        shooter,
+        intake,
+        () -> operatorJoystick.getRawAxis(3),
+        false,
+        false,
+        operatorJoystick.getRawButton(InputDevices.btn_y)
+      )
+    );
 
     swerve.setDefaultCommand(
       new SwerveJoystickCmd(
@@ -197,10 +215,10 @@ public class RobotContainer {
               new PointToSpeaker2(limelight, swerve),
               new CalculateArmAngle(arm, armProfiledPID, limelight)
             ),
-            new RunShooter(shooter, intake, () -> 1.0, false, false, false)
+            new RampUpShooter(shooter)
           ),
-          new RunShooter(shooter, intake, () -> 1.0, false, true, true)
-            .withTimeout(.7)
+          // new RunShooter(shooter, intake, () -> 1.0, false, true, true)
+          new Shoot(shooter, intake)
         )
           .until(() ->
             operatorJoystick.getRawButtonPressed(InputDevices.btn_start) // Btn to cancel all autoshoot commands
@@ -232,12 +250,14 @@ public class RobotContainer {
       );
 
     // ----------------------- CLIMB COMMANDS ---------------------------------
-    new JoystickButton(operatorJoystick, InputDevices.btn_x)
-      .whileTrue(new runClimb(0, climb));
-    new JoystickButton(operatorJoystick, InputDevices.btn_b)
-      .whileTrue(new runClimb(510, climb));
-    // new JoystickButton(operatorJoystick, InputDevices.btn_x).whileTrue(new manualClimb(true, climb));
-    // new JoystickButton(operatorJoystick, InputDevices.btn_x).whileTrue(new manualClimb(false, climb));
+    // new JoystickButton(operatorJoystick, InputDevices.btn_x)
+    //   .whileTrue(new runClimb(0, climb));
+    // new JoystickButton(operatorJoystick, InputDevices.btn_b)
+    //   .whileTrue(new runClimb(510, climb));
+    // new JoystickButton(operatorJoystick, InputDevices.btn_x)
+    //   .whileTrue(new manualClimb(true, climb));
+    // new JoystickButton(operatorJoystick, InputDevices.btn_x)
+    //   .whileTrue(new manualClimb(false, climb));
 
     // ----------------------- ARM COMMANDS ---------------------------------
 
