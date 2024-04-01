@@ -23,7 +23,7 @@ import frc.robot.commands.AutoRoutines.autoShoot;
 import frc.robot.commands.CalculateArmAngle;
 import frc.robot.commands.MoveArm;
 import frc.robot.commands.PIDMoveArm;
-import frc.robot.commands.PointToSpeaker2;
+import frc.robot.commands.PointToSpeaker;
 import frc.robot.commands.RampUpShooter;
 import frc.robot.commands.RunIntake;
 import frc.robot.commands.RunShooter;
@@ -212,10 +212,10 @@ public class RobotContainer {
           new InstantCommand(() -> System.out.println("Auto Shoot")),
           new ParallelDeadlineGroup(
             new ParallelCommandGroup(
-              new PointToSpeaker2(limelight, swerve),
+              new PointToSpeaker(limelight, swerve),
               new CalculateArmAngle(arm, armProfiledPID, limelight)
-            ),
-            new RampUpShooter(shooter)
+            )
+            // new RampUpShooter(shooter)
           ),
           // new RunShooter(shooter, intake, () -> 1.0, false, true, true)
           new Shoot(shooter, intake)

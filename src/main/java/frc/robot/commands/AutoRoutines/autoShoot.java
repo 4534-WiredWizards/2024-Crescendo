@@ -12,7 +12,7 @@ import frc.robot.Constants.CommandConstants;
 import frc.robot.commands.CalculateArmAngle;
 import frc.robot.commands.DoNothing;
 import frc.robot.commands.PIDMoveArm;
-import frc.robot.commands.PointToSpeaker2;
+import frc.robot.commands.PointToSpeaker;
 import frc.robot.commands.RunShooter;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.ArmProfiledPID;
@@ -36,7 +36,7 @@ public class autoShoot extends SequentialCommandGroup {
       new ParallelDeadlineGroup(
         new ParallelCommandGroup(
           new CalculateArmAngle(arm, armProfiledPID, limelight),
-          new PointToSpeaker2(limelight, swerve)
+          new PointToSpeaker(limelight, swerve)
         ),
         new RunShooter(shooter, intake, () -> 1.0, false, false, false)
       ),

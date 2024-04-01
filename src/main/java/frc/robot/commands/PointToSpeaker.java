@@ -15,7 +15,7 @@ import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Limelight.Targetpose;
 import frc.robot.subsystems.SwerveSubsystem;
 
-public class PointToSpeaker2 extends Command {
+public class PointToSpeaker extends Command {
 
   Limelight limelight;
   SwerveSubsystem swerve;
@@ -24,7 +24,7 @@ public class PointToSpeaker2 extends Command {
   Double distance;
 
   /** Creates a new PointToSpeaker2. */
-  public PointToSpeaker2(Limelight limelight, SwerveSubsystem swerve) {
+  public PointToSpeaker(Limelight limelight, SwerveSubsystem swerve) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.limelight = limelight;
     this.swerve = swerve;
