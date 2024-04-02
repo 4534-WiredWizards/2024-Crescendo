@@ -9,6 +9,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -181,40 +182,40 @@ public class SwerveSubsystem extends SubsystemBase {
     //   (Units.radiansToDegrees(frontLeft.getAbsoluteEncoderRad()))
     // );
 
-    // SmartDashboard.putString(
-    //   "Back Right position",
-    //   (backRight.getPosition().toString())
-    // );
-    // SmartDashboard.putString(
-    //   "Back Left position",
-    //   (backLeft.getPosition().toString())
-    // );
-    // SmartDashboard.putString(
-    //   "Front Right position",
-    //   (frontRight.getPosition().toString())
-    // );
-    // SmartDashboard.putString(
-    //   "Front Left position",
-    //   (frontLeft.getPosition().toString())
-    // );
+    SmartDashboard.putString(
+      "Back Right position",
+      (backRight.getPosition().toString())
+    );
+    SmartDashboard.putString(
+      "Back Left position",
+      (backLeft.getPosition().toString())
+    );
+    SmartDashboard.putString(
+      "Front Right position",
+      (frontRight.getPosition().toString())
+    );
+    SmartDashboard.putString(
+      "Front Left position",
+      (frontLeft.getPosition().toString())
+    );
 
-    // // Raw encoder values with no offset
-    // SmartDashboard.putNumber(
-    //   "Raw Back Right angle",
-    //   (Units.radiansToDegrees(backRight.getRawEncoderValue()))
-    // );
-    // SmartDashboard.putNumber(
-    //   "Raw Back Left angle",
-    //   (Units.radiansToDegrees(backLeft.getRawEncoderValue()))
-    // );
-    // SmartDashboard.putNumber(
-    //   "Raw Front Right angle",
-    //   (Units.radiansToDegrees(frontRight.getRawEncoderValue()))
-    // );
-    // SmartDashboard.putNumber(
-    //   "Raw Front Left angle",
-    //   (Units.radiansToDegrees(frontLeft.getRawEncoderValue()))
-    // );
+    // Raw encoder values with no offset
+    SmartDashboard.putNumber(
+      "Raw Back Right angle",
+      (Units.radiansToDegrees(backRight.getRawEncoderValue()))
+    );
+    SmartDashboard.putNumber(
+      "Raw Back Left angle",
+      (Units.radiansToDegrees(backLeft.getRawEncoderValue()))
+    );
+    SmartDashboard.putNumber(
+      "Raw Front Right angle",
+      (Units.radiansToDegrees(frontRight.getRawEncoderValue()))
+    );
+    SmartDashboard.putNumber(
+      "Raw Front Left angle",
+      (Units.radiansToDegrees(frontLeft.getRawEncoderValue()))
+    );
   }
 
   public void stopModules() {
