@@ -22,12 +22,14 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.commands.AutoRoutines.autoShoot;
 import frc.robot.commands.CalculateArmAngle;
 import frc.robot.commands.MoveArm;
+import frc.robot.commands.PIDAtGoal;
 import frc.robot.commands.PIDMoveArm;
 import frc.robot.commands.PointToSpeaker;
 import frc.robot.commands.RampUpShooter;
 import frc.robot.commands.RunIntake;
 import frc.robot.commands.RunShooter;
 import frc.robot.commands.Shoot;
+import frc.robot.commands.ShootOnPID;
 import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.commands.runClimb;
 import frc.robot.subsystems.Arm;
@@ -211,14 +213,10 @@ public class RobotContainer {
         new SequentialCommandGroup(
           new InstantCommand(() -> System.out.println("Auto Shoot")),
           new ParallelDeadlineGroup(
-            new ParallelCommandGroup(
-              new PointToSpeaker(limelight, swerve),
-              new CalculateArmAngle(arm, armProfiledPID, limelight)
-            )
-            // new RampUpShooter(shooter)
-          ),
-          // new RunShooter(shooter, intake, () -> 1.0, false, true, true)
-          new Shoot(shooter, intake)
+            new ShootOnPID(shooter, intake, armProfiledPID),
+            new PointToSpeaker(limelight, swerve),
+            new CalculateArmAngle(arm, armProfiledPID, limelight, false)
+          )
         )
           .until(() ->
             operatorJoystick.getRawButtonPressed(InputDevices.btn_start) // Btn to cancel all autoshoot commands

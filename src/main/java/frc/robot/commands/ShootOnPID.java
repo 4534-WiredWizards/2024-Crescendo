@@ -8,33 +8,28 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.AutoRoutines.intake;
+import frc.robot.subsystems.ArmProfiledPID;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
-public class Shoot extends Command {
+public class ShootOnPID extends Command {
 
   Shooter shooter;
   Intake Intake;
+  ArmProfiledPID armProfiledPID;
   Boolean IntakeStatus;
 
   /** Creates a new Shoot. */
-  public Shoot(Shooter shooter, Intake Intake) {
+  public ShootOnPID(
+    Shooter shooter,
+    Intake Intake,
+    ArmProfiledPID armProfiledPID
+  ) {
     this.shooter = shooter;
     this.Intake = Intake;
-
+    this.armProfiledPID = armProfiledPID;
     addRequirements(this.Intake, this.shooter);
     // Use addRequirements() here to declare subsystem dependencies.
-  }
-
-  public Shoot(
-    Shooter shooter2,
-    frc.robot.subsystems.Intake intake2,
-    Object object,
-    boolean b,
-    boolean c,
-    boolean d
-  ) {
-    //TODO Auto-generated constructor stub
   }
 
   // Called when the command is initially scheduled.
@@ -54,8 +49,11 @@ public class Shoot extends Command {
   public void execute() {
     SmartDashboard.putNumber("Intake Velocity", shooter.getSpeed());
     shooter.move(1);
-    if (shooter.getSpeed() > 4500) {
+    if ((shooter.getSpeed() > 4750) && armProfiledPID.atPIDGoal()) {
       Intake.move(1.0);
+      try {
+        Thread.sleep(200);
+      } catch (InterruptedException e) {}
     }
   }
 

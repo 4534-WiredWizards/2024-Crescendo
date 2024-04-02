@@ -17,6 +17,7 @@ public class CalculateArmAngle extends Command {
   private final Arm arm;
   private final ArmProfiledPID armProfiledPID;
   private final Limelight limelight;
+  private final Boolean autoStop;
   // Values for current distance to target
   private double currentDistance = 0.0;
   // No longer using since calls are made to Limelight
@@ -29,22 +30,25 @@ public class CalculateArmAngle extends Command {
     1.00,
     2.00,
     3.00,
+    3.50,
     4.00,
     maxDistance + 1.0,
   };
-  private final double[] shooterAngle = { 20, 20, 35.11, 40.21, 44.63, 44.63 };
+  private final double[] shooterAngle = { 20, 20, 35.11, 39.4, 41, 41.1, 41.1 };
   private final double[] shooterSpeed = { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 };
 
   /** Creates a new LongShot command. */
   public CalculateArmAngle(
     Arm arm,
     ArmProfiledPID armProfiledPID,
-    Limelight limelight
+    Limelight limelight,
+    Boolean autoStop
   ) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.arm = arm;
     this.armProfiledPID = armProfiledPID;
     this.limelight = limelight;
+    this.autoStop = autoStop;
     addRequirements(this.arm);
   }
 
@@ -91,7 +95,7 @@ public class CalculateArmAngle extends Command {
   @Override
   public boolean isFinished() {
     // Add your finish condition here
-    return armProfiledPID.atPIDGoal();
+    return autoStop && armProfiledPID.atPIDGoal();
   }
 
   // Calculates shooter angle and speed based on current distance to target

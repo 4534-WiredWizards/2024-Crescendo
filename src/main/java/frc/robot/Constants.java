@@ -121,7 +121,7 @@ public final class Constants {
       241.3
     );
     public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = Units.degreesToRadians(
-      283.7
+      85.34
     );
     public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = Units.degreesToRadians(
       125.68

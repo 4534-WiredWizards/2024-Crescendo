@@ -1,4 +1,4 @@
-// Copyright (c) FIRST and other WPILib contributors.
+  // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
@@ -51,7 +51,7 @@ public class Robot extends TimedRobot {
       .getDefault()
       .getTable("limelight")
       .getEntry("pipeline")
-      .setNumber(1);
+      .setNumber(0);
   }
 
   /**
@@ -176,7 +176,7 @@ public class Robot extends TimedRobot {
       .getDefault()
       .getTable("limelight")
       .getEntry("pipeline")
-      .setNumber(1);
+      .setNumber(0);
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
@@ -195,7 +195,7 @@ public class Robot extends TimedRobot {
       .getDefault()
       .getTable("limelight")
       .getEntry("pipeline")
-      .setNumber(1);
+      .setNumber(0);
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove

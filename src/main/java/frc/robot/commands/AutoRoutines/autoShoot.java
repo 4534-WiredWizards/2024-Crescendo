@@ -35,7 +35,7 @@ public class autoShoot extends SequentialCommandGroup {
     addCommands(
       new ParallelDeadlineGroup(
         new ParallelCommandGroup(
-          new CalculateArmAngle(arm, armProfiledPID, limelight),
+          new CalculateArmAngle(arm, armProfiledPID, limelight, true),
           new PointToSpeaker(limelight, swerve)
         ),
         new RunShooter(shooter, intake, () -> 1.0, false, false, false)

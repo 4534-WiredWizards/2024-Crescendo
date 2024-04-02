@@ -138,7 +138,7 @@ public class Limelight extends SubsystemBase {
       .getDefault()
       .getTable("limelight")
       .getEntry("pipeline")
-      .setNumber(1);
+      .setNumber(0);
     // System.out.println(targetpose.getFrontBackDistance());
     // System.out.println(targetpose.getLeftRightDistance());
     // System.out.println(targetpose.getThetaDegrees());
@@ -168,7 +168,7 @@ public class Limelight extends SubsystemBase {
       .getDefault()
       .getTable("limelight")
       .getEntry("pipeline")
-      .setNumber(1);
+      .setNumber(0);
     // Double botX = botX;
     // Double botY = botY;
     // Double rotation = botpose.getThetaDegreesField();
@@ -262,7 +262,7 @@ public class Limelight extends SubsystemBase {
         .getDefault()
         .getTable("limelight")
         .getEntry("pipeline")
-        .setNumber(1);
+        .setNumber(0);
       System.out.println("Resetting Limelight Botpose Blue");
       resetLimelightBotPose(
         botposeblue.getXDistance(),
