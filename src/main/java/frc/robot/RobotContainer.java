@@ -79,6 +79,7 @@ public class RobotContainer {
     NamedCommands.registerCommand(
       "Intake",
       new frc.robot.commands.AutoRoutines.intake(arm, armProfiledPID, intake)
+        .withTimeout(5)
       // new SequentialCommandGroup(
       //   new PIDMoveArm(
       //     arm,
@@ -356,12 +357,9 @@ public class RobotContainer {
     // return autoChooser.getAuto(); //Old AutoChooser
 
     // Reset Botpose basesd on Limelight botpose blue
-    Double botXPose = limelight.botposeblue.getXDistance();
-    Double botYPose = limelight.botposeblue.getYDistance();
-    Double botRotation = limelight.botposeblue.getThetaDegreesField();
-    System.out.println("Reseting Bot Pose In AUTO");
-    limelight.resetLimelightBotPose(botXPose, botYPose, botRotation);
 
+    System.out.println("Reseting Bot Pose In AUTO");
+    limelight.botposeblue.resetLimelightBotPoseBlue();
     return autoChooserTwo.getSelected(); //New AutoChooser with path planner
   }
   // // Code to get Alliance color
