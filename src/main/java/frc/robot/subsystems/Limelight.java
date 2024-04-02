@@ -258,11 +258,6 @@ public class Limelight extends SubsystemBase {
 
     // Command to reset odometry based on the botpose blue
     public void resetLimelightBotPoseBlue() {
-      NetworkTableInstance
-        .getDefault()
-        .getTable("limelight")
-        .getEntry("pipeline")
-        .setNumber(0);
       System.out.println("Resetting Limelight Botpose Blue");
       resetLimelightBotPose(
         botposeblue.getXDistance(),
