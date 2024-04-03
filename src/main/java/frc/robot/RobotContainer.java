@@ -30,10 +30,13 @@ import frc.robot.commands.RunShooter;
 import frc.robot.commands.Shoot;
 import frc.robot.commands.ShootOnPID;
 import frc.robot.commands.SwerveJoystickCmd;
+import frc.robot.commands.runClimb;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.ArmProfiledPID;
 import frc.robot.subsystems.AutoChooser;
+import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Lights;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -51,8 +54,8 @@ public class RobotContainer {
   public final ArmProfiledPID armProfiledPID = new ArmProfiledPID(arm);
   public final SwerveSubsystem swerve = new SwerveSubsystem();
   public final Limelight limelight = new Limelight(swerve);
-  // public final Climb climb = new Climb();
-  // public static final Lights leds = new Lights();
+  public final Climb climb = new Climb();
+  public static final Lights leds = new Lights();
   public final AutoChooser autoChooser = new AutoChooser(
     swerve,
     shooter,
@@ -259,10 +262,10 @@ public class RobotContainer {
       );
 
     // ----------------------- CLIMB COMMANDS ---------------------------------
-    // new JoystickButton(operatorJoystick, InputDevices.btn_x)
-    //   .whileTrue(new runClimb(0, climb));
-    // new JoystickButton(operatorJoystick, InputDevices.btn_b)
-    //   .whileTrue(new runClimb(510, climb));
+    new JoystickButton(operatorJoystick, InputDevices.btn_x)
+      .whileTrue(new runClimb(0, climb));
+    new JoystickButton(operatorJoystick, InputDevices.btn_b)
+      .whileTrue(new runClimb(510, climb));
     // new JoystickButton(operatorJoystick, InputDevices.btn_x)
     //   .whileTrue(new manualClimb(true, climb));
     // new JoystickButton(operatorJoystick, InputDevices.btn_x)

@@ -1,4 +1,4 @@
-  // Copyright (c) FIRST and other WPILib contributors.
+// Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
@@ -44,7 +44,7 @@ public class Robot extends TimedRobot {
     fisheye.setResolution(320, 240);
     fisheye.setPixelFormat(PixelFormat.kMJPEG);
     fisheye.setFPS(60);
-    // RobotContainer.leds.robotInit();
+    RobotContainer.leds.robotInit();
     // SmartDashboard.putString("Alliance Color", (RobotContainer.getAllianceColor()!=null) ? RobotContainer.getAllianceColor() : "None");
     SmartDashboard.putNumber("Set Shooter Speed", 0);
     NetworkTableInstance
@@ -138,13 +138,13 @@ public class Robot extends TimedRobot {
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
   public void disabledInit() {
-    // RobotContainer.leds.disabledStart();
+    RobotContainer.leds.disabledStart();
     {
       try {
         Thread.sleep(2000);
       } catch (InterruptedException e) {}
     }
-    // RobotContainer.leds.disabledStart();
+    RobotContainer.leds.disabledStart();
   }
 
   @Override
@@ -203,7 +203,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    // RobotContainer.leds.teleopStart();
+    RobotContainer.leds.teleopStart();
   }
 
   Boolean noShot = false;

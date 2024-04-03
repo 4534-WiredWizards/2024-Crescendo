@@ -39,7 +39,7 @@ public class RunIntake extends Command {
   @Override
   public void initialize() {
     init_state = intake.getIntakeStatus();
-    // RobotContainer.leds.intakeStart();
+    RobotContainer.leds.intakeStart();
     System.out.println(
       "Command '" +
       this.getName() +
@@ -82,7 +82,7 @@ public class RunIntake extends Command {
   @Override
   public void end(boolean interrupted) {
     intake.move(0);
-    // RobotContainer.leds.intakeStop();
+    RobotContainer.leds.intakeStop();
     System.out.println(
       "Command '" + this.getName() + "' ended at " + Timer.getFPGATimestamp()
     );

@@ -61,7 +61,7 @@ public class FocusShoot extends Command {
     // Constant values
     calculateArmAngle =
       new CalculateArmAngle(arm, armProfiledPID, limelight, false);
-    PIDController = new PIDController(0.3, .75, 0.02);
+    PIDController = new PIDController(0.2, 0, 0.4);
     PIDController.setTolerance(2, 1);
     addRequirements(swerve);
   }
@@ -81,6 +81,9 @@ public class FocusShoot extends Command {
   @Override
   public void execute() {
     distance = swerve.getHeading() - (limelight.gettx() + 4);
+    if (limelight.gettx() == 0) {
+      distance = swerve.getHeading();
+    }
 
     // 1. Get real-time joystick inputs
     throttleadjusted = throttle.get() * -.25 + .75;
@@ -107,7 +110,7 @@ public class FocusShoot extends Command {
     ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
       xSpeed,
       ySpeed,
-      turningSpeed * .7,
+      turningSpeed * .5,
       swerve.getRotation2d()
     );
     SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(

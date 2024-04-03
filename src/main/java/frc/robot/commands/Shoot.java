@@ -7,6 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
@@ -54,6 +55,7 @@ public class Shoot extends Command {
     SmartDashboard.putNumber("Intake Velocity", shooter.getSpeed());
     shooter.move(1);
     if ((shooter.getSpeed() > 4750)) {
+      RobotContainer.leds.shooterStart();
       Intake.move(1.0);
       try {
         Thread.sleep(200);
@@ -65,6 +67,7 @@ public class Shoot extends Command {
   @Override
   public void end(boolean interrupted) {
     System.out.println("Exited Shooter");
+    RobotContainer.leds.shooterStop();
     shooter.move(0);
     Intake.move(0);
     System.out.println(
