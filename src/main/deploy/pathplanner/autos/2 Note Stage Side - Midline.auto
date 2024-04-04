@@ -8,13 +8,19 @@
         {
           "type": "named",
           "data": {
-            "name": "AutoShoot"
+            "name": "ShootOnSub"
           }
         },
         {
           "type": "path",
           "data": {
             "pathName": "Midline From Stage"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.2
           }
         },
         {

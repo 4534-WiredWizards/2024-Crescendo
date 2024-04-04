@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 4.446268037835221,
-        "y": 1.719040703038672
+        "x": 5.014749854061112,
+        "y": 1.495264704815124
       },
       "prevControl": {
-        "x": 3.479277447838482,
-        "y": 1.6873360935305817
+        "x": 4.047759264064372,
+        "y": 1.4635600953070336
       },
       "nextControl": {
-        "x": 5.159611458824057,
-        "y": 1.7424290119235524
+        "x": 5.728093275049948,
+        "y": 1.5186530137000043
       },
       "isLocked": false,
       "linkedName": null
@@ -123,10 +123,45 @@
       }
     }
   ],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Traversal",
+      "waypointRelativePos": 0.25,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "PID-Traversal"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Intake",
+      "waypointRelativePos": 1.25,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Intake"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
-    "maxVelocity": 2.1,
-    "maxAcceleration": 5.0,
+    "maxVelocity": 2.0,
+    "maxAcceleration": 4.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },

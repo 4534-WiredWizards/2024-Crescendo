@@ -78,7 +78,7 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.75,
+      "waypointRelativePos": 0.45,
       "rotationDegrees": 36.0,
       "rotateFast": false
     },
@@ -91,24 +91,17 @@
       "waypointRelativePos": 3.0,
       "rotationDegrees": 0.0,
       "rotateFast": false
-    }
-  ],
-  "constraintZones": [
+    },
     {
-      "name": "Slow On Back",
-      "minWaypointRelativePos": 2.4,
-      "maxWaypointRelativePos": 4.0,
-      "constraints": {
-        "maxVelocity": 2.0,
-        "maxAcceleration": 3.0,
-        "maxAngularVelocity": 420.0,
-        "maxAngularAcceleration": 600.0
-      }
+      "waypointRelativePos": 2,
+      "rotationDegrees": 36.0,
+      "rotateFast": false
     }
   ],
+  "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 2.1,
+    "maxVelocity": 2.0,
     "maxAcceleration": 5.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
@@ -124,5 +117,5 @@
     "rotation": 0.0,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }
