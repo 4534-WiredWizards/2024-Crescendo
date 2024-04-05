@@ -112,7 +112,7 @@ public class RunShooter extends Command {
     System.out.println(
       "Command '" + this.getName() + "' ended at " + Timer.getFPGATimestamp()
     );
-    RobotContainer.leds.shooterStop();
+    // RobotContainer.leds.shooterStop();
   }
 
   // Returns true when the command should end.

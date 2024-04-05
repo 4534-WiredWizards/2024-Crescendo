@@ -22,8 +22,6 @@ import com.ctre.phoenix.led.TwinkleAnimation.TwinklePercent;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.LightsConstants;
-import frc.robot.RobotContainer;
-import javax.swing.text.AbstractDocument.LeafElement;
 
 public class Lights extends SubsystemBase {
 
