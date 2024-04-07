@@ -9,6 +9,7 @@ import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.util.PixelFormat;
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -44,9 +45,10 @@ public class Robot extends TimedRobot {
     fisheye.setResolution(320, 240);
     fisheye.setPixelFormat(PixelFormat.kMJPEG);
     fisheye.setFPS(60);
-    RobotContainer.leds.robotInit();
+    // RobotContainer.leds.robotInit();
     // SmartDashboard.putString("Alliance Color", (RobotContainer.getAllianceColor()!=null) ? RobotContainer.getAllianceColor() : "None");
     SmartDashboard.putNumber("Set Shooter Speed", 0);
+    DataLogManager.start();
     NetworkTableInstance
       .getDefault()
       .getTable("limelight")
@@ -138,13 +140,13 @@ public class Robot extends TimedRobot {
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
   public void disabledInit() {
-    RobotContainer.leds.disabledStart();
-    {
-      try {
-        Thread.sleep(2000);
-      } catch (InterruptedException e) {}
-    }
-    RobotContainer.leds.disabledStart();
+    // RobotContainer.leds.disabledStart();
+    // {
+    //   try {
+    //     Thread.sleep(2000);
+    //   } catch (InterruptedException e) {}
+    // }
+    // RobotContainer.leds.disabledStart();
   }
 
   @Override
@@ -203,7 +205,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    RobotContainer.leds.teleopStart();
+    // RobotContainer.leds.teleopStart(); 1   
   }
 
   Boolean noShot = false;

@@ -55,7 +55,7 @@ public class Shoot extends Command {
     SmartDashboard.putNumber("Intake Velocity", shooter.getSpeed());
     shooter.move(1);
     if ((shooter.getSpeed() > 4750)) {
-      RobotContainer.leds.shooterStart();
+      // RobotContainer.leds.shooterStart();
       Intake.move(1.0);
       try {
         Thread.sleep(200);
@@ -67,7 +67,7 @@ public class Shoot extends Command {
   @Override
   public void end(boolean interrupted) {
     System.out.println("Exited Shooter");
-    RobotContainer.leds.shooterStop();
+    // RobotContainer.leds.shooterStop();
     shooter.move(0);
     Intake.move(0);
     System.out.println(

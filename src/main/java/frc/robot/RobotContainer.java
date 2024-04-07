@@ -55,7 +55,7 @@ public class RobotContainer {
   public final SwerveSubsystem swerve = new SwerveSubsystem();
   public final Limelight limelight = new Limelight(swerve);
   public final Climb climb = new Climb();
-  public static final Lights leds = new Lights();
+  // public static final Lights leds = new Lights();
   public final AutoChooser autoChooser = new AutoChooser(
     swerve,
     shooter,

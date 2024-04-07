@@ -16,16 +16,32 @@
     },
     {
       "anchor": {
-        "x": 2.783956971418469,
-        "y": 7.650339335766742
+        "x": 2.8202300264249653,
+        "y": 7.731953709521454
       },
       "prevControl": {
-        "x": 1.4237174088340805,
-        "y": 7.695680654519554
+        "x": 1.4599904638405767,
+        "y": 7.777295028274266
       },
       "nextControl": {
-        "x": 4.11776146744509,
-        "y": 7.605879185899189
+        "x": 4.154034522451585,
+        "y": 7.687493559653901
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 6.012258866622997,
+        "y": 7.423632742002327
+      },
+      "prevControl": {
+        "x": 5.649528316600493,
+        "y": 7.922387248283269
+      },
+      "nextControl": {
+        "x": 6.333434186822085,
+        "y": 6.9820166767285805
       },
       "isLocked": false,
       "linkedName": null
@@ -99,7 +115,12 @@
       "rotateFast": true
     },
     {
-      "waypointRelativePos": 3,
+      "waypointRelativePos": 4.0,
+      "rotationDegrees": 0,
+      "rotateFast": false
+    },
+    {
+      "waypointRelativePos": 2.5,
       "rotationDegrees": 0,
       "rotateFast": false
     }
@@ -107,8 +128,8 @@
   "constraintZones": [
     {
       "name": "Slow Pickup",
-      "minWaypointRelativePos": 2.2,
-      "maxWaypointRelativePos": 3.15,
+      "minWaypointRelativePos": 3.2,
+      "maxWaypointRelativePos": 4.15,
       "constraints": {
         "maxVelocity": 1.0,
         "maxAcceleration": 5.0,
@@ -119,7 +140,7 @@
     {
       "name": "Slow On Out",
       "minWaypointRelativePos": 0,
-      "maxWaypointRelativePos": 1.25,
+      "maxWaypointRelativePos": 1.5,
       "constraints": {
         "maxVelocity": 1.2,
         "maxAcceleration": 5.0,
@@ -129,8 +150,8 @@
     },
     {
       "name": "Fast Out",
-      "minWaypointRelativePos": 3.4000000000000004,
-      "maxWaypointRelativePos": 4.5,
+      "minWaypointRelativePos": 4.4,
+      "maxWaypointRelativePos": 5.5,
       "constraints": {
         "maxVelocity": 4.0,
         "maxAcceleration": 5.0,
@@ -140,8 +161,8 @@
     },
     {
       "name": "Slow End",
-      "minWaypointRelativePos": 4.6000000000000005,
-      "maxWaypointRelativePos": 5.0,
+      "minWaypointRelativePos": 5.6000000000000005,
+      "maxWaypointRelativePos": 6.0,
       "constraints": {
         "maxVelocity": 1.2,
         "maxAcceleration": 2.0,
@@ -170,7 +191,7 @@
     },
     {
       "name": "Intake",
-      "waypointRelativePos": 1.55,
+      "waypointRelativePos": 2.1,
       "command": {
         "type": "sequential",
         "data": {
