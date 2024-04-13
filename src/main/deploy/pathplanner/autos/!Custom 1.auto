@@ -37,16 +37,9 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "!Midline From Stage"
-                }
-              }
-            ]
+            "pathName": "!Midline From Stage"
           }
         },
         {
