@@ -55,7 +55,7 @@ public class RobotContainer {
   public final SwerveSubsystem swerve = new SwerveSubsystem();
   public final Limelight limelight = new Limelight(swerve);
   public final Climb climb = new Climb();
-  // public static final Lights leds = new Lights();
+  public static final Lights leds = new Lights();
   public final AutoChooser autoChooser = new AutoChooser(
     swerve,
     shooter,
@@ -179,9 +179,9 @@ public class RobotContainer {
     swerve.setDefaultCommand(
       new SwerveJoystickCmd(
         swerve,
-        () -> -driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
-        () -> -driverJoystick.getRawAxis(OIConstants.kDriverXAxis),
-        () -> -driverJoystick.getRawAxis(OIConstants.kDriverRotAxis),
+        () -> -driverJoystick.getRawAxis(OIConstants.kDriverYAxis) ,
+        () -> -driverJoystick.getRawAxis(OIConstants.kDriverXAxis) ,
+        () -> -driverJoystick.getRawAxis(OIConstants.kDriverRotAxis) ,
         () ->
           !driverJoystick.getRawButton(
             OIConstants.kDriverFieldOrientedButtonIdx
