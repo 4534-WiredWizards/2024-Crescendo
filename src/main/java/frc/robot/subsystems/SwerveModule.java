@@ -63,7 +63,7 @@ public class SwerveModule {
     //Used to be kCoast
 
     // Current limiting to prevent frying the spark max
-    driveMotor.setSmartCurrentLimit(60);
+    // driveMotor.setSmartCurrentLimit(60);
     // turningMotor.setSmartCurrentLimit(70);
 
     // Sets the ramp rate for the drive and turning motors
