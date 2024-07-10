@@ -45,7 +45,7 @@ public class Robot extends TimedRobot {
     fisheye.setResolution(320, 240);
     fisheye.setPixelFormat(PixelFormat.kMJPEG);
     fisheye.setFPS(60);
-    // RobotContainer.leds.robotInit();
+    RobotContainer.leds.robotInit();
     // SmartDashboard.putString("Alliance Color", (RobotContainer.getAllianceColor()!=null) ? RobotContainer.getAllianceColor() : "None");
     SmartDashboard.putNumber("Set Shooter Speed", 0);
     DataLogManager.start();
@@ -140,13 +140,13 @@ public class Robot extends TimedRobot {
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
   public void disabledInit() {
-    // RobotContainer.leds.disabledStart();
-    // {
-    //   try {
-    //     Thread.sleep(2000);
-    //   } catch (InterruptedException e) {}
-    // }
-    // RobotContainer.leds.disabledStart();
+    RobotContainer.leds.disabledStart();
+    {
+      try {
+        Thread.sleep(2000);
+      } catch (InterruptedException e) {}
+    }
+    RobotContainer.leds.disabledStart();
   }
 
   @Override

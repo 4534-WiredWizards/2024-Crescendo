@@ -142,7 +142,7 @@ public final class Constants {
     public static final double kTeleDriveMaxSpeedMetersPerSecond =
       kPhysicalMaxSpeedMetersPerSecond;
     public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond =
-      kPhysicalMaxAngularSpeedRadiansPerSecond / 4; // Slowed down for testing
+      kPhysicalMaxAngularSpeedRadiansPerSecond / 4;
     public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 4;
     public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond =
       3;
@@ -154,7 +154,7 @@ public final class Constants {
     public static final int ArmLeftCANid = 55;
     public static final int ArmRIghtCANid = 56;
 
-    //Intake subsystem
+    //Intake
     public static final int IntakeCANid = 50;
 
     //Shooter Subsystem
@@ -198,7 +198,7 @@ public final class Constants {
 
       public static final double AbsEncoderOffset = .85466;
       public static final double amp = 97.0;
-      public static final double intake = .9;
+      public static final double intake = 1.2;
       public static final double traversal = 65;
       public static final double closeSpeaker = 20;
       public static final double farSpeaker = 36.2; //Test and tune noteShot
