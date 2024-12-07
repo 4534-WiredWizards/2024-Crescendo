@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel;
-import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkFlex;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -17,11 +17,11 @@ import frc.robot.Constants;
 
 public class Shooter extends SubsystemBase {
 
-  private final CANSparkMax topMotor = new CANSparkMax(
+  private final CANSparkFlex topMotor = new CANSparkFlex(
     Constants.SubsystemConstants.ShooterTopCANid,
     CANSparkLowLevel.MotorType.kBrushless
   );
-  private final CANSparkMax bottomMotor = new CANSparkMax(
+  private final CANSparkFlex bottomMotor = new CANSparkFlex(
     Constants.SubsystemConstants.ShooterBottomCANid,
     CANSparkLowLevel.MotorType.kBrushless
   );
@@ -42,7 +42,7 @@ public class Shooter extends SubsystemBase {
     topMotor.setSmartCurrentLimit(60);
     bottomMotor.setSmartCurrentLimit(60);
 
-    bottomMotor.follow(topMotor, false);
+    bottomMotor.follow(topMotor, true);
 
     // New PID Controller
     shooterController = topMotor.getPIDController();
