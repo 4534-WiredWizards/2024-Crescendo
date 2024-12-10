@@ -42,6 +42,8 @@ public class Shooter extends SubsystemBase {
     topMotor.setSmartCurrentLimit(60);
     bottomMotor.setSmartCurrentLimit(60);
 
+
+    topMotor.setInverted(true);
     bottomMotor.follow(topMotor, true);
 
     // New PID Controller

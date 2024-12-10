@@ -70,7 +70,7 @@ public class RunShooter extends Command {
       shooter.velocityPID(speed.get());
     } else {
       if (speed.get() > .1) {
-        shooter.move(1.0);
+        shooter.move(speed.get());
       } else {
         shooter.move(0);
       }
